@@ -2,16 +2,20 @@ package com.example.dtapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -30,7 +34,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.i("dtapp:MainActivity", "onCreate")
 
         setContent {
             DtappTheme {
@@ -43,36 +46,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Log.i("dtapp:MainActivity", "onStart")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.i("dtapp:MainActivity", "onResume")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.i("dtapp:MainActivity", "onPause")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.i("dtapp:MainActivity", "onStop")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        Log.i("dtapp:MainActivity", "onRestart")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.i("dtapp:MainActivity", "onDestroy")
     }
 
     @Composable
@@ -99,13 +72,20 @@ class MainActivity : ComponentActivity() {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Button(onClick = {
-                val intent = Intent(this@MainActivity, AdditiveActivity::class.java).apply {
-                    putExtra("counter", counter)
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(24.dp),
+                contentAlignment = Alignment.BottomEnd
+            ) {
+                FloatingActionButton(onClick = {
+                    val intent = Intent(this@MainActivity, HabitCreatorActivity::class.java).apply {
+                        putExtra("counter", counter)
+                    }
+                    startActivity(intent)
+                }) {
+                    Icon(Icons.Filled.Add, "FAB add action")
                 }
-                startActivity(intent)
-            }) {
-                Text("go to square")
             }
         }
     }

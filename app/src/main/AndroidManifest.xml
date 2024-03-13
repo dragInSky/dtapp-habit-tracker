@@ -16,7 +16,6 @@
             android:name=".MainActivity"
             android:configChanges="density|fontScale|keyboard|keyboardHidden|layoutDirection|locale|mcc|mnc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|touchscreen|uiMode"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.Dtapp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AdditiveActivity" />
+        <activity android:name=".HabitCreatorActivity" />
     </application>
 
 </manifest>
