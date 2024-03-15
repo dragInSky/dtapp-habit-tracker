@@ -13,8 +13,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -84,13 +86,15 @@ class HabitCreatorActivity : ComponentActivity() {
             )
         }
 
-        Column {
+        Column(
+            modifier = Modifier.padding(8.dp)
+        ) {
             HidingTextField(
                 text = nameText,
                 placeHolder = "name of the habit",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(AppColors.WhiteGhost),
+                    .background(Color.White),
                 onTextChanged = { nameText = it }
             )
 
@@ -99,34 +103,62 @@ class HabitCreatorActivity : ComponentActivity() {
                 placeHolder = "description",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(AppColors.WhiteGhost),
+                    .background(Color.White),
                 onTextChanged = { descriptionText = it }
             )
 
-
-            Spinner(
-                text = "priority: ",
-                items = priorities,
-                selectedItem = selectedSpinner,
-                onItemSelected = { selectedSpinner = it }
-            )
             Spacer(modifier = Modifier.height(12.dp))
 
-            RadioButtons(
-                items = types,
-                selectedItem = selectedType,
-                onItemSelected = { selectedType = it }
-            )
+            Box(
+                modifier = Modifier
+                    .background(
+                        Color.White,
+                        shape = RoundedCornerShape(
+                            topStart = 8.dp,
+                            topEnd = 8.dp,
+                            bottomStart = 0.dp,
+                            bottomEnd = 0.dp
+                        )
+                    )
+            ) {
+                Spinner(
+                    text = "priority: ",
+                    items = priorities,
+                    selectedItem = selectedSpinner,
+                    onItemSelected = { selectedSpinner = it }
+                )
+            }
+            Divider(color = Color.Black, thickness = 1.dp)
+            Spacer(modifier = Modifier.height(12.dp))
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Box(
+                modifier = Modifier
+                    .background(
+                        Color.White,
+                        shape = RoundedCornerShape(
+                            topStart = 8.dp,
+                            topEnd = 8.dp,
+                            bottomStart = 0.dp,
+                            bottomEnd = 0.dp
+                        )
+                    )
+            ) {
+                RadioButtons(
+                    items = types,
+                    selectedItem = selectedType,
+                    onItemSelected = { selectedType = it }
+                )
+            }
+            Divider(color = Color.Black, thickness = 1.dp)
+            Spacer(modifier = Modifier.height(12.dp))
 
-            Row() {
+            Row {
                 HidingTextField(
                     text = amountText,
                     placeHolder = "times",
                     modifier = Modifier
                         .weight(1f)
-                        .background(AppColors.WhiteGhost),
+                        .background(Color.White),
                     onTextChanged = { amountText = it }
                 )
 
@@ -135,7 +167,7 @@ class HabitCreatorActivity : ComponentActivity() {
                     placeHolder = "period",
                     modifier = Modifier
                         .weight(1f)
-                        .background(AppColors.WhiteGhost),
+                        .background(Color.White),
                     onTextChanged = { periodicityText = it }
                 )
             }

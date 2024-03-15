@@ -28,7 +28,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.dtapp.ui.theme.AppColors
@@ -125,10 +127,18 @@ class MainActivity : ComponentActivity() {
                 .padding(24.dp)
         ) {
             Column(modifier = Modifier.weight(0.8f)) {
-                Text(text = habit.nameText, fontWeight = FontWeight.Bold)
+                Text(
+                    text = habit.nameText,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
                 Text(
                     text = habit.descriptionText,
-                    fontSize = 12.sp
+                    fontSize = 12.sp,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    style = TextStyle(lineHeight = 12.sp)
                 )
                 Row {
                     Text(
@@ -145,7 +155,9 @@ class MainActivity : ComponentActivity() {
             ) {
                 Text(
                     text = habit.timesText,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = "times a",
@@ -154,7 +166,9 @@ class MainActivity : ComponentActivity() {
                 Text(
                     text = habit.periodText,
                     fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }
