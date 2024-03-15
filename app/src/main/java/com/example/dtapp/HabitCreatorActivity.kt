@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,7 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,20 +24,38 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.dtapp.ui.theme.AppColors
 import com.example.dtapp.ui.theme.DtappTheme
+import java.util.UUID
+import kotlin.math.absoluteValue
 
 class HabitCreatorActivity : ComponentActivity() {
+    private val priorities = listOf("highest", "high", "medium", "low")
+    private val types = listOf("study", "sport", "time-management", "health")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             DtappTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = Color.Transparent,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            brush = Brush.linearGradient(
+                                colors = listOf(
+                                    AppColors.gradientBottom,
+                                    AppColors.gradientMid,
+                                    AppColors.gradientTop
+                                )
+                            )
+                        )
                 ) {
                     CreateHabit()
                 }
@@ -47,99 +65,134 @@ class HabitCreatorActivity : ComponentActivity() {
 
     @Composable
     fun CreateHabit() {
-        var selectedSpinnerItem by remember { mutableStateOf("medium") }
-        var selectedRadioItem by remember { mutableStateOf("running") }
+        var selectedSpinner by remember {
+            mutableStateOf(
+                intent.getStringExtra("priority") ?: priorities[2]
+            )
+        }
+        var selectedType by remember { mutableStateOf(intent.getStringExtra("type") ?: types[1]) }
+        var nameText by remember { mutableStateOf(intent.getStringExtra("name") ?: "") }
+        var descriptionText by remember {
+            mutableStateOf(
+                intent.getStringExtra("description") ?: ""
+            )
+        }
+        var amountText by remember { mutableStateOf(intent.getStringExtra("times") ?: "") }
+        var periodicityText by remember {
+            mutableStateOf(
+                intent.getStringExtra("period") ?: ""
+            )
+        }
 
-        var nameText by remember { mutableStateOf("") }
-        var descriptionText by remember { mutableStateOf("") }
-        var amountText by remember { mutableStateOf("") }
-        var periodicityText by remember { mutableStateOf("") }
-
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        Column {
             HidingTextField(
-                modifier = Modifier.fillMaxWidth(),
-                text = "name of the habit",
-                onTextChanged = { newValue ->
-                    nameText = newValue
-                }
+                text = nameText,
+                placeHolder = "name of the habit",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(AppColors.WhiteGhost),
+                onTextChanged = { nameText = it }
             )
 
             HidingTextField(
-                modifier = Modifier.fillMaxWidth(),
-                text = "description",
-                onTextChanged = { newValue ->
-                    descriptionText = newValue
-                }
+                text = descriptionText,
+                placeHolder = "description",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(AppColors.WhiteGhost),
+                onTextChanged = { descriptionText = it }
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
 
             Spinner(
-                type = "priority: ",
-                items = listOf("highest", "high", "medium", "low"),
-                selectedItem = selectedSpinnerItem,
-                onItemSelected = { item ->
-                    selectedSpinnerItem = item
-                }
+                text = "priority: ",
+                items = priorities,
+                selectedItem = selectedSpinner,
+                onItemSelected = { selectedSpinner = it }
             )
-
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             RadioButtons(
-                items = listOf("morning exercise", "running", "meditation"),
-                selectedItem = selectedRadioItem,
-                onItemSelected = { newItem ->
-                    selectedRadioItem = newItem
-                }
+                items = types,
+                selectedItem = selectedType,
+                onItemSelected = { selectedType = it }
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Row() {
                 HidingTextField(
-                    modifier = Modifier.weight(1f),
-                    text = "amount",
-                    onTextChanged = { newValue ->
-                        amountText = newValue
-                    }
+                    text = amountText,
+                    placeHolder = "times",
+                    modifier = Modifier
+                        .weight(1f)
+                        .background(AppColors.WhiteGhost),
+                    onTextChanged = { amountText = it }
                 )
 
                 HidingTextField(
-                    modifier = Modifier.weight(1f),
-                    text = "periodicity",
-                    onTextChanged = { newValue ->
-                        periodicityText = newValue
-                    }
+                    text = periodicityText,
+                    placeHolder = "period",
+                    modifier = Modifier
+                        .weight(1f)
+                        .background(AppColors.WhiteGhost),
+                    onTextChanged = { periodicityText = it }
                 )
             }
+        }
 
-            Spacer(modifier = Modifier.height(24.dp))
+        SaveButton(
+            selectedSpinner,
+            selectedType,
+            nameText,
+            descriptionText,
+            amountText,
+            periodicityText
+        )
+    }
 
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(24.dp),
-                contentAlignment = Alignment.BottomCenter,
-            ) {
-                Button(onClick = {
+    @Composable
+    fun SaveButton(
+        selectedSpinner: String,
+        selectedType: String,
+        nameText: String,
+        descriptionText: String,
+        amountText: String,
+        periodicityText: String
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp),
+            contentAlignment = Alignment.BottomCenter,
+        ) {
+            Button(
+                onClick = {
                     val intent = Intent(this@HabitCreatorActivity, MainActivity::class.java).apply {
-                        putExtra("priority", selectedSpinnerItem)
-                        putExtra("type", selectedRadioItem)
-                        putExtra("name", nameText)
-                        putExtra("description", descriptionText)
-                        putExtra("amount", amountText)
-                        putExtra("periodicity", periodicityText)
+                        putExtra("isEdit", intent.getBooleanExtra("isEdit", false))
+                        putExtra(
+                            "id",
+                            intent.getIntExtra("id", UUID.randomUUID().hashCode().absoluteValue)
+                        )
+                        putExtra("priority", selectedSpinner)
+                        putExtra("type", selectedType)
+                        if (nameText.isNotEmpty()) putExtra("name", nameText)
+                        if (descriptionText.isNotEmpty()) putExtra("description", descriptionText)
+                        if (amountText.isNotEmpty()) putExtra("times", amountText)
+                        if (periodicityText.isNotEmpty()) putExtra("period", periodicityText)
                     }
                     startActivity(intent)
-                }) {
-                    Text(
-                        text = "save",
-                        fontSize = 24.sp
-                    )
-                }
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = AppColors.Darkest,
+                    contentColor = Color.White
+                )
+            ) {
+                Text(
+                    text = "save habit",
+                    fontSize = 18.sp,
+                    textAlign = TextAlign.Center
+                )
             }
         }
     }
