@@ -67,12 +67,12 @@ class HabitCreatorActivity : ComponentActivity() {
 
     @Composable
     fun CreateHabit() {
-        var selectedSpinner by remember {
+        var selectedSpinnerItem by remember {
             mutableStateOf(
                 intent.getStringExtra("priority") ?: priorities[2]
             )
         }
-        var selectedType by remember { mutableStateOf(intent.getStringExtra("type") ?: types[1]) }
+        var selectedTypeItem by remember { mutableStateOf(intent.getStringExtra("type") ?: types[1]) }
         var nameText by remember { mutableStateOf(intent.getStringExtra("name") ?: "") }
         var descriptionText by remember {
             mutableStateOf(
@@ -124,8 +124,8 @@ class HabitCreatorActivity : ComponentActivity() {
                 Spinner(
                     text = "priority: ",
                     items = priorities,
-                    selectedItem = selectedSpinner,
-                    onItemSelected = { selectedSpinner = it }
+                    selectedItem = selectedSpinnerItem,
+                    onItemSelected = { selectedSpinnerItem = it }
                 )
             }
             Divider(color = Color.Black, thickness = 1.dp)
@@ -145,8 +145,8 @@ class HabitCreatorActivity : ComponentActivity() {
             ) {
                 RadioButtons(
                     items = types,
-                    selectedItem = selectedType,
-                    onItemSelected = { selectedType = it }
+                    selectedItem = selectedTypeItem,
+                    onItemSelected = { selectedTypeItem = it }
                 )
             }
             Divider(color = Color.Black, thickness = 1.dp)
@@ -174,8 +174,8 @@ class HabitCreatorActivity : ComponentActivity() {
         }
 
         SaveButton(
-            selectedSpinner,
-            selectedType,
+            selectedSpinnerItem,
+            selectedTypeItem,
             nameText,
             descriptionText,
             amountText,

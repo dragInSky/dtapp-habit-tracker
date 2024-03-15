@@ -124,7 +124,7 @@ class MainActivity : ComponentActivity() {
                         }
                     startActivity(intent)
                 }
-                .padding(24.dp)
+                .padding(12.dp)
         ) {
             Column(modifier = Modifier.weight(0.8f)) {
                 Text(
@@ -148,11 +148,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(0.2f)
-            ) {
+            Column(modifier = Modifier.weight(0.2f)) {
                 Text(
                     text = habit.timesText,
                     fontWeight = FontWeight.Bold,
