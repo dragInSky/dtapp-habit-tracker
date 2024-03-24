@@ -45,8 +45,7 @@ class HabitCreatorActivity : ComponentActivity() {
         setContent {
             DtappTheme {
                 Surface(
-                    color = Color.Transparent,
-                    modifier = Modifier
+                    color = Color.Transparent, modifier = Modifier
                         .fillMaxSize()
                         .background(
                             brush = Brush.linearGradient(
@@ -80,87 +79,65 @@ class HabitCreatorActivity : ComponentActivity() {
         Column(
             modifier = Modifier.padding(8.dp)
         ) {
-            HidingTextField(
-                text = nameText,
-                placeHolder = "name of the habit",
+            HidingTextField(text = nameText,
+                placeHolder = getString(R.string.habit_name),
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Color.White),
-                onTextChanged = { nameText = it }
-            )
+                onTextChanged = { nameText = it })
 
-            HidingTextField(
-                text = descriptionText,
-                placeHolder = "description",
+            HidingTextField(text = descriptionText,
+                placeHolder = getString(R.string.habit_description),
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Color.White),
-                onTextChanged = { descriptionText = it }
-            )
+                onTextChanged = { descriptionText = it })
 
             Spacer(modifier = Modifier.height(12.dp))
 
             Box(
-                modifier = Modifier
-                    .background(
-                        Color.White,
-                        shape = RoundedCornerShape(
-                            topStart = 8.dp,
-                            topEnd = 8.dp,
-                            bottomStart = 0.dp,
-                            bottomEnd = 0.dp
-                        )
+                modifier = Modifier.background(
+                    Color.White, shape = RoundedCornerShape(
+                        topStart = 8.dp, topEnd = 8.dp, bottomStart = 0.dp, bottomEnd = 0.dp
                     )
+                )
             ) {
-                Spinner(
-                    text = "priority: ",
+                Spinner(text = getString(R.string.habit_priority),
                     items = priorities,
                     selectedItem = selectedSpinnerItem,
-                    onItemSelected = { selectedSpinnerItem = it }
-                )
+                    onItemSelected = { selectedSpinnerItem = it })
             }
             Divider(color = Color.Black, thickness = 1.dp)
             Spacer(modifier = Modifier.height(12.dp))
 
             Box(
-                modifier = Modifier
-                    .background(
-                        Color.White,
-                        shape = RoundedCornerShape(
-                            topStart = 8.dp,
-                            topEnd = 8.dp,
-                            bottomStart = 0.dp,
-                            bottomEnd = 0.dp
-                        )
+                modifier = Modifier.background(
+                    Color.White, shape = RoundedCornerShape(
+                        topStart = 8.dp, topEnd = 8.dp, bottomStart = 0.dp, bottomEnd = 0.dp
                     )
-            ) {
-                RadioButtons(
-                    items = types,
-                    selectedItem = selectedTypeItem,
-                    onItemSelected = { selectedTypeItem = it }
                 )
+            ) {
+                RadioButtons(items = types,
+                    selectedItem = selectedTypeItem,
+                    onItemSelected = { selectedTypeItem = it })
             }
             Divider(color = Color.Black, thickness = 1.dp)
             Spacer(modifier = Modifier.height(12.dp))
 
             Row {
-                HidingTextField(
-                    text = timesText,
-                    placeHolder = "times",
+                HidingTextField(text = timesText,
+                    placeHolder = getString(R.string.habit_times),
                     modifier = Modifier
                         .weight(1f)
                         .background(Color.White),
-                    onTextChanged = { timesText = it }
-                )
+                    onTextChanged = { timesText = it })
 
-                HidingTextField(
-                    text = periodicityText,
-                    placeHolder = "period",
+                HidingTextField(text = periodicityText,
+                    placeHolder = getString(R.string.habit_period),
                     modifier = Modifier
                         .weight(1f)
                         .background(Color.White),
-                    onTextChanged = { periodicityText = it }
-                )
+                    onTextChanged = { periodicityText = it })
             }
         }
 
@@ -193,15 +170,14 @@ class HabitCreatorActivity : ComponentActivity() {
         ) {
             Button(
                 onClick = { //вынести во ViewModel
-                    val habit = HabitInfo(
-                        id = if (id == -1) UUID.randomUUID().hashCode().absoluteValue else id,
+                    val habit = HabitInfo(id = if (id == -1) UUID.randomUUID()
+                        .hashCode().absoluteValue else id,
                         selectedSpinner,
                         selectedType,
-                        nameText.ifEmpty { "name" },
-                        descriptionText.ifEmpty { "description" },
-                        timesText.ifEmpty { "times" },
-                        periodicityText.ifEmpty { "period" }
-                    )
+                        nameText.ifEmpty { getString(R.string.habit_name) },
+                        descriptionText.ifEmpty { getString(R.string.habit_description) },
+                        timesText.ifEmpty { getString(R.string.habit_times) },
+                        periodicityText.ifEmpty { getString(R.string.habit_period) })
 
                     if (habit.id != id) {
                         Habits.habitList.add(habit)
@@ -211,14 +187,12 @@ class HabitCreatorActivity : ComponentActivity() {
                     }
 
                     finish()
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = AppColors.Darkest,
-                    contentColor = Color.White
+                }, colors = ButtonDefaults.buttonColors(
+                    containerColor = AppColors.Darkest, contentColor = Color.White
                 )
             ) {
                 Text(
-                    text = "save habit",
+                    text = getString(R.string.habit_save_button),
                     fontSize = 18.sp,
                     textAlign = TextAlign.Center
                 )

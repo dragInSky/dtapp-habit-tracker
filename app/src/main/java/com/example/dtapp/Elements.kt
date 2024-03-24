@@ -38,10 +38,7 @@ import com.example.dtapp.ui.theme.AppColors
 
 @Composable
 fun Spinner(
-    text: String,
-    items: List<String>,
-    selectedItem: String,
-    onItemSelected: (String) -> Unit
+    text: String, items: List<String>, selectedItem: String, onItemSelected: (String) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -53,8 +50,7 @@ fun Spinner(
 
             Box {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
+                    modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center
                 ) {
                     Text(text = text)
 
@@ -67,13 +63,10 @@ fun Spinner(
                             modifier = Modifier.background(AppColors.WhiteGhost)
                         ) {
                             items.forEach {
-                                DropdownMenuItem(
-                                    text = { Text(text = it) },
-                                    onClick = {
-                                        onItemSelected(it)
-                                        expanded = false
-                                    }
-                                )
+                                DropdownMenuItem(text = { Text(text = it) }, onClick = {
+                                    onItemSelected(it)
+                                    expanded = false
+                                })
                             }
                         }
                     }
@@ -89,9 +82,7 @@ fun Spinner(
 
 @Composable
 fun RadioButtons(
-    items: List<String>,
-    selectedItem: String,
-    onItemSelected: (String) -> Unit
+    items: List<String>, selectedItem: String, onItemSelected: (String) -> Unit
 ) {
     Column(Modifier.selectableGroup()) {
         items.forEach { text ->
@@ -100,14 +91,9 @@ fun RadioButtons(
                     .fillMaxWidth()
                     .selectable(
                         selected = (text == selectedItem),
-                        onClick = { onItemSelected(text) }
-                    ),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                RadioButton(
-                    selected = (text == selectedItem),
-                    onClick = { onItemSelected(text) }
-                )
+                        onClick = { onItemSelected(text) }),
+                verticalAlignment = Alignment.CenterVertically) {
+                RadioButton(selected = (text == selectedItem), onClick = { onItemSelected(text) })
                 Text(text = text)
             }
         }
@@ -117,25 +103,18 @@ fun RadioButtons(
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun HidingTextField(
-    text: String,
-    placeHolder: String,
-    modifier: Modifier,
-    onTextChanged: (String) -> Unit
+    text: String, placeHolder: String, modifier: Modifier, onTextChanged: (String) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    OutlinedTextField(
-        value = text,
+    OutlinedTextField(value = text,
         modifier = modifier,
         onValueChange = { onTextChanged(it) },
         placeholder = { Text(text = placeHolder) },
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
-        keyboardActions = KeyboardActions(
-            onDone = {
-                focusManager.clearFocus()
-                keyboardController?.hide()
-            }
-        )
-    )
+        keyboardActions = KeyboardActions(onDone = {
+            focusManager.clearFocus()
+            keyboardController?.hide()
+        }))
 }
