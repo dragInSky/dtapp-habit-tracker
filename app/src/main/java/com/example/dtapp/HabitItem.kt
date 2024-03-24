@@ -1,7 +1,6 @@
 package com.example.dtapp
 
 import android.content.Context
-import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -19,18 +18,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.getString
-import androidx.core.content.ContextCompat.startActivity
+import androidx.navigation.NavController
 
 @Composable
-fun HabitItem(context: Context, habit: HabitInfo) {
+fun HabitItem(context: Context, navController: NavController, habit: HabitInfo) {
     Row(modifier = Modifier
         .fillMaxWidth()
         .background(Color.White)
         .clickable { //вынести во ViewModel
-            val intent = Intent(
-                context, HabitCreatorActivity::class.java
-            ).apply { putExtra(getString(context, R.string.habit_item), habit) }
-            startActivity(context, intent, null)
+            navController.navigate(Screen.EDIT.createRoute(habit.id))
         }
         .padding(12.dp)) {
         Column(modifier = Modifier.weight(0.8f)) {
