@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">dtapp</string>
+    <string name="habit_item">habit</string>
+    <string name="is_habit_edited">isEdit</string>
+    <string name="habit_id">id</string>
+    <string name="habit_priority">priority</string>
+    <string name="habit_type">type</string>
+    <string name="habit_name">name</string>
+    <string name="habit_description">description</string>
+    <string name="habit_times">times</string>
+    <string name="habit_period">period</string>
 </resources>

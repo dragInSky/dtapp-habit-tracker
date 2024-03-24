@@ -1,6 +1,5 @@
 package com.example.dtapp
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -38,7 +37,7 @@ import kotlin.math.absoluteValue
 
 class HabitCreatorActivity : ComponentActivity() {
     private val priorities = listOf("highest", "high", "medium", "low")
-    private val types = listOf("study", "sport", "time-management", "health")
+    private val types = listOf("good", "bad")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,24 +66,16 @@ class HabitCreatorActivity : ComponentActivity() {
 
     @Composable
     fun CreateHabit() {
+        val habit = intent.getSerializableExtra(getString(R.string.habit_item)) as HabitInfo?
+
         var selectedSpinnerItem by remember {
-            mutableStateOf(
-                intent.getStringExtra("priority") ?: priorities[2]
-            )
+            mutableStateOf(habit?.priorityText ?: priorities[2])
         }
-        var selectedTypeItem by remember { mutableStateOf(intent.getStringExtra("type") ?: types[1]) }
-        var nameText by remember { mutableStateOf(intent.getStringExtra("name") ?: "") }
-        var descriptionText by remember {
-            mutableStateOf(
-                intent.getStringExtra("description") ?: ""
-            )
-        }
-        var amountText by remember { mutableStateOf(intent.getStringExtra("times") ?: "") }
-        var periodicityText by remember {
-            mutableStateOf(
-                intent.getStringExtra("period") ?: ""
-            )
-        }
+        var selectedTypeItem by remember { mutableStateOf(habit?.typeText ?: types[1]) }
+        var nameText by remember { mutableStateOf(habit?.nameText ?: "") }
+        var descriptionText by remember { mutableStateOf(habit?.descriptionText ?: "") }
+        var timesText by remember { mutableStateOf(habit?.timesText ?: "") }
+        var periodicityText by remember { mutableStateOf(habit?.periodText ?: "") }
 
         Column(
             modifier = Modifier.padding(8.dp)
@@ -154,12 +145,12 @@ class HabitCreatorActivity : ComponentActivity() {
 
             Row {
                 HidingTextField(
-                    text = amountText,
+                    text = timesText,
                     placeHolder = "times",
                     modifier = Modifier
                         .weight(1f)
                         .background(Color.White),
-                    onTextChanged = { amountText = it }
+                    onTextChanged = { timesText = it }
                 )
 
                 HidingTextField(
@@ -174,22 +165,24 @@ class HabitCreatorActivity : ComponentActivity() {
         }
 
         SaveButton(
+            habit?.id ?: -1,
             selectedSpinnerItem,
             selectedTypeItem,
             nameText,
             descriptionText,
-            amountText,
+            timesText,
             periodicityText
         )
     }
 
     @Composable
     fun SaveButton(
+        id: Int,
         selectedSpinner: String,
         selectedType: String,
         nameText: String,
         descriptionText: String,
-        amountText: String,
+        timesText: String,
         periodicityText: String
     ) {
         Box(
@@ -199,21 +192,25 @@ class HabitCreatorActivity : ComponentActivity() {
             contentAlignment = Alignment.BottomCenter,
         ) {
             Button(
-                onClick = {
-                    val intent = Intent(this@HabitCreatorActivity, MainActivity::class.java).apply {
-                        putExtra("isEdit", intent.getBooleanExtra("isEdit", false))
-                        putExtra(
-                            "id",
-                            intent.getIntExtra("id", UUID.randomUUID().hashCode().absoluteValue)
-                        )
-                        putExtra("priority", selectedSpinner)
-                        putExtra("type", selectedType)
-                        if (nameText.isNotEmpty()) putExtra("name", nameText)
-                        if (descriptionText.isNotEmpty()) putExtra("description", descriptionText)
-                        if (amountText.isNotEmpty()) putExtra("times", amountText)
-                        if (periodicityText.isNotEmpty()) putExtra("period", periodicityText)
+                onClick = { //вынести во ViewModel
+                    val habit = HabitInfo(
+                        id = if (id == -1) UUID.randomUUID().hashCode().absoluteValue else id,
+                        selectedSpinner,
+                        selectedType,
+                        nameText.ifEmpty { "name" },
+                        descriptionText.ifEmpty { "description" },
+                        timesText.ifEmpty { "times" },
+                        periodicityText.ifEmpty { "period" }
+                    )
+
+                    if (habit.id != id) {
+                        Habits.habitList.add(habit)
+                    } else {
+                        val habitToEdit = Habits.habitList.find { it.id == id }
+                        Habits.habitList[Habits.habitList.indexOf(habitToEdit)] = habit
                     }
-                    startActivity(intent)
+
+                    finish()
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = AppColors.Darkest,

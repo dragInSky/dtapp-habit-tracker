@@ -56,45 +56,21 @@ class MainActivity : ComponentActivity() {
                             )
                         )
                 ) {
-                    DisplayHabits()
+                    HabitList()
                 }
             }
         }
     }
 
-    private fun habitsPreprocess() {
-        val id = intent.getIntExtra("id", -1)
-        if (id != -1) {
-            val habit = HabitInfo(
-                id,
-                intent.getStringExtra("priority") ?: "priority",
-                intent.getStringExtra("type") ?: "type",
-                intent.getStringExtra("name") ?: "name",
-                intent.getStringExtra("description") ?: "description",
-                intent.getStringExtra("times") ?: "X",
-                intent.getStringExtra("period") ?: "period"
-            )
-
-            if (intent.getBooleanExtra("isEdit", false)) {
-                val habitToEdit = Habits.habitList.find { it.id == id }
-                Habits.habitList[Habits.habitList.indexOf(habitToEdit)] = habit
-            } else {
-                Habits.habitList.add(habit)
-            }
-        }
-    }
-
     @Composable
-    fun DisplayHabits() {
-        habitsPreprocess()
-
+    fun HabitList() {
         LazyColumn(
             modifier = Modifier
                 .padding(8.dp)
                 .clip(RoundedCornerShape(8.dp))
         ) {
             items(Habits.habitList) { habitInfo ->
-                Show(habitInfo)
+                HabitItem(habitInfo)
             }
         }
 
@@ -102,26 +78,17 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun Show(habit: HabitInfo) {
+    fun HabitItem(habit: HabitInfo) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.White)
-                .clickable {
+                .clickable { //вынести во ViewModel
                     val intent =
                         Intent(
                             this@MainActivity,
                             HabitCreatorActivity::class.java
-                        ).apply {
-                            putExtra("isEdit", true)
-                            putExtra("id", habit.id)
-                            putExtra("priority", habit.priorityText)
-                            putExtra("type", habit.typeText)
-                            putExtra("name", habit.nameText)
-                            putExtra("description", habit.descriptionText)
-                            putExtra("times", habit.timesText)
-                            putExtra("period", habit.periodText)
-                        }
+                        ).apply { putExtra(getString(R.string.habit_item), habit) }
                     startActivity(intent)
                 }
                 .padding(12.dp)
