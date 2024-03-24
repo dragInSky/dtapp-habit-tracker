@@ -1,4 +1,4 @@
-package com.example.dtapp.ui.util
+package com.example.dtapp.ui
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,10 +18,14 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.TabRow
@@ -42,9 +47,50 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.dtapp.ui.theme.AppColors
+import com.example.dtapp.ui.theme.Purple40
 import kotlinx.coroutines.launch
+
+@Composable
+fun CenterTextButton(
+    text: String,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        contentAlignment = Alignment.BottomCenter,
+    ) {
+        Button(
+            onClick = { onClick() }, colors = ButtonDefaults.buttonColors(
+                containerColor = Purple40, contentColor = Color.White
+            )
+        ) {
+            Text(
+                text = text,
+                fontSize = 18.sp,
+                textAlign = TextAlign.Center
+            )
+        }
+    }
+}
+
+@Composable
+fun AddButton(description: String, onClick: () -> Unit) {
+    Box(
+        modifier = Modifier.padding(24.dp), contentAlignment = Alignment.BottomEnd
+    ) {
+        FloatingActionButton(
+            onClick = { onClick() }, containerColor = Purple40, contentColor = Color.White
+        ) {
+            Icon(Icons.Filled.Add, description, tint = Color.White)
+        }
+    }
+}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -53,25 +99,21 @@ fun Tabs(pagerState: PagerState, pages: List<String>) {
 
     Box {
         TabRow(
-            selectedTabIndex = pagerState.currentPage,
-            indicator = { tabPositions ->
+            selectedTabIndex = pagerState.currentPage, indicator = { tabPositions ->
                 TabRowDefaults.Indicator(
                     modifier = Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage]),
                     color = Color.Black
                 )
-            },
-            modifier = Modifier.align(Alignment.TopCenter),
-            contentColor = Color.Black
+            }, modifier = Modifier.align(Alignment.TopCenter), contentColor = Color.Black
         ) {
             pages.forEachIndexed { index, title ->
-                Box(contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .clickable {
-                            scrollCoroutineScope.launch {
-                                pagerState.animateScrollToPage(index)
-                            }
+                Box(contentAlignment = Alignment.Center, modifier = Modifier
+                    .clickable {
+                        scrollCoroutineScope.launch {
+                            pagerState.animateScrollToPage(index)
                         }
-                        .padding(8.dp)) {
+                    }
+                    .padding(8.dp)) {
                     Text(text = title)
                 }
             }
@@ -85,41 +127,33 @@ fun Spinner(
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    Box(
-        modifier = Modifier.clickable { expanded = true },
-    ) {
-        Column {
-            Spacer(modifier = Modifier.height(12.dp))
+    Column(modifier = Modifier.clickable { expanded = true }) {
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+            Text(text = text)
 
             Box {
-                Row(
-                    modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center
+                Text(text = selectedItem)
+
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false },
+                    modifier = Modifier.background(AppColors.WhiteGhost)
                 ) {
-                    Text(text = text)
-
-                    Box {
-                        Text(text = selectedItem)
-
-                        DropdownMenu(
-                            expanded = expanded,
-                            onDismissRequest = { expanded = false },
-                            modifier = Modifier.background(AppColors.WhiteGhost)
-                        ) {
-                            items.forEach {
-                                DropdownMenuItem(text = { Text(text = it) }, onClick = {
-                                    onItemSelected(it)
-                                    expanded = false
-                                })
-                            }
-                        }
+                    items.forEach {
+                        DropdownMenuItem(text = { Text(text = it) }, onClick = {
+                            onItemSelected(it)
+                            expanded = false
+                        })
                     }
-
-                    Icon(Icons.Filled.ArrowDropDown, "Spinner arrow down")
                 }
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Icon(Icons.Filled.ArrowDropDown, "Spinner arrow down")
         }
+
+        Spacer(modifier = Modifier.height(12.dp))
     }
 }
 
@@ -147,7 +181,10 @@ fun RadioButtons(
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun HidingTextField(
-    text: String, placeHolder: String, color: Color, modifier: Modifier, onTextChanged: (String) -> Unit
+    text: String,
+    placeHolder: String,
+    modifier: Modifier,
+    onTextChanged: (String) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -163,7 +200,7 @@ fun HidingTextField(
             keyboardController?.hide()
         }),
         colors = TextFieldDefaults.textFieldColors(
-            containerColor = color
+            containerColor = Color.White
         )
     )
 }

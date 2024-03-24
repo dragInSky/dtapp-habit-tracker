@@ -1,4 +1,4 @@
-package com.example.dtapp.ui.util
+package com.example.dtapp.ui
 
 import android.content.Context
 import androidx.compose.foundation.background
