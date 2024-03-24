@@ -1,10 +1,8 @@
-package com.example.dtapp
-
-import java.io.Serializable
+package com.example.dtapp.models
 
 data class HabitInfo(
     val id: Int,
-    val priorityText: String, val typeText: String,
+    val priority: Priority, val type: Type,
     val nameText: String, val descriptionText: String,
     val timesText: String, val periodText: String
-) : Serializable
+)

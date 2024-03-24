@@ -1,11 +1,13 @@
-package com.example.dtapp
+package com.example.dtapp.ui.util
 
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
@@ -19,6 +21,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.getString
 import androidx.navigation.NavController
+import com.example.dtapp.models.HabitInfo
+import com.example.dtapp.R
+import com.example.dtapp.navigation.Screen
 
 @Composable
 fun HabitItem(context: Context, navController: NavController, habit: HabitInfo) {
@@ -45,7 +50,7 @@ fun HabitItem(context: Context, navController: NavController, habit: HabitInfo) 
             )
             Row {
                 Text(
-                    text = "${habit.typeText} — ${habit.priorityText}", fontSize = 12.sp
+                    text = "${habit.type.text} — ${habit.priority.text}", fontSize = 12.sp
                 )
             }
         }
@@ -70,4 +75,5 @@ fun HabitItem(context: Context, navController: NavController, habit: HabitInfo) 
         }
     }
     Divider(color = Color.Black, thickness = 1.dp)
+    Spacer(modifier = Modifier.height(12.dp))
 }

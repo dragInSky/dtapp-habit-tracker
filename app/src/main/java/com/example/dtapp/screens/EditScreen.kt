@@ -1,4 +1,4 @@
-package com.example.dtapp
+package com.example.dtapp.screens
 
 import android.content.Context
 import androidx.compose.foundation.background
@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
@@ -28,19 +27,27 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.getString
 import androidx.navigation.NavController
-import com.example.dtapp.ui.theme.AppColors
+import com.example.dtapp.Ambient
+import com.example.dtapp.models.HabitInfo
+import com.example.dtapp.ui.util.HidingTextField
+import com.example.dtapp.R
+import com.example.dtapp.models.Priority
+import com.example.dtapp.models.Type
+import com.example.dtapp.ui.util.RadioButtons
+import com.example.dtapp.navigation.Screen
+import com.example.dtapp.ui.util.Spinner
+import com.example.dtapp.ui.theme.Purple40
 import java.util.UUID
 import kotlin.math.absoluteValue
 
 @Composable
-fun EditHabitScreen(context: Context, navController: NavController, id: Int = -1) {
-    val habitToEdit = Ambient.habitList.find { it.id == id }
-    val habit = if (id != -1) Ambient.habitList[Ambient.habitList.indexOf(habitToEdit)] else null
+fun EditScreen(context: Context, navController: NavController, id: Int = -1) {
+    val habit = if (id != -1) Ambient.habitList.find { it.id == id } else null
 
-    var selectedSpinnerItem by remember {
-        mutableStateOf(habit?.priorityText ?: Ambient.priorities[2])
+    var selectedPriorityItem by remember {
+        mutableStateOf(habit?.priority?.text ?: Priority.MEDIUM.text)
     }
-    var selectedTypeItem by remember { mutableStateOf(habit?.typeText ?: Ambient.types[1]) }
+    var selectedTypeItem by remember { mutableStateOf(habit?.type?.text ?: Type.GOOD.text) }
     var nameText by remember { mutableStateOf(habit?.nameText ?: "") }
     var descriptionText by remember { mutableStateOf(habit?.descriptionText ?: "") }
     var timesText by remember { mutableStateOf(habit?.timesText ?: "") }
@@ -51,43 +58,33 @@ fun EditHabitScreen(context: Context, navController: NavController, id: Int = -1
     ) {
         HidingTextField(text = nameText,
             placeHolder = getString(context, R.string.habit_name),
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.White),
+            color = Color.White,
+            modifier = Modifier.fillMaxWidth(),
             onTextChanged = { nameText = it })
 
         HidingTextField(text = descriptionText,
             placeHolder = getString(context, R.string.habit_description),
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.White),
+            color = Color.White,
+            modifier = Modifier.fillMaxWidth(),
             onTextChanged = { descriptionText = it })
 
         Spacer(modifier = Modifier.height(12.dp))
 
         Box(
-            modifier = Modifier.background(
-                Color.White, shape = RoundedCornerShape(
-                    topStart = 8.dp, topEnd = 8.dp, bottomStart = 0.dp, bottomEnd = 0.dp
-                )
-            )
+            modifier = Modifier.background(Color.White)
         ) {
             Spinner(text = getString(context, R.string.habit_priority),
-                items = Ambient.priorities,
-                selectedItem = selectedSpinnerItem,
-                onItemSelected = { selectedSpinnerItem = it })
+                items = Priority.values().map { it.text },
+                selectedItem = selectedPriorityItem,
+                onItemSelected = { selectedPriorityItem = it })
         }
         Divider(color = Color.Black, thickness = 1.dp)
         Spacer(modifier = Modifier.height(12.dp))
 
         Box(
-            modifier = Modifier.background(
-                Color.White, shape = RoundedCornerShape(
-                    topStart = 8.dp, topEnd = 8.dp, bottomStart = 0.dp, bottomEnd = 0.dp
-                )
-            )
+            modifier = Modifier.background(Color.White)
         ) {
-            RadioButtons(items = Ambient.types,
+            RadioButtons(items = Type.values().map { it.text },
                 selectedItem = selectedTypeItem,
                 onItemSelected = { selectedTypeItem = it })
         }
@@ -97,16 +94,14 @@ fun EditHabitScreen(context: Context, navController: NavController, id: Int = -1
         Row {
             HidingTextField(text = timesText,
                 placeHolder = getString(context, R.string.habit_times),
-                modifier = Modifier
-                    .weight(1f)
-                    .background(Color.White),
+                color = Color.White,
+                modifier = Modifier.weight(1f),
                 onTextChanged = { timesText = it })
 
             HidingTextField(text = periodicityText,
                 placeHolder = getString(context, R.string.habit_period),
-                modifier = Modifier
-                    .weight(1f)
-                    .background(Color.White),
+                color = Color.White,
+                modifier = Modifier.weight(1f),
                 onTextChanged = { periodicityText = it })
         }
     }
@@ -115,7 +110,7 @@ fun EditHabitScreen(context: Context, navController: NavController, id: Int = -1
         navController,
         context,
         habit?.id ?: -1,
-        selectedSpinnerItem,
+        selectedPriorityItem,
         selectedTypeItem,
         nameText,
         descriptionText,
@@ -129,7 +124,7 @@ fun SaveButton(
     navController: NavController,
     context: Context,
     id: Int,
-    selectedSpinner: String,
+    selectedPriority: String,
     selectedType: String,
     nameText: String,
     descriptionText: String,
@@ -146,8 +141,8 @@ fun SaveButton(
             onClick = { //вынести во ViewModel
                 val habit =
                     HabitInfo(id = if (id == -1) UUID.randomUUID().hashCode().absoluteValue else id,
-                        selectedSpinner,
-                        selectedType,
+                        priority = Priority.values().find { it.text == selectedPriority }!!,
+                        type = Type.values().find { it.text == selectedType }!!,
                         nameText.ifEmpty { getString(context, R.string.habit_name) },
                         descriptionText.ifEmpty { getString(context, R.string.habit_description) },
                         timesText.ifEmpty { getString(context, R.string.habit_times) },
@@ -162,7 +157,7 @@ fun SaveButton(
 
                 navController.navigate(Screen.Home.route)
             }, colors = ButtonDefaults.buttonColors(
-                containerColor = AppColors.Darkest, contentColor = Color.White
+                containerColor = Purple40, contentColor = Color.White
             )
         ) {
             Text(

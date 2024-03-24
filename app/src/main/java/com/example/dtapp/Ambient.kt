@@ -1,10 +1,8 @@
 package com.example.dtapp
 
 import androidx.compose.runtime.mutableStateListOf
+import com.example.dtapp.models.HabitInfo
 
 object Ambient {
-    val priorities = listOf("highest", "high", "medium", "low")
-    val types = listOf("good", "bad")
-
     val habitList = mutableStateListOf<HabitInfo>()
 }

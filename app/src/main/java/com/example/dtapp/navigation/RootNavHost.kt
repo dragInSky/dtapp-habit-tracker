@@ -1,4 +1,4 @@
-package com.example.dtapp
+package com.example.dtapp.navigation
 
 import android.content.Context
 import androidx.compose.runtime.Composable
@@ -7,6 +7,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.dtapp.screens.AppInfoScreen
+import com.example.dtapp.screens.EditScreen
+import com.example.dtapp.screens.HabitsScreen
 
 @Composable
 fun RootNavHost(context: Context) {
@@ -15,9 +18,9 @@ fun RootNavHost(context: Context) {
         navController = navController,
         startDestination = Screen.Home.route
     ) {
-//        composable(Screen.Info.route) {
-//            EditHabitScreen(context)
-//        }
+        composable(Screen.Info.route) {
+            AppInfoScreen(context, navController)
+        }
         composable(Screen.Home.route) {
             HabitsScreen(context, navController)
         }
@@ -28,7 +31,7 @@ fun RootNavHost(context: Context) {
             })
         ) { backStackEntry ->
             val id = backStackEntry.arguments?.getInt("habitId") ?: -1
-            EditHabitScreen(context, navController, id)
+            EditScreen(context, navController, id)
         }
     }
 }

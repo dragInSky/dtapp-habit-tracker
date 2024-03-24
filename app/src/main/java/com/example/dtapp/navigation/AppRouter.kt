@@ -1,4 +1,4 @@
-package com.example.dtapp
+package com.example.dtapp.navigation
 
 private object Route {
     const val INFO = "info"

@@ -1,5 +1,6 @@
-package com.example.dtapp
+package com.example.dtapp.ui.util
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -9,6 +10,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.text.KeyboardActions
@@ -19,22 +22,62 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.example.dtapp.ui.theme.AppColors
+import kotlinx.coroutines.launch
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun Tabs(pagerState: PagerState, pages: List<String>) {
+    val scrollCoroutineScope = rememberCoroutineScope()
+
+    Box {
+        TabRow(
+            selectedTabIndex = pagerState.currentPage,
+            indicator = { tabPositions ->
+                TabRowDefaults.Indicator(
+                    modifier = Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage]),
+                    color = Color.Black
+                )
+            },
+            modifier = Modifier.align(Alignment.TopCenter),
+            contentColor = Color.Black
+        ) {
+            pages.forEachIndexed { index, title ->
+                Box(contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .clickable {
+                            scrollCoroutineScope.launch {
+                                pagerState.animateScrollToPage(index)
+                            }
+                        }
+                        .padding(8.dp)) {
+                    Text(text = title)
+                }
+            }
+        }
+    }
+}
 
 @Composable
 fun Spinner(
@@ -92,7 +135,8 @@ fun RadioButtons(
                     .selectable(
                         selected = (text == selectedItem),
                         onClick = { onItemSelected(text) }),
-                verticalAlignment = Alignment.CenterVertically) {
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 RadioButton(selected = (text == selectedItem), onClick = { onItemSelected(text) })
                 Text(text = text)
             }
@@ -103,12 +147,13 @@ fun RadioButtons(
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun HidingTextField(
-    text: String, placeHolder: String, modifier: Modifier, onTextChanged: (String) -> Unit
+    text: String, placeHolder: String, color: Color, modifier: Modifier, onTextChanged: (String) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    OutlinedTextField(value = text,
+    TextField(
+        value = text,
         modifier = modifier,
         onValueChange = { onTextChanged(it) },
         placeholder = { Text(text = placeHolder) },
@@ -116,5 +161,9 @@ fun HidingTextField(
         keyboardActions = KeyboardActions(onDone = {
             focusManager.clearFocus()
             keyboardController?.hide()
-        }))
+        }),
+        colors = TextFieldDefaults.textFieldColors(
+            containerColor = color
+        )
+    )
 }
