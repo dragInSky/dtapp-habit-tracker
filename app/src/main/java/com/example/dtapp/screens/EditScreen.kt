@@ -6,9 +6,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,15 +24,14 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.getString
 import androidx.navigation.NavController
 import com.example.dtapp.Ambient
-import com.example.dtapp.models.HabitInfo
 import com.example.dtapp.ui.HidingTextField
 import com.example.dtapp.R
 import com.example.dtapp.models.Priority
 import com.example.dtapp.models.Type
 import com.example.dtapp.ui.RadioButtons
-import com.example.dtapp.navigation.Screen
+import com.example.dtapp.ui.SaveButton
 import com.example.dtapp.ui.Spinner
-import com.example.dtapp.ui.CenterTextButton
+import com.example.dtapp.ui.TopBar
 
 @Composable
 fun EditScreen(context: Context, navController: NavController, id: Int = -1) {
@@ -45,65 +47,69 @@ fun EditScreen(context: Context, navController: NavController, id: Int = -1) {
     var periodText by remember { mutableStateOf(habit?.periodText ?: "") }
 
     Column(
-        modifier = Modifier.padding(8.dp)
+        modifier = Modifier.fillMaxSize()
     ) {
-        HidingTextField(text = nameText,
-            placeHolder = getString(context, R.string.habit_name),
-            modifier = Modifier.fillMaxWidth(),
-            onTextChanged = { nameText = it })
+        TopBar(title = getString(context, R.string.edit_screen_name),
+            buttonIcon = Icons.Filled.ArrowBack,
+            onButtonClicked = { navController.popBackStack() })
 
-        HidingTextField(text = descriptionText,
-            placeHolder = getString(context, R.string.habit_description),
-            modifier = Modifier.fillMaxWidth(),
-            onTextChanged = { descriptionText = it })
+        Column(modifier = Modifier.padding(8.dp)) {
+            HidingTextField(text = nameText,
+                placeHolder = getString(context, R.string.habit_name),
+                modifier = Modifier.fillMaxWidth(),
+                onTextChanged = { nameText = it })
 
-        Spacer(modifier = Modifier.height(12.dp))
+            HidingTextField(text = descriptionText,
+                placeHolder = getString(context, R.string.habit_description),
+                modifier = Modifier.fillMaxWidth(),
+                onTextChanged = { descriptionText = it })
 
-        Box(
-            modifier = Modifier.background(Color.White)
-        ) {
-            Spinner(text = getString(context, R.string.habit_priority),
-                items = Priority.values().map { it.text },
-                selectedItem = selectedPriorityItem,
-                onItemSelected = { selectedPriorityItem = it })
-        }
-        Divider(color = Color.Black, thickness = 1.dp)
-        Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
-        Box(
-            modifier = Modifier.background(Color.White)
-        ) {
-            RadioButtons(items = Type.values().map { it.text },
-                selectedItem = selectedTypeItem,
-                onItemSelected = { selectedTypeItem = it })
-        }
-        Divider(color = Color.Black, thickness = 1.dp)
-        Spacer(modifier = Modifier.height(12.dp))
+            Box(
+                modifier = Modifier.background(Color.White)
+            ) {
+                Spinner(text = getString(context, R.string.habit_priority),
+                    items = Priority.values().map { it.text },
+                    selectedItem = selectedPriorityItem,
+                    onItemSelected = { selectedPriorityItem = it })
+            }
+            Divider(color = Color.Black, thickness = 1.dp)
+            Spacer(modifier = Modifier.height(12.dp))
 
-        Row {
-            HidingTextField(text = timesText,
-                placeHolder = getString(context, R.string.habit_times),
-                modifier = Modifier.weight(1f),
-                onTextChanged = { timesText = it })
+            Box(
+                modifier = Modifier.background(Color.White)
+            ) {
+                RadioButtons(items = Type.values().map { it.text },
+                    selectedItem = selectedTypeItem,
+                    onItemSelected = { selectedTypeItem = it })
+            }
+            Divider(color = Color.Black, thickness = 1.dp)
+            Spacer(modifier = Modifier.height(12.dp))
 
-            HidingTextField(text = periodText,
-                placeHolder = getString(context, R.string.habit_period),
-                modifier = Modifier.weight(1f),
-                onTextChanged = { periodText = it })
+            Row {
+                HidingTextField(text = timesText,
+                    placeHolder = getString(context, R.string.habit_times),
+                    modifier = Modifier.weight(1f),
+                    onTextChanged = { timesText = it })
+
+                HidingTextField(text = periodText,
+                    placeHolder = getString(context, R.string.habit_period),
+                    modifier = Modifier.weight(1f),
+                    onTextChanged = { periodText = it })
+            }
         }
     }
 
-    CenterTextButton(getString(context, R.string.habit_save_button)) {
-        HabitInfo.habitListAction(
-            context, habit?.id ?: -1,
-            selectedPriorityItem,
-            selectedTypeItem,
-            nameText,
-            descriptionText,
-            timesText,
-            periodText
-        )
-
-        navController.navigate(Screen.Home.route)
-    }
+    SaveButton(
+        context,
+        navController,
+        habit?.id ?: -1,
+        selectedPriorityItem,
+        selectedTypeItem,
+        nameText,
+        descriptionText,
+        timesText,
+        periodText
+    )
 }

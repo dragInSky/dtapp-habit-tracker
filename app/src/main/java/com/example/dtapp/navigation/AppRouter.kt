@@ -1,16 +1,15 @@
 package com.example.dtapp.navigation
 
 private object Route {
-    const val INFO = "info"
-    const val HOME = "home"
-    const val EDIT = "edit/{habitId}"
+    const val ABOUT = "ABOUT"
+    const val HOME = "HOME"
+    const val EDIT = "EIT/{habitId}"
 }
 
 sealed class Screen(val route: String) {
-    object Info : Screen(Route.INFO)
+    object About : Screen(Route.ABOUT)
     object Home : Screen(Route.HOME)
     object EDIT : Screen(Route.EDIT) {
-        fun createRoute(habitId: Int = -1) =
-            Route.EDIT.replace("{habitId}", habitId.toString())
+        fun createRoute(habitId: Int = -1) = Route.EDIT.replace("{habitId}", habitId.toString())
     }
 }
