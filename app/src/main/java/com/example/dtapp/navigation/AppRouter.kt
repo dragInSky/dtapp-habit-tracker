@@ -9,7 +9,7 @@ private object Route {
 sealed class Screen(val route: String) {
     object About : Screen(Route.ABOUT)
     object Home : Screen(Route.HOME)
-    object EDIT : Screen(Route.EDIT) {
+    object Edit : Screen(Route.EDIT) {
         fun createRoute(habitId: Int = -1) = Route.EDIT.replace("{habitId}", habitId.toString())
     }
 }

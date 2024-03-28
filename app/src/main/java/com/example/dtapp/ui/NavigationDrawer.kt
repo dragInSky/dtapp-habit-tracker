@@ -49,9 +49,7 @@ fun NavigationDrawer(context: Context, onDestinationClicked: (route: String) -> 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Filled.Info, contentDescription = "")
                 Spacer(Modifier.width(8.dp))
-                Text(
-                    text = Screen.About.route,
-                )
+                Text(text = Screen.About.route,)
             }
             Spacer(Modifier.height(12.dp))
         }
@@ -64,9 +62,7 @@ fun NavigationDrawer(context: Context, onDestinationClicked: (route: String) -> 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Filled.Home, contentDescription = "")
                 Spacer(Modifier.width(8.dp))
-                Text(
-                    text = Screen.Home.route,
-                )
+                Text(text = Screen.Home.route,)
             }
             Spacer(Modifier.height(12.dp))
         }

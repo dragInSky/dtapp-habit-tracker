@@ -23,19 +23,17 @@ fun NavigationSetup(context: Context) {
         }
     }
 
-    ModalNavigationDrawer(
-        drawerState = drawerState,
+    ModalNavigationDrawer(drawerState = drawerState,
         gesturesEnabled = drawerState.isOpen,
         drawerContent = {
             NavigationDrawer(context, onDestinationClicked = { route ->
                 scope.launch {
                     drawerState.close()
                 }
-                navController.navigate(route) {
-                    launchSingleTop = true
-                }
+                navController.navigate(route)
             })
-        }) {
+        }
+    ) {
         RootNavHost(context, navController, openDrawer)
     }
 }

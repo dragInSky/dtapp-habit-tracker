@@ -24,7 +24,7 @@ fun RootNavHost(context: Context, navController: NavHostController, openDrawer: 
             HabitsScreen(context, navController, openDrawer)
         }
         composable(
-            Screen.EDIT.route, arguments = listOf(navArgument("habitId") {
+            Screen.Edit.route, arguments = listOf(navArgument("habitId") {
                 type = NavType.IntType
             })
         ) { backStackEntry ->

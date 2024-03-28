@@ -55,7 +55,7 @@ fun HabitPager(
         FloatingActionButton(
             onClick = {
                 if (!isNavigationPerformed) {
-                    navController.navigate(Screen.EDIT.createRoute())
+                    navController.navigate(Screen.Edit.createRoute())
                     isNavigationPerformed = true
                 }
             },

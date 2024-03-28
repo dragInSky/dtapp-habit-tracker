@@ -31,7 +31,7 @@ fun HabitItem(context: Context, navController: NavController, habit: HabitInfo) 
         .fillMaxWidth()
         .background(Color.White)
         .clickable { //вынести во ViewModel
-            navController.navigate(Screen.EDIT.createRoute(habit.id))
+            navController.navigate(Screen.Edit.createRoute(habit.id))
         }
         .padding(12.dp)) {
         Column(modifier = Modifier.weight(0.8f)) {
