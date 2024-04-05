@@ -14,4 +14,12 @@
     <string name="habit_times">times</string>
     <string name="habit_period">period</string>
     <string name="habit_save_button">save habit</string>
+
+    <string name="priority_low">low</string>
+    <string name="priority_medium">medium</string>
+    <string name="priority_high">high</string>
+    <string name="priority_highest">highest</string>
+
+    <string name="type_good">good</string>
+    <string name="type_bad">bad</string>
 </resources>

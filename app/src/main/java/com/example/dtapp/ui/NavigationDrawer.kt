@@ -1,6 +1,5 @@
 package com.example.dtapp.ui
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -21,13 +20,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.getString
 import com.example.dtapp.R
 import com.example.dtapp.navigation.Screen
 
 @Composable
-fun NavigationDrawer(context: Context, onDestinationClicked: (route: String) -> Unit) {
+fun NavigationDrawer(onDestinationClicked: (route: String) -> Unit) {
+    val context = LocalContext.current
+
     Column(
         modifier = Modifier
             .fillMaxWidth(0.7f)

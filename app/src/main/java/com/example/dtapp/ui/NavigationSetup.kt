@@ -1,6 +1,5 @@
 package com.example.dtapp.ui
 
-import android.content.Context
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalNavigationDrawer
@@ -13,8 +12,9 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NavigationSetup(context: Context) {
+fun NavigationSetup() {
     val navController = rememberNavController()
+
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val openDrawer = {
@@ -26,7 +26,7 @@ fun NavigationSetup(context: Context) {
     ModalNavigationDrawer(drawerState = drawerState,
         gesturesEnabled = drawerState.isOpen,
         drawerContent = {
-            NavigationDrawer(context, onDestinationClicked = { route ->
+            NavigationDrawer(onDestinationClicked = { route ->
                 scope.launch {
                     drawerState.close()
                 }
@@ -34,6 +34,6 @@ fun NavigationSetup(context: Context) {
             })
         }
     ) {
-        RootNavHost(context, navController, openDrawer)
+        RootNavHost(openDrawer)
     }
 }

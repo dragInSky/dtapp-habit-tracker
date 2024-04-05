@@ -1,4 +1,4 @@
-package com.example.dtapp.ui
+package com.example.dtapp.ui.common
 
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api

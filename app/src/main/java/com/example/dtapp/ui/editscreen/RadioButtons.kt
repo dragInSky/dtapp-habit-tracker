@@ -1,4 +1,4 @@
-package com.example.dtapp.ui
+package com.example.dtapp.ui.editscreen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

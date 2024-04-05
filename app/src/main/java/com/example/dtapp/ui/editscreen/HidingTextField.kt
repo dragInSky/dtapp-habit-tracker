@@ -1,4 +1,4 @@
-package com.example.dtapp.ui
+package com.example.dtapp.ui.editscreen
 
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions

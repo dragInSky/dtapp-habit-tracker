@@ -1,6 +1,5 @@
-package com.example.dtapp.screens
+package com.example.dtapp.ui.habitsscreen
 
-import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,18 +8,18 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
-import androidx.navigation.NavController
 import com.example.dtapp.R
 import com.example.dtapp.models.Type
-import com.example.dtapp.ui.HabitPager
-import com.example.dtapp.ui.Tab
-import com.example.dtapp.ui.TopBar
+import com.example.dtapp.ui.common.TopBar
 import kotlinx.coroutines.Job
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HabitsScreen(context: Context, navController: NavController, openDrawer: () -> Job) {
+fun HabitsScreen(openDrawer: () -> Job) {
+    val context = LocalContext.current
+
     val types = Type.values()
     val pagerState = rememberPagerState(pageCount = { types.size })
 
@@ -31,6 +30,6 @@ fun HabitsScreen(context: Context, navController: NavController, openDrawer: () 
 
         Tab(pagerState, Type.values().map { it.text })
 
-        HabitPager(types, Modifier.weight(1f), context, navController, pagerState)
+        HabitPager(types, Modifier.weight(1f), pagerState)
     }
 }

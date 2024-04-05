@@ -1,6 +1,5 @@
-package com.example.dtapp.ui
+package com.example.dtapp.ui.habitsscreen
 
-import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -22,7 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.dtapp.Ambient
 import com.example.dtapp.models.Type
 import com.example.dtapp.navigation.Screen
@@ -33,10 +32,10 @@ import com.example.dtapp.ui.theme.Purple40
 fun HabitPager(
     types: Array<Type>,
     modifier: Modifier,
-    context: Context,
-    navController: NavController,
     pagerState: PagerState
 ) {
+    val navController = rememberNavController()
+
     var isNavigationPerformed by remember { mutableStateOf(false) }
 
     Box(modifier = modifier) {
@@ -47,7 +46,7 @@ fun HabitPager(
                 modifier = Modifier.padding(8.dp),
             ) {
                 items(habitList) { habitInfo ->
-                    HabitItem(context, navController, habitInfo)
+                    HabitItem(habitInfo)
                 }
             }
         }

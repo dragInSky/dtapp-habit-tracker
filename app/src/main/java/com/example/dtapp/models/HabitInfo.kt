@@ -17,6 +17,8 @@ data class HabitInfo(
     val periodText: String
 ) {
     companion object {
+        private const val DEFAULT_ID = -1
+
         private fun habitInit(
             context: Context,
             id: Int,
@@ -27,7 +29,8 @@ data class HabitInfo(
             timesText: String,
             periodText: String
         ): HabitInfo {
-            return HabitInfo(if (id == -1) UUID.randomUUID().hashCode().absoluteValue else id,
+            return HabitInfo(if (id == DEFAULT_ID) UUID.randomUUID()
+                .hashCode().absoluteValue else id,
                 Priority.values().find { it.text == selectedPriority }!!,
                 Type.values().find { it.text == selectedType }!!,
                 nameText.ifEmpty { ContextCompat.getString(context, R.string.habit_name) },
@@ -61,7 +64,7 @@ data class HabitInfo(
                 periodText
             )
 
-            if (habit.id != id) {
+            if (id == DEFAULT_ID) {
                 Ambient.habitList.add(habit)
             } else {
                 val habitToEdit = Ambient.habitList.find { it.id == id }

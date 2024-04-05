@@ -1,6 +1,5 @@
-package com.example.dtapp.ui
+package com.example.dtapp.ui.editscreen
 
-import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -16,19 +15,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
-import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.dtapp.R
 import com.example.dtapp.models.HabitInfo
 import com.example.dtapp.ui.theme.Purple40
 
 @Composable
 fun SaveButton(
-    context: Context,
-    navController: NavController,
     id: Int,
     selectedPriority: String,
     selectedType: String,
@@ -37,6 +35,9 @@ fun SaveButton(
     timesText: String,
     periodText: String
 ) {
+    val context = LocalContext.current
+    val navController = rememberNavController()
+
     var isNavigationPerformed by remember { mutableStateOf(false) }
 
     Box(

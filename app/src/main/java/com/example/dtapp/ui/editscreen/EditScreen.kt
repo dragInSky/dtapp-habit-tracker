@@ -1,6 +1,5 @@
-package com.example.dtapp.screens
+package com.example.dtapp.ui.editscreen
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,21 +19,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.getString
-import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.dtapp.Ambient
-import com.example.dtapp.ui.HidingTextField
 import com.example.dtapp.R
 import com.example.dtapp.models.Priority
 import com.example.dtapp.models.Type
-import com.example.dtapp.ui.RadioButtons
-import com.example.dtapp.ui.SaveButton
-import com.example.dtapp.ui.Spinner
-import com.example.dtapp.ui.TopBar
+import com.example.dtapp.ui.common.TopBar
 
 @Composable
-fun EditScreen(context: Context, navController: NavController, id: Int = -1) {
+fun EditScreen(id: Int = -1) {
+    val context = LocalContext.current
+    val navController = rememberNavController()
+
     val habit = Ambient.habitList.find { it.id == id }
 
     var selectedPriorityItem by remember {
@@ -102,8 +101,6 @@ fun EditScreen(context: Context, navController: NavController, id: Int = -1) {
     }
 
     SaveButton(
-        context,
-        navController,
         habit?.id ?: -1,
         selectedPriorityItem,
         selectedTypeItem,

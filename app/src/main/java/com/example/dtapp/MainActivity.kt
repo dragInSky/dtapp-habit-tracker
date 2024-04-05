@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     color = PurpleGrey80, modifier = Modifier.fillMaxSize()
                 ) {
-                    NavigationSetup(context = this@MainActivity)
+                    NavigationSetup()
                 }
             }
         }

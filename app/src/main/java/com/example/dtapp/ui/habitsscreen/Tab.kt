@@ -1,4 +1,4 @@
-package com.example.dtapp.ui
+package com.example.dtapp.ui.habitsscreen
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable

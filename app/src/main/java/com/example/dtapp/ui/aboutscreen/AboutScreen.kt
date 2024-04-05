@@ -1,6 +1,5 @@
-package com.example.dtapp.screens
+package com.example.dtapp.ui.aboutscreen
 
-import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,15 +16,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.getString
-import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.dtapp.R
-import com.example.dtapp.ui.TopBar
+import com.example.dtapp.ui.common.TopBar
 
 @Composable
-fun AboutScreen(context: Context, navController: NavController) {
+fun AboutScreen() {
+    val context = LocalContext.current
+    val navController = rememberNavController()
+
     var isNavigationPerformed by remember { mutableStateOf(false) }
 
     Column {
