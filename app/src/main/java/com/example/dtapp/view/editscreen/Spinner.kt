@@ -1,4 +1,4 @@
-package com.example.dtapp.ui.editscreen
+package com.example.dtapp.view.editscreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,7 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.dtapp.ui.theme.AppColors
+import com.example.dtapp.view.theme.AppColors
 
 @Composable
 fun Spinner(

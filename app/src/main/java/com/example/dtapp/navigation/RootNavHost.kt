@@ -6,9 +6,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.dtapp.ui.aboutscreen.AboutScreen
-import com.example.dtapp.ui.editscreen.EditScreen
-import com.example.dtapp.ui.habitsscreen.HabitsScreen
+import com.example.dtapp.view.aboutscreen.AboutScreen
+import com.example.dtapp.view.editscreen.EditScreen
+import com.example.dtapp.view.habitsscreen.HabitsScreen
 import kotlinx.coroutines.Job
 
 @Composable

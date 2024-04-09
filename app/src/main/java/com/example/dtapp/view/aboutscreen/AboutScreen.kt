@@ -1,11 +1,11 @@
-package com.example.dtapp.ui.aboutscreen
+package com.example.dtapp.view.aboutscreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,10 +22,10 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.getString
 import androidx.navigation.NavController
 import com.example.dtapp.R
-import com.example.dtapp.ui.common.TopBar
+import com.example.dtapp.view.common.TopBar
 
 @Composable
-fun AboutScreen(navController: NavController,) {
+fun AboutScreen(navController: NavController) {
     val context = LocalContext.current
 
     var isNavigationPerformed by remember { mutableStateOf(false) }
@@ -33,7 +33,7 @@ fun AboutScreen(navController: NavController,) {
     Column {
         TopBar(
             title = getString(context, R.string.about_screen_name),
-            buttonIcon = Icons.Filled.ArrowBack,
+            buttonIcon = Icons.AutoMirrored.Filled.ArrowBack,
             onButtonClicked = {
                 if (!isNavigationPerformed) {
                     navController.popBackStack()

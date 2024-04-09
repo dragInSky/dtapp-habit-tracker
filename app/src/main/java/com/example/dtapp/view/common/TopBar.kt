@@ -1,7 +1,8 @@
-package com.example.dtapp.ui.common
+package com.example.dtapp.view.common
 
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -25,5 +26,5 @@ fun TopBar(title: String, buttonIcon: ImageVector, onButtonClicked: () -> Unit) 
             }
         }
     )
-    Divider(color = Color.Black, thickness = 1.dp)
+    HorizontalDivider(thickness = 1.dp, color = Color.Black)
 }

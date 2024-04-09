@@ -1,4 +1,4 @@
-package com.example.dtapp.ui.editscreen
+package com.example.dtapp.view.editscreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -10,9 +10,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,18 +24,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.getString
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.dtapp.Ambient
 import com.example.dtapp.R
 import com.example.dtapp.models.Priority
 import com.example.dtapp.models.Type
-import com.example.dtapp.ui.common.TopBar
+import com.example.dtapp.view.common.TopBar
+import com.example.dtapp.viewmodels.HabitsViewModel
 
 @Composable
-fun EditScreen(navController: NavController, id: Int = -1) {
+fun EditScreen(
+    navController: NavController,
+    id: Int = -1,
+    habitsViewModel: HabitsViewModel = viewModel()
+) {
     val context = LocalContext.current
 
-    val habit = Ambient.habitList.find { it.id == id }
+    val habit = habitsViewModel.getHabitById(id)
 
     var selectedPriorityItem by remember {
         mutableStateOf(habit?.priority?.text ?: Priority.MEDIUM.text)
@@ -44,13 +51,20 @@ fun EditScreen(navController: NavController, id: Int = -1) {
     var timesText by remember { mutableStateOf(habit?.timesText ?: "") }
     var periodText by remember { mutableStateOf(habit?.periodText ?: "") }
 
+    var isNavigationPerformed by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
         TopBar(
             title = getString(context, R.string.edit_screen_name),
-            buttonIcon = Icons.Filled.ArrowBack,
-            onButtonClicked = { navController.popBackStack() }
+            buttonIcon = Icons.AutoMirrored.Filled.ArrowBack,
+            onButtonClicked = {
+                if (!isNavigationPerformed) {
+                    navController.popBackStack()
+                    isNavigationPerformed = true
+                }
+            }
         )
 
         Column(modifier = Modifier.padding(8.dp)) {
@@ -80,7 +94,7 @@ fun EditScreen(navController: NavController, id: Int = -1) {
                     onItemSelected = { selectedPriorityItem = it }
                 )
             }
-            Divider(color = Color.Black, thickness = 1.dp)
+            HorizontalDivider(thickness = 1.dp, color = Color.Black)
             Spacer(modifier = Modifier.height(12.dp))
 
             Box(
@@ -92,7 +106,7 @@ fun EditScreen(navController: NavController, id: Int = -1) {
                     onItemSelected = { selectedTypeItem = it }
                 )
             }
-            Divider(color = Color.Black, thickness = 1.dp)
+            HorizontalDivider(thickness = 1.dp, color = Color.Black)
             Spacer(modifier = Modifier.height(12.dp))
 
             Row {
@@ -119,4 +133,10 @@ fun EditScreen(navController: NavController, id: Int = -1) {
         timesText = timesText,
         periodText = periodText
     )
+
+    DisposableEffect(Unit) {
+        onDispose {
+            isNavigationPerformed = false
+        }
+    }
 }

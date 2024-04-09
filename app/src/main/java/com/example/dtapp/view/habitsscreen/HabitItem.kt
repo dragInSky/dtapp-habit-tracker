@@ -1,4 +1,4 @@
-package com.example.dtapp.ui.habitsscreen
+package com.example.dtapp.view.habitsscreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -33,7 +34,9 @@ fun HabitItem(navController: NavController, habit: HabitInfo) {
         .fillMaxWidth()
         .background(Color.White)
         .clickable { //вынести во ViewModel
-            navController.navigate(Screen.Edit.createRoute(habit.id))
+            navController.navigate(Screen.Edit.createRoute(habit.id)) {
+                launchSingleTop = true
+            }
         }
         .padding(12.dp)) {
         Column(modifier = Modifier.weight(0.8f)) {
@@ -78,6 +81,6 @@ fun HabitItem(navController: NavController, habit: HabitInfo) {
             )
         }
     }
-    Divider(color = Color.Black, thickness = 1.dp)
+    HorizontalDivider(thickness = 1.dp, color = Color.Black)
     Spacer(modifier = Modifier.height(12.dp))
 }

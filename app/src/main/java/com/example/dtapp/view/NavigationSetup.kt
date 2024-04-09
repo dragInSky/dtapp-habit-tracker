@@ -1,7 +1,6 @@
-package com.example.dtapp.ui
+package com.example.dtapp.view
 
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -10,7 +9,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.dtapp.navigation.RootNavHost
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavigationSetup() {
     val navController = rememberNavController()
@@ -30,7 +28,10 @@ fun NavigationSetup() {
                 scope.launch {
                     drawerState.close()
                 }
-                navController.navigate(route)
+
+                navController.navigate(route) {
+                    launchSingleTop = true
+                }
             })
         }
     ) {

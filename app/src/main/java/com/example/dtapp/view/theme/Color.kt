@@ -1,4 +1,4 @@
-package com.example.dtapp.ui.theme
+package com.example.dtapp.view.theme
 
 import androidx.compose.ui.graphics.Color
 

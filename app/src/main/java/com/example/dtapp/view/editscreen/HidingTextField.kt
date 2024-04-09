@@ -1,20 +1,18 @@
-package com.example.dtapp.ui.editscreen
+package com.example.dtapp.view.editscreen
 
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun HidingTextField(
     text: String,
@@ -30,13 +28,16 @@ fun HidingTextField(
         modifier = modifier,
         onValueChange = { onTextChanged(it) },
         placeholder = { Text(text = placeHolder) },
-        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Done
+        ),
         keyboardActions = KeyboardActions(onDone = {
             focusManager.clearFocus()
             keyboardController?.hide()
         }),
-        colors = TextFieldDefaults.textFieldColors(
-            containerColor = Color.White
+        colors = TextFieldDefaults.colors(
+            unfocusedContainerColor = Color.White
         )
     )
 }

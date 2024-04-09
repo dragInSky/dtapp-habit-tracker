@@ -1,4 +1,4 @@
-package com.example.dtapp.ui
+package com.example.dtapp.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

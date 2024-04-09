@@ -1,4 +1,4 @@
-package com.example.dtapp.ui.editscreen
+package com.example.dtapp.view.editscreen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,10 +20,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.dtapp.R
 import com.example.dtapp.models.HabitInfo
-import com.example.dtapp.ui.theme.Purple40
+import com.example.dtapp.view.theme.Purple40
+import com.example.dtapp.viewmodels.EditViewModel
 
 @Composable
 fun SaveButton(
@@ -34,7 +36,8 @@ fun SaveButton(
     nameText: String,
     descriptionText: String,
     timesText: String,
-    periodText: String
+    periodText: String,
+    editViewModel: EditViewModel = viewModel()
 ) {
     val context = LocalContext.current
 
@@ -49,7 +52,7 @@ fun SaveButton(
         Button(
             onClick = {
                 if (!isNavigationPerformed) {
-                    HabitInfo.habitListAction(
+                    val habit = HabitInfo.habitInit(
                         context = context,
                         id = id,
                         selectedPriority = selectedPriority,
@@ -59,6 +62,8 @@ fun SaveButton(
                         timesText = timesText,
                         periodText = periodText
                     )
+
+                    editViewModel.addOrUpdate(id, habit)
 
                     navController.popBackStack()
                     isNavigationPerformed = true
