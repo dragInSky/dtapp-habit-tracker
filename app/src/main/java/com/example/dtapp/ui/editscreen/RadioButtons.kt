@@ -25,7 +25,10 @@ fun RadioButtons(
                         onClick = { onItemSelected(text) }),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                RadioButton(selected = (text == selectedItem), onClick = { onItemSelected(text) })
+                RadioButton(
+                    selected = (text == selectedItem),
+                    onClick = { onItemSelected(text) }
+                )
                 Text(text = text)
             }
         }

@@ -33,7 +33,10 @@ fun Spinner(
     Column(modifier = Modifier.clickable { expanded = true }) {
         Spacer(modifier = Modifier.height(12.dp))
 
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
             Text(text = text)
 
             Box {
@@ -45,15 +48,20 @@ fun Spinner(
                     modifier = Modifier.background(AppColors.WhiteGhost)
                 ) {
                     items.forEach {
-                        DropdownMenuItem(text = { Text(text = it) }, onClick = {
-                            onItemSelected(it)
-                            expanded = false
-                        })
+                        DropdownMenuItem(
+                            text = { Text(text = it) },
+                            onClick = {
+                                onItemSelected(it)
+                                expanded = false
+                            })
                     }
                 }
             }
 
-            Icon(Icons.Filled.ArrowDropDown, "Spinner arrow down")
+            Icon(
+                imageVector = Icons.Filled.ArrowDropDown,
+                contentDescription = "Spinner arrow down"
+            )
         }
 
         Spacer(modifier = Modifier.height(12.dp))

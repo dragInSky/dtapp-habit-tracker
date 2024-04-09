@@ -21,7 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavController
 import com.example.dtapp.Ambient
 import com.example.dtapp.models.Type
 import com.example.dtapp.navigation.Screen
@@ -30,12 +30,11 @@ import com.example.dtapp.ui.theme.Purple40
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HabitPager(
+    navController: NavController,
     types: Array<Type>,
     modifier: Modifier,
     pagerState: PagerState
 ) {
-    val navController = rememberNavController()
-
     var isNavigationPerformed by remember { mutableStateOf(false) }
 
     Box(modifier = modifier) {
@@ -46,7 +45,10 @@ fun HabitPager(
                 modifier = Modifier.padding(8.dp),
             ) {
                 items(habitList) { habitInfo ->
-                    HabitItem(habitInfo)
+                    HabitItem(
+                        navController = navController,
+                        habit = habitInfo
+                    )
                 }
             }
         }
@@ -64,7 +66,11 @@ fun HabitPager(
                 .padding(24.dp)
                 .align(Alignment.BottomEnd),
         ) {
-            Icon(Icons.Filled.Add, "habit add action", tint = Color.White)
+            Icon(
+                imageVector = Icons.Filled.Add,
+                contentDescription = "habit add action",
+                tint = Color.White
+            )
         }
     }
 

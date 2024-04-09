@@ -13,8 +13,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,11 +28,12 @@ import androidx.core.content.ContextCompat.getString
 import com.example.dtapp.R
 import com.example.dtapp.navigation.Screen
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavigationDrawer(onDestinationClicked: (route: String) -> Unit) {
     val context = LocalContext.current
 
-    Column(
+    ModalDrawerSheet(
         modifier = Modifier
             .fillMaxWidth(0.7f)
             .fillMaxHeight()
@@ -49,9 +52,9 @@ fun NavigationDrawer(onDestinationClicked: (route: String) -> Unit) {
             .padding(start = 24.dp)) {
             Spacer(Modifier.height(12.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Filled.Info, contentDescription = "")
+                Icon(imageVector = Icons.Filled.Info, contentDescription = "")
                 Spacer(Modifier.width(8.dp))
-                Text(text = Screen.About.route,)
+                Text(text = Screen.About.route)
             }
             Spacer(Modifier.height(12.dp))
         }
@@ -62,9 +65,9 @@ fun NavigationDrawer(onDestinationClicked: (route: String) -> Unit) {
             .padding(start = 24.dp)) {
             Spacer(Modifier.height(12.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Filled.Home, contentDescription = "")
+                Icon(imageVector = Icons.Filled.Home, contentDescription = "")
                 Spacer(Modifier.width(8.dp))
-                Text(text = Screen.Home.route,)
+                Text(text = Screen.Home.route)
             }
             Spacer(Modifier.height(12.dp))
         }

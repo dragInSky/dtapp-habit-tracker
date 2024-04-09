@@ -20,15 +20,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.getString
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavController
 import com.example.dtapp.models.HabitInfo
 import com.example.dtapp.R
 import com.example.dtapp.navigation.Screen
 
 @Composable
-fun HabitItem(habit: HabitInfo) {
+fun HabitItem(navController: NavController, habit: HabitInfo) {
     val context = LocalContext.current
-    val navController = rememberNavController()
 
     Row(modifier = Modifier
         .fillMaxWidth()
@@ -53,7 +52,8 @@ fun HabitItem(habit: HabitInfo) {
             )
             Row {
                 Text(
-                    text = "${habit.type.text} — ${habit.priority.text}", fontSize = 12.sp
+                    text = "${habit.type.text} — ${habit.priority.text}",
+                    fontSize = 12.sp
                 )
             }
         }
@@ -66,7 +66,8 @@ fun HabitItem(habit: HabitInfo) {
                 overflow = TextOverflow.Ellipsis
             )
             Text(
-                text = getString(context, R.string.habit_times_period_con), fontSize = 12.sp
+                text = getString(context, R.string.habit_times_period_con),
+                fontSize = 12.sp
             )
             Text(
                 text = habit.periodText,

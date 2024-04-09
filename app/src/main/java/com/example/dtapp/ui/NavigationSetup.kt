@@ -34,6 +34,6 @@ fun NavigationSetup() {
             })
         }
     ) {
-        RootNavHost(openDrawer)
+        RootNavHost(navController = navController, openDrawer = openDrawer)
     }
 }

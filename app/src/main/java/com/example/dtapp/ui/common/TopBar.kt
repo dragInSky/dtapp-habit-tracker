@@ -18,7 +18,10 @@ fun TopBar(title: String, buttonIcon: ImageVector, onButtonClicked: () -> Unit) 
         title = { Text(text = title) },
         navigationIcon = {
             IconButton(onClick = { onButtonClicked() }) {
-                Icon(buttonIcon, contentDescription = "")
+                Icon(
+                    imageVector = buttonIcon,
+                    contentDescription = ""
+                )
             }
         }
     )

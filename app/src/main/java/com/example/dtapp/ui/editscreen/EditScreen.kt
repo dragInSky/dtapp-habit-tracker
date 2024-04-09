@@ -22,7 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.getString
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavController
 import com.example.dtapp.Ambient
 import com.example.dtapp.R
 import com.example.dtapp.models.Priority
@@ -30,9 +30,8 @@ import com.example.dtapp.models.Type
 import com.example.dtapp.ui.common.TopBar
 
 @Composable
-fun EditScreen(id: Int = -1) {
+fun EditScreen(navController: NavController, id: Int = -1) {
     val context = LocalContext.current
-    val navController = rememberNavController()
 
     val habit = Ambient.habitList.find { it.id == id }
 
@@ -48,30 +47,38 @@ fun EditScreen(id: Int = -1) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        TopBar(title = getString(context, R.string.edit_screen_name),
+        TopBar(
+            title = getString(context, R.string.edit_screen_name),
             buttonIcon = Icons.Filled.ArrowBack,
-            onButtonClicked = { navController.popBackStack() })
+            onButtonClicked = { navController.popBackStack() }
+        )
 
         Column(modifier = Modifier.padding(8.dp)) {
-            HidingTextField(text = nameText,
+            HidingTextField(
+                text = nameText,
                 placeHolder = getString(context, R.string.habit_name),
                 modifier = Modifier.fillMaxWidth(),
-                onTextChanged = { nameText = it })
+                onTextChanged = { nameText = it }
+            )
 
-            HidingTextField(text = descriptionText,
+            HidingTextField(
+                text = descriptionText,
                 placeHolder = getString(context, R.string.habit_description),
                 modifier = Modifier.fillMaxWidth(),
-                onTextChanged = { descriptionText = it })
+                onTextChanged = { descriptionText = it }
+            )
 
             Spacer(modifier = Modifier.height(12.dp))
 
             Box(
                 modifier = Modifier.background(Color.White)
             ) {
-                Spinner(text = getString(context, R.string.habit_priority),
+                Spinner(
+                    text = getString(context, R.string.habit_priority),
                     items = Priority.values().map { it.text },
                     selectedItem = selectedPriorityItem,
-                    onItemSelected = { selectedPriorityItem = it })
+                    onItemSelected = { selectedPriorityItem = it }
+                )
             }
             Divider(color = Color.Black, thickness = 1.dp)
             Spacer(modifier = Modifier.height(12.dp))
@@ -79,9 +86,11 @@ fun EditScreen(id: Int = -1) {
             Box(
                 modifier = Modifier.background(Color.White)
             ) {
-                RadioButtons(items = Type.values().map { it.text },
+                RadioButtons(
+                    items = Type.values().map { it.text },
                     selectedItem = selectedTypeItem,
-                    onItemSelected = { selectedTypeItem = it })
+                    onItemSelected = { selectedTypeItem = it }
+                )
             }
             Divider(color = Color.Black, thickness = 1.dp)
             Spacer(modifier = Modifier.height(12.dp))
@@ -101,12 +110,13 @@ fun EditScreen(id: Int = -1) {
     }
 
     SaveButton(
-        habit?.id ?: -1,
-        selectedPriorityItem,
-        selectedTypeItem,
-        nameText,
-        descriptionText,
-        timesText,
-        periodText
+        navController = navController,
+        id = habit?.id ?: -1,
+        selectedPriority = selectedPriorityItem,
+        selectedType = selectedTypeItem,
+        nameText = nameText,
+        descriptionText = descriptionText,
+        timesText = timesText,
+        periodText = periodText
     )
 }

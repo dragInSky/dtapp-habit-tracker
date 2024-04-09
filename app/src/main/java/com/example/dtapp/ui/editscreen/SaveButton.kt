@@ -20,13 +20,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavController
 import com.example.dtapp.R
 import com.example.dtapp.models.HabitInfo
 import com.example.dtapp.ui.theme.Purple40
 
 @Composable
 fun SaveButton(
+    navController: NavController,
     id: Int,
     selectedPriority: String,
     selectedType: String,
@@ -36,7 +37,6 @@ fun SaveButton(
     periodText: String
 ) {
     val context = LocalContext.current
-    val navController = rememberNavController()
 
     var isNavigationPerformed by remember { mutableStateOf(false) }
 
@@ -50,21 +50,23 @@ fun SaveButton(
             onClick = {
                 if (!isNavigationPerformed) {
                     HabitInfo.habitListAction(
-                        context,
-                        id,
-                        selectedPriority,
-                        selectedType,
-                        nameText,
-                        descriptionText,
-                        timesText,
-                        periodText
+                        context = context,
+                        id = id,
+                        selectedPriority = selectedPriority,
+                        selectedType = selectedType,
+                        nameText = nameText,
+                        descriptionText = descriptionText,
+                        timesText = timesText,
+                        periodText = periodText
                     )
 
                     navController.popBackStack()
                     isNavigationPerformed = true
                 }
-            }, colors = ButtonDefaults.buttonColors(
-                containerColor = Purple40, contentColor = Color.White
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Purple40,
+                contentColor = Color.White
             )
         ) {
             Text(
