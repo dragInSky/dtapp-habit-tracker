@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -38,32 +37,31 @@ fun HabitItem(navController: NavController, habit: HabitInfo) {
                 launchSingleTop = true
             }
         }
-        .padding(12.dp)) {
+        .padding(12.dp)
+    ) {
         Column(modifier = Modifier.weight(0.8f)) {
             Text(
-                text = habit.nameText,
+                text = habit.name,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
             Text(
-                text = habit.descriptionText,
+                text = habit.description,
                 fontSize = 12.sp,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 style = TextStyle(lineHeight = 12.sp)
             )
-            Row {
-                Text(
-                    text = "${habit.type.text} — ${habit.priority.text}",
-                    fontSize = 12.sp
-                )
-            }
+            Text(
+                text = "${habit.type.text} — ${habit.priority.text}",
+                fontSize = 12.sp
+            )
         }
 
         Column(modifier = Modifier.weight(0.2f)) {
             Text(
-                text = habit.timesText,
+                text = habit.times,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -73,7 +71,7 @@ fun HabitItem(navController: NavController, habit: HabitInfo) {
                 fontSize = 12.sp
             )
             Text(
-                text = habit.periodText,
+                text = habit.period,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,

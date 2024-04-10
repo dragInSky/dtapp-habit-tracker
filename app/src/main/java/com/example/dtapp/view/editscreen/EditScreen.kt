@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -24,32 +23,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.getString
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.dtapp.R
 import com.example.dtapp.models.Priority
 import com.example.dtapp.models.Type
 import com.example.dtapp.view.common.TopBar
-import com.example.dtapp.viewmodels.HabitsViewModel
+import com.example.dtapp.viewmodels.EditViewModel
 
 @Composable
 fun EditScreen(
     navController: NavController,
-    id: Int = -1,
-    habitsViewModel: HabitsViewModel = viewModel()
+    editViewModel: EditViewModel,
+    id: Int = -1
 ) {
     val context = LocalContext.current
-
-    val habit = habitsViewModel.getHabitById(id)
-
-    var selectedPriorityItem by remember {
-        mutableStateOf(habit?.priority?.text ?: Priority.MEDIUM.text)
-    }
-    var selectedTypeItem by remember { mutableStateOf(habit?.type?.text ?: Type.GOOD.text) }
-    var nameText by remember { mutableStateOf(habit?.nameText ?: "") }
-    var descriptionText by remember { mutableStateOf(habit?.descriptionText ?: "") }
-    var timesText by remember { mutableStateOf(habit?.timesText ?: "") }
-    var periodText by remember { mutableStateOf(habit?.periodText ?: "") }
 
     var isNavigationPerformed by remember { mutableStateOf(false) }
 
@@ -69,17 +56,17 @@ fun EditScreen(
 
         Column(modifier = Modifier.padding(8.dp)) {
             HidingTextField(
-                text = nameText,
+                text = editViewModel.name.value,
                 placeHolder = getString(context, R.string.habit_name),
                 modifier = Modifier.fillMaxWidth(),
-                onTextChanged = { nameText = it }
+                onTextChanged = { editViewModel.name.value = it }
             )
 
             HidingTextField(
-                text = descriptionText,
+                text = editViewModel.description.value,
                 placeHolder = getString(context, R.string.habit_description),
                 modifier = Modifier.fillMaxWidth(),
-                onTextChanged = { descriptionText = it }
+                onTextChanged = { editViewModel.description.value = it }
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -90,8 +77,8 @@ fun EditScreen(
                 Spinner(
                     text = getString(context, R.string.habit_priority),
                     items = Priority.values().map { it.text },
-                    selectedItem = selectedPriorityItem,
-                    onItemSelected = { selectedPriorityItem = it }
+                    selectedItem = editViewModel.selectedPriority.value,
+                    onItemSelected = { editViewModel.selectedPriority.value = it }
                 )
             }
             HorizontalDivider(thickness = 1.dp, color = Color.Black)
@@ -102,37 +89,37 @@ fun EditScreen(
             ) {
                 RadioButtons(
                     items = Type.values().map { it.text },
-                    selectedItem = selectedTypeItem,
-                    onItemSelected = { selectedTypeItem = it }
+                    selectedItem = editViewModel.selectedType.value,
+                    onItemSelected = { editViewModel.selectedType.value = it }
                 )
             }
             HorizontalDivider(thickness = 1.dp, color = Color.Black)
             Spacer(modifier = Modifier.height(12.dp))
 
             Row {
-                HidingTextField(text = timesText,
+                HidingTextField(text = editViewModel.times.value,
                     placeHolder = getString(context, R.string.habit_times),
                     modifier = Modifier.weight(1f),
-                    onTextChanged = { timesText = it })
+                    onTextChanged = { editViewModel.times.value = it })
 
-                HidingTextField(text = periodText,
+                HidingTextField(text = editViewModel.period.value,
                     placeHolder = getString(context, R.string.habit_period),
                     modifier = Modifier.weight(1f),
-                    onTextChanged = { periodText = it })
+                    onTextChanged = { editViewModel.period.value = it })
             }
         }
     }
 
-    SaveButton(
-        navController = navController,
-        id = habit?.id ?: -1,
-        selectedPriority = selectedPriorityItem,
-        selectedType = selectedTypeItem,
-        nameText = nameText,
-        descriptionText = descriptionText,
-        timesText = timesText,
-        periodText = periodText
-    )
+    SaveButton {
+        if (!isNavigationPerformed) {
+            editViewModel.onSaveClicked(
+                context = context,
+                navController = navController,
+                id = id
+            )
+            isNavigationPerformed = true
+        }
+    }
 
     DisposableEffect(Unit) {
         onDispose {

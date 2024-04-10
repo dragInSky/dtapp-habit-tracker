@@ -20,25 +20,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import com.example.dtapp.R
-import com.example.dtapp.models.HabitInfo
 import com.example.dtapp.view.theme.Purple40
-import com.example.dtapp.viewmodels.EditViewModel
 
 @Composable
-fun SaveButton(
-    navController: NavController,
-    id: Int,
-    selectedPriority: String,
-    selectedType: String,
-    nameText: String,
-    descriptionText: String,
-    timesText: String,
-    periodText: String,
-    editViewModel: EditViewModel = viewModel()
-) {
+fun SaveButton(onButtonClicked: () -> Unit) {
     val context = LocalContext.current
 
     var isNavigationPerformed by remember { mutableStateOf(false) }
@@ -50,25 +36,7 @@ fun SaveButton(
         contentAlignment = Alignment.BottomCenter,
     ) {
         Button(
-            onClick = {
-                if (!isNavigationPerformed) {
-                    val habit = HabitInfo.habitInit(
-                        context = context,
-                        id = id,
-                        selectedPriority = selectedPriority,
-                        selectedType = selectedType,
-                        nameText = nameText,
-                        descriptionText = descriptionText,
-                        timesText = timesText,
-                        periodText = periodText
-                    )
-
-                    editViewModel.addOrUpdate(id, habit)
-
-                    navController.popBackStack()
-                    isNavigationPerformed = true
-                }
-            },
+            onClick = { onButtonClicked() },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Purple40,
                 contentColor = Color.White

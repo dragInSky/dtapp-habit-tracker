@@ -1,24 +1,36 @@
 package com.example.dtapp.viewmodels
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.dtapp.Model
 import com.example.dtapp.models.HabitInfo
 import com.example.dtapp.models.Type
 
 class HabitsViewModel : ViewModel() {
-    fun getHabitById(id: Int): HabitInfo? {
-        return Model.habits.find { it.id == id }
+    var filteredHabits: MutableList<HabitInfo> = mutableStateListOf()
+
+    var search = mutableStateOf("")
+
+    var predicate: MutableState<((HabitInfo) -> Boolean)?> = mutableStateOf(null)
+
+    fun changeHabits() {
+        if (predicate.value != null) {
+            filteredHabits = filteredHabits.filter(predicate.value!!).toMutableList()
+        }
     }
 
-    fun getPagedHabits(page: Int): List<HabitInfo> {
-        return if (page == 0) getGoodHabits() else getBadHabits()
+    fun pagingHabits(page: Int) {
+        if (page == 0) goodHabits()
+        else  badHabits()
     }
 
-    private fun getGoodHabits(): List<HabitInfo> {
-        return Model.habits.filter { e -> e.type == Type.GOOD }
+    private fun goodHabits() {
+        filteredHabits = Model.habits.filter { e -> e.type == Type.GOOD }.toMutableList()
     }
 
-    private fun getBadHabits(): List<HabitInfo> {
-        return Model.habits.filter { e -> e.type == Type.BAD }
+    private fun badHabits() {
+        filteredHabits = Model.habits.filter { e -> e.type == Type.BAD }.toMutableList()
     }
 }

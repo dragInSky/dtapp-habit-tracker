@@ -10,10 +10,10 @@ data class HabitInfo(
     val id: Int,
     val priority: Priority,
     val type: Type,
-    val nameText: String,
-    val descriptionText: String,
-    val timesText: String,
-    val periodText: String
+    val name: String,
+    val description: String,
+    val times: String,
+    val period: String
 ) {
     companion object {
         const val DEFAULT_ID = -1
@@ -23,23 +23,23 @@ data class HabitInfo(
             id: Int,
             selectedPriority: String,
             selectedType: String,
-            nameText: String,
-            descriptionText: String,
-            timesText: String,
-            periodText: String
+            name: String,
+            description: String,
+            times: String,
+            period: String
         ): HabitInfo {
             return HabitInfo(if (id == DEFAULT_ID) UUID.randomUUID()
                 .hashCode().absoluteValue else id,
                 Priority.values().find { it.text == selectedPriority }!!,
                 Type.values().find { it.text == selectedType }!!,
-                nameText.ifEmpty { ContextCompat.getString(context, R.string.habit_name) },
-                descriptionText.ifEmpty {
+                name.ifEmpty { ContextCompat.getString(context, R.string.habit_name) },
+                description.ifEmpty {
                     ContextCompat.getString(
                         context, R.string.habit_description
                     )
                 },
-                timesText.ifEmpty { ContextCompat.getString(context, R.string.habit_times) },
-                periodText.ifEmpty { ContextCompat.getString(context, R.string.habit_period) })
+                times.ifEmpty { ContextCompat.getString(context, R.string.habit_times) },
+                period.ifEmpty { ContextCompat.getString(context, R.string.habit_period) })
         }
     }
 }

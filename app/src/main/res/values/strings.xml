@@ -22,4 +22,6 @@
 
     <string name="type_good">good</string>
     <string name="type_bad">bad</string>
+
+    <string name="search">search</string>
 </resources>

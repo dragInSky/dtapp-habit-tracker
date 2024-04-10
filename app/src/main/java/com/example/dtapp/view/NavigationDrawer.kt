@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
@@ -28,7 +27,6 @@ import androidx.core.content.ContextCompat.getString
 import com.example.dtapp.R
 import com.example.dtapp.navigation.Screen
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavigationDrawer(onDestinationClicked: (route: String) -> Unit) {
     val context = LocalContext.current
