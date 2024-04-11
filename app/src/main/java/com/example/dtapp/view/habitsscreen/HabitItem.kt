@@ -9,10 +9,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -31,7 +31,7 @@ fun HabitItem(navController: NavController, habit: HabitInfo) {
 
     Row(modifier = Modifier
         .fillMaxWidth()
-        .background(Color.White)
+        .background(MaterialTheme.colorScheme.surface)
         .clickable { //вынести во ViewModel
             navController.navigate(Screen.Edit.createRoute(habit.id)) {
                 launchSingleTop = true
@@ -79,6 +79,6 @@ fun HabitItem(navController: NavController, habit: HabitInfo) {
             )
         }
     }
-    HorizontalDivider(thickness = 1.dp, color = Color.Black)
+    HorizontalDivider(thickness = 1.dp, color =  MaterialTheme.colorScheme.onSurface)
     Spacer(modifier = Modifier.height(12.dp))
 }

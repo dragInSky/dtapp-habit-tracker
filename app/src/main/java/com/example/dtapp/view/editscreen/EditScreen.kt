@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -19,7 +20,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.getString
@@ -72,7 +72,7 @@ fun EditScreen(
             Spacer(modifier = Modifier.height(12.dp))
 
             Box(
-                modifier = Modifier.background(Color.White)
+                modifier = Modifier.background(MaterialTheme.colorScheme.surface)
             ) {
                 Spinner(
                     text = getString(context, R.string.habit_priority),
@@ -81,11 +81,11 @@ fun EditScreen(
                     onItemSelected = { editViewModel.selectedPriority.value = it }
                 )
             }
-            HorizontalDivider(thickness = 1.dp, color = Color.Black)
+            HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.onSurface)
             Spacer(modifier = Modifier.height(12.dp))
 
             Box(
-                modifier = Modifier.background(Color.White)
+                modifier = Modifier.background(MaterialTheme.colorScheme.surface)
             ) {
                 RadioButtons(
                     items = Type.values().map { it.text },
@@ -93,7 +93,7 @@ fun EditScreen(
                     onItemSelected = { editViewModel.selectedType.value = it }
                 )
             }
-            HorizontalDivider(thickness = 1.dp, color = Color.Black)
+            HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.onSurface)
             Spacer(modifier = Modifier.height(12.dp))
 
             Row {

@@ -4,11 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.dtapp.view.NavigationSetup
 import com.example.dtapp.view.theme.DtappTheme
-import com.example.dtapp.view.theme.PurpleGrey80
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,7 +17,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             DtappTheme {
                 Surface(
-                    color = PurpleGrey80, modifier = Modifier.fillMaxSize()
+                    color = MaterialTheme.colorScheme.background,
+                    modifier = Modifier.fillMaxSize()
                 ) {
                     NavigationSetup()
                 }

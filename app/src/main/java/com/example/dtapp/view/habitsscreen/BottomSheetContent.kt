@@ -14,11 +14,11 @@ import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -28,7 +28,6 @@ import androidx.navigation.NavController
 import com.example.dtapp.R
 import com.example.dtapp.navigation.Screen
 import com.example.dtapp.view.editscreen.HidingTextField
-import com.example.dtapp.view.theme.Purple40
 import com.example.dtapp.viewmodels.HabitsViewModel
 
 @Composable
@@ -59,7 +58,7 @@ fun BottomSheetContent(
                         text = "sort by name"
                     )
                     IconButton(
-                        onClick = { }
+                        onClick = { habitsViewModel.sortByDesc() }
                     ) {
                         Icon(
                             imageVector = Icons.Filled.KeyboardArrowUp,
@@ -67,7 +66,7 @@ fun BottomSheetContent(
                         )
                     }
                     IconButton(
-                        onClick = { }
+                        onClick = { habitsViewModel.sortBy() }
                     ) {
                         Icon(
                             imageVector = Icons.Filled.KeyboardArrowDown,
@@ -93,8 +92,7 @@ fun BottomSheetContent(
                         launchSingleTop = true
                     }
                 },
-                containerColor = Purple40,
-                contentColor = Color.White,
+                containerColor = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
                     .padding(bottom = 24.dp, end = 24.dp)
                     .align(Alignment.TopEnd)
@@ -102,7 +100,7 @@ fun BottomSheetContent(
                 Icon(
                     imageVector = Icons.Filled.Add,
                     contentDescription = "habit add action",
-                    tint = Color.White
+                    tint =  MaterialTheme.colorScheme.surface
                 )
             }
         }

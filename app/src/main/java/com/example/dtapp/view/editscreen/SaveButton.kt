@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -14,14 +15,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import com.example.dtapp.R
-import com.example.dtapp.view.theme.Purple40
 
 @Composable
 fun SaveButton(onButtonClicked: () -> Unit) {
@@ -37,10 +36,7 @@ fun SaveButton(onButtonClicked: () -> Unit) {
     ) {
         Button(
             onClick = { onButtonClicked() },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Purple40,
-                contentColor = Color.White
-            )
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
         ) {
             Text(
                 text = ContextCompat.getString(context, R.string.habit_save_button),
