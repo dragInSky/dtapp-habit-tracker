@@ -1,27 +1,23 @@
 <resources>
     <string name="app_name">habit-tracker</string>
+
     <string name="edit_screen_name">Edit</string>
     <string name="home_screen_name">Home</string>
+
     <string name="about_screen_name">About</string>
     <string name="about_author_name">Maxim Dryagin</string>
     <string name="about_author_github">github: @dragInSky</string>
     <string name="about_author_mail">cronosDverus@gmail.com</string>
     <string name="about_version">0.2.0</string>
+
     <string name="habit_times_period_con">times a</string>
     <string name="habit_name">name of the habit</string>
     <string name="habit_description">description</string>
     <string name="habit_priority">priority:</string>
     <string name="habit_times">times</string>
     <string name="habit_period">period</string>
+
     <string name="habit_save_button">save habit</string>
-
-    <string name="priority_low">low</string>
-    <string name="priority_medium">medium</string>
-    <string name="priority_high">high</string>
-    <string name="priority_highest">highest</string>
-
-    <string name="type_good">good</string>
-    <string name="type_bad">bad</string>
 
     <string name="search">search</string>
 </resources>

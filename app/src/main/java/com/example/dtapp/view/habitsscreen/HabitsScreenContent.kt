@@ -35,7 +35,7 @@ fun HabitsScreenContent(
 
             Tab(
                 pagerState = pagerState,
-                pages = Type.values().map { it.text }
+                pages = Type.values().map { it.getName() }
             )
 
             HabitPager(

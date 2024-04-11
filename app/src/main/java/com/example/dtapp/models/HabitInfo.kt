@@ -34,8 +34,8 @@ data class HabitInfo(
 
             return HabitInfo(
                 if (id == DEFAULT_ID) UUID.randomUUID().hashCode().absoluteValue else id,
-                Priority.values().find { it.text == selectedPriority }!!,
-                Type.values().find { it.text == selectedType }!!,
+                Priority.values().find { it.getName() == selectedPriority }!!,
+                Type.values().find { it.getName() == selectedType }!!,
                 name.ifEmpty { current.toString() },
                 description,
                 times,

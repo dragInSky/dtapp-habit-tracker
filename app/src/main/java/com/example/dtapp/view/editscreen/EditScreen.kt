@@ -30,6 +30,7 @@ import com.example.dtapp.models.Priority
 import com.example.dtapp.models.Type
 import com.example.dtapp.view.common.TopBar
 import com.example.dtapp.viewmodels.EditViewModel
+import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -78,7 +79,7 @@ fun EditScreen(
             ) {
                 Spinner(
                     text = getString(context, R.string.habit_priority),
-                    items = Priority.values().map { it.text },
+                    items = Priority.values().map { it.getName() },
                     selectedItem = editViewModel.selectedPriority.value,
                     onItemSelected = { editViewModel.selectedPriority.value = it }
                 )
@@ -90,7 +91,7 @@ fun EditScreen(
                 modifier = Modifier.background(MaterialTheme.colorScheme.surface)
             ) {
                 RadioButtons(
-                    items = Type.values().map { it.text },
+                    items = Type.values().map { it.name.lowercase(Locale.ROOT) },
                     selectedItem = editViewModel.selectedType.value,
                     onItemSelected = { editViewModel.selectedType.value = it }
                 )

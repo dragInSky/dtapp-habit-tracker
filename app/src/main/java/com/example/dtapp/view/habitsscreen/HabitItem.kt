@@ -52,7 +52,7 @@ fun HabitItem(onClick: () -> Unit, habit: HabitInfo) {
             }
 
             Text(
-                text = "priority: ${habit.priority.text}",
+                text = "priority: ${habit.priority.getName()}",
                 fontSize = 12.sp
             )
         }

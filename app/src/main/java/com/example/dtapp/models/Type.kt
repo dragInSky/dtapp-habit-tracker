@@ -1,6 +1,10 @@
 package com.example.dtapp.models
 
-enum class Type(val text: String) {
-    GOOD("good"),
-    BAD("bad")
+import java.util.Locale
+
+enum class Type {
+    GOOD,
+    BAD;
+
+    fun getName(): String = name.lowercase(Locale.ROOT)
 }

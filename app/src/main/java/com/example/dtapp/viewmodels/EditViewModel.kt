@@ -10,8 +10,8 @@ import com.example.dtapp.models.Priority
 import com.example.dtapp.models.Type
 
 class EditViewModel : ViewModel() {
-    var selectedPriority = mutableStateOf(Priority.MEDIUM.text)
-    var selectedType = mutableStateOf(Type.GOOD.text)
+    var selectedPriority = mutableStateOf(Priority.MEDIUM.getName())
+    var selectedType = mutableStateOf(Type.GOOD.getName() )
     var name = mutableStateOf("")
     var description = mutableStateOf("")
     var times = mutableStateOf("")
@@ -21,15 +21,16 @@ class EditViewModel : ViewModel() {
         val habit = getHabitById(id)
 
         if (habit != null) {
-            selectedPriority.value = habit.priority.text
-            selectedType.value = habit.type.text
+            selectedPriority.value = habit.priority.getName()
+            selectedType.value = habit.type.getName()
             name.value = habit.name
             description.value = habit.description
             times.value = habit.times
             period.value = habit.period
         }
     }
-    
+
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun onSaveClicked(onCLick: () -> Unit, id: Int) {
         val habit = HabitInfo.habitInit(
