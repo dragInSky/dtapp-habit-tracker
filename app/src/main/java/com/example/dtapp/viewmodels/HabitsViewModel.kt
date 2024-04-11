@@ -13,14 +13,13 @@ class HabitsViewModel : ViewModel() {
     private var filteredHabits: MutableList<HabitInfo> = mutableStateListOf()
 
     private var searchRule: MutableState<((HabitInfo) -> Boolean)?> = mutableStateOf(null)
-    private var sortRule = mutableStateOf(true)
+    private var sortRule: MutableState<Boolean?> = mutableStateOf(null)
 
     private var _search = mutableStateOf("")
     val search: State<String> = _search
 
     fun clear() {
-        sortRule.value = true
-
+        sortRule.value = null
         clearSearch()
     }
 
@@ -43,7 +42,9 @@ class HabitsViewModel : ViewModel() {
             filteredHabits = filteredHabits.filter(searchRule.value!!).toMutableList()
         }
 
-        if (sortRule.value)
+        if (sortRule.value == null) return
+
+        if (sortRule.value!!)
             filteredHabits.sortBy { it.priority.ordinal }
         else
             filteredHabits.sortByDescending { it.priority.ordinal }

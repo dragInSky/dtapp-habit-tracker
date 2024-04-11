@@ -58,7 +58,7 @@ fun HabitItem(onClick: () -> Unit, habit: HabitInfo) {
         }
 
         Column(modifier = Modifier.weight(0.2f)) {
-            if (habit.times.isNotEmpty() && habit.period.isNotEmpty()) {
+            if (habit.times.isNotEmpty() || habit.period.isNotEmpty()) {
                 Text(
                     text = habit.times,
                     fontWeight = FontWeight.Bold,
