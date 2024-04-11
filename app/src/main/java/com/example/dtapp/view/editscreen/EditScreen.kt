@@ -22,9 +22,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.getString
 import com.example.dtapp.R
 import com.example.dtapp.models.Priority
 import com.example.dtapp.models.Type
@@ -38,15 +36,13 @@ fun EditScreen(
     editViewModel: EditViewModel,
     id: Int = -1
 ) {
-    val context = LocalContext.current
-
     var isNavigationPerformed by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
         TopBar(
-            title = getString(context, R.string.edit_screen_name),
+            title = R.string.edit_screen_name.toString(),
             buttonIcon = Icons.AutoMirrored.Filled.ArrowBack,
             onClick = {
                 if (!isNavigationPerformed) {
@@ -59,14 +55,14 @@ fun EditScreen(
         Column(modifier = Modifier.padding(8.dp)) {
             HidingTextField(
                 text = editViewModel.name.value,
-                placeHolder = getString(context, R.string.habit_name),
+                placeHolder = R.string.habit_name.toString(),
                 modifier = Modifier.fillMaxWidth(),
                 onTextChanged = { editViewModel.name.value = it }
             )
 
             HidingTextField(
                 text = editViewModel.description.value,
-                placeHolder = getString(context, R.string.habit_description),
+                placeHolder = R.string.habit_description.toString(),
                 modifier = Modifier.fillMaxWidth(),
                 onTextChanged = { editViewModel.description.value = it }
             )
@@ -77,7 +73,7 @@ fun EditScreen(
                 modifier = Modifier.background(MaterialTheme.colorScheme.surface)
             ) {
                 Spinner(
-                    text = getString(context, R.string.habit_priority),
+                    text = R.string.habit_priority.toString(),
                     items = Priority.values().map { it.text },
                     selectedItem = editViewModel.selectedPriority.value,
                     onItemSelected = { editViewModel.selectedPriority.value = it }
@@ -101,14 +97,14 @@ fun EditScreen(
             Row {
                 HidingTextField(
                     text = editViewModel.times.value,
-                    placeHolder = getString(context, R.string.habit_times),
+                    placeHolder = R.string.habit_times.toString(),
                     modifier = Modifier.weight(1f),
                     onTextChanged = { editViewModel.times.value = it }
                 )
 
                 HidingTextField(
                     text = editViewModel.period.value,
-                    placeHolder = getString(context, R.string.habit_period),
+                    placeHolder = R.string.habit_period.toString(),
                     modifier = Modifier.weight(1f),
                     onTextChanged = { editViewModel.period.value = it }
                 )
