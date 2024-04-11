@@ -1,5 +1,7 @@
 package com.example.dtapp.view
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.rememberDrawerState
@@ -9,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.dtapp.navigation.RootNavHost
 import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NavigationSetup() {
     val navController = rememberNavController()

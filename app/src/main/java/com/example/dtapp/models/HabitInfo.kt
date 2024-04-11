@@ -1,8 +1,9 @@
 package com.example.dtapp.models
 
-import android.content.Context
-import androidx.core.content.ContextCompat
-import com.example.dtapp.R
+import android.os.Build
+import androidx.annotation.RequiresApi
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.UUID
 import kotlin.math.absoluteValue
 
@@ -18,8 +19,8 @@ data class HabitInfo(
     companion object {
         const val DEFAULT_ID = -1
 
+        @RequiresApi(Build.VERSION_CODES.O)
         fun habitInit(
-            context: Context,
             id: Int,
             selectedPriority: String,
             selectedType: String,
@@ -28,18 +29,18 @@ data class HabitInfo(
             times: String,
             period: String
         ): HabitInfo {
-            return HabitInfo(if (id == DEFAULT_ID) UUID.randomUUID()
-                .hashCode().absoluteValue else id,
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            val current = LocalDateTime.now().format(formatter)
+
+            return HabitInfo(
+                if (id == DEFAULT_ID) UUID.randomUUID().hashCode().absoluteValue else id,
                 Priority.values().find { it.text == selectedPriority }!!,
                 Type.values().find { it.text == selectedType }!!,
-                name.ifEmpty { ContextCompat.getString(context, R.string.habit_name) },
-                description.ifEmpty {
-                    ContextCompat.getString(
-                        context, R.string.habit_description
-                    )
-                },
-                times.ifEmpty { ContextCompat.getString(context, R.string.habit_times) },
-                period.ifEmpty { ContextCompat.getString(context, R.string.habit_period) })
+                name.ifEmpty { current.toString() },
+                description,
+                times,
+                period
+            )
         }
     }
 }

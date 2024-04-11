@@ -1,6 +1,7 @@
 package com.example.dtapp.viewmodels
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -9,33 +10,59 @@ import com.example.dtapp.models.HabitInfo
 import com.example.dtapp.models.Type
 
 class HabitsViewModel : ViewModel() {
-    var filteredHabits: MutableList<HabitInfo> = mutableStateListOf()
+    private var filteredHabits: MutableList<HabitInfo> = mutableStateListOf()
 
-    var search = mutableStateOf("")
-    var predicate: MutableState<((HabitInfo) -> Boolean)?> = mutableStateOf(null)
+    private var searchRule: MutableState<((HabitInfo) -> Boolean)?> = mutableStateOf(null)
     private var sortRule = mutableStateOf(true)
 
-    fun changeHabits() {
-        if (predicate.value != null) {
-            filteredHabits = filteredHabits.filter(predicate.value!!).toMutableList()
+    private var _search = mutableStateOf("")
+    val search: State<String> = _search
+
+    fun clear() {
+        sortRule.value = true
+
+        clearSearch()
+    }
+
+    fun clearSearch() {
+        searchRule.value = null
+        _search.value = ""
+    }
+
+    fun pagedHabits(page: Int): List<HabitInfo> {
+        if (page == 0) goodHabits()
+        else badHabits()
+
+        sortAndFilterHabits()
+
+        return filteredHabits
+    }
+
+    private fun sortAndFilterHabits() {
+        if (searchRule.value != null) {
+            filteredHabits = filteredHabits.filter(searchRule.value!!).toMutableList()
         }
 
         if (sortRule.value)
-            filteredHabits.sortBy { it.name }
+            filteredHabits.sortBy { it.priority.ordinal }
         else
-            filteredHabits.sortByDescending { it.name }
+            filteredHabits.sortByDescending { it.priority.ordinal }
     }
 
-    fun pagingHabits(page: Int) {
-        if (page == 0) goodHabits()
-        else  badHabits()
+    fun changeSearchField(name: String) {
+        _search.value = name
+        nameFilter(name)
     }
 
-    fun sortBy() {
+    private fun nameFilter(name: String) {
+        searchRule.value = { habit -> habit.name.contains(name) }
+    }
+
+    fun sortAsc() {
         sortRule.value = true
     }
 
-    fun sortByDesc() {
+    fun sortDesc() {
         sortRule.value = false
     }
 

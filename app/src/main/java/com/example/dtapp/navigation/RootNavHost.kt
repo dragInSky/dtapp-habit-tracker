@@ -1,5 +1,7 @@
 package com.example.dtapp.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -13,6 +15,7 @@ import com.example.dtapp.view.habitsscreen.HabitsScreen
 import com.example.dtapp.viewmodels.EditViewModel
 import kotlinx.coroutines.Job
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun RootNavHost(navController: NavHostController, openDrawer: () -> Job) {
     NavHost(

@@ -32,10 +32,11 @@ fun HidingTextField(
             keyboardType = KeyboardType.Text,
             imeAction = ImeAction.Done
         ),
-        keyboardActions = KeyboardActions(onDone = {
-            focusManager.clearFocus()
-            keyboardController?.hide()
-        }),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                focusManager.clearFocus()
+                keyboardController?.hide()
+            }),
         colors = TextFieldDefaults.colors(
             unfocusedContainerColor = MaterialTheme.colorScheme.surface
         )

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.FloatingActionButton
@@ -55,10 +56,10 @@ fun BottomSheetContent(
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        text = "sort by name"
+                        text = "sort by priority"
                     )
                     IconButton(
-                        onClick = { habitsViewModel.sortByDesc() }
+                        onClick = { habitsViewModel.sortDesc() }
                     ) {
                         Icon(
                             imageVector = Icons.Filled.KeyboardArrowUp,
@@ -66,7 +67,7 @@ fun BottomSheetContent(
                         )
                     }
                     IconButton(
-                        onClick = { habitsViewModel.sortBy() }
+                        onClick = { habitsViewModel.sortAsc() }
                     ) {
                         Icon(
                             imageVector = Icons.Filled.KeyboardArrowDown,
@@ -75,15 +76,22 @@ fun BottomSheetContent(
                     }
                 }
 
-                HidingTextField(
-                    text = habitsViewModel.search.value,
-                    placeHolder = ContextCompat.getString(context, R.string.search),
-                    modifier = Modifier.fillMaxWidth(),
-                    onTextChanged = {
-                        habitsViewModel.search.value = it
-                        habitsViewModel.predicate.value = { habit -> habit.name.contains(it) }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    HidingTextField(
+                        text = habitsViewModel.search.value,
+                        placeHolder = ContextCompat.getString(context, R.string.search),
+                        modifier = Modifier.weight(1f),
+                        onTextChanged = { habitsViewModel.changeSearchField(it) }
+                    )
+                    IconButton(
+                        onClick = { habitsViewModel.clearSearch() }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Clear,
+                            contentDescription = ""
+                        )
                     }
-                )
+                }
             }
 
             FloatingActionButton(
@@ -100,7 +108,7 @@ fun BottomSheetContent(
                 Icon(
                     imageVector = Icons.Filled.Add,
                     contentDescription = "habit add action",
-                    tint =  MaterialTheme.colorScheme.surface
+                    tint = MaterialTheme.colorScheme.surface
                 )
             }
         }

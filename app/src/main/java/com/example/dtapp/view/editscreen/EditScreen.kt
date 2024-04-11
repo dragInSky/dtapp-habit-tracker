@@ -1,5 +1,7 @@
 package com.example.dtapp.view.editscreen
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +31,7 @@ import com.example.dtapp.models.Type
 import com.example.dtapp.view.common.TopBar
 import com.example.dtapp.viewmodels.EditViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun EditScreen(
     onClick: () -> Unit,
@@ -96,15 +99,19 @@ fun EditScreen(
             Spacer(modifier = Modifier.height(12.dp))
 
             Row {
-                HidingTextField(text = editViewModel.times.value,
+                HidingTextField(
+                    text = editViewModel.times.value,
                     placeHolder = getString(context, R.string.habit_times),
                     modifier = Modifier.weight(1f),
-                    onTextChanged = { editViewModel.times.value = it })
+                    onTextChanged = { editViewModel.times.value = it }
+                )
 
-                HidingTextField(text = editViewModel.period.value,
+                HidingTextField(
+                    text = editViewModel.period.value,
                     placeHolder = getString(context, R.string.habit_period),
                     modifier = Modifier.weight(1f),
-                    onTextChanged = { editViewModel.period.value = it })
+                    onTextChanged = { editViewModel.period.value = it }
+                )
             }
         }
     }
@@ -112,7 +119,6 @@ fun EditScreen(
     SaveButton {
         if (!isNavigationPerformed) {
             editViewModel.onSaveClicked(
-                context = context,
                 onCLick = onClick,
                 id = id
             )

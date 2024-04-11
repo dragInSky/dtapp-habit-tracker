@@ -1,6 +1,7 @@
 package com.example.dtapp.viewmodels
 
-import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.dtapp.Model
@@ -28,10 +29,10 @@ class EditViewModel : ViewModel() {
             period.value = habit.period
         }
     }
-
-    fun onSaveClicked(context: Context, onCLick: () -> Unit, id: Int) {
+    
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun onSaveClicked(onCLick: () -> Unit, id: Int) {
         val habit = HabitInfo.habitInit(
-            context = context,
             id = id,
             selectedPriority = selectedPriority.value,
             selectedType = selectedType.value,

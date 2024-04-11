@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -23,13 +24,10 @@ fun HabitPager(
 ) {
     Box(modifier = modifier) {
         HorizontalPager(state = pagerState) { page ->
-            habitsViewModel.pagingHabits(page)
-            habitsViewModel.changeHabits()
-
             LazyColumn(
                 modifier = Modifier.padding(8.dp),
             ) {
-                items(habitsViewModel.filteredHabits) { habitInfo ->
+                items(habitsViewModel.pagedHabits(page)) { habitInfo ->
                     HabitItem(
                         onClick = {
                             navController.navigate(Screen.Edit.createRoute(habitInfo.id)) {
@@ -41,5 +39,9 @@ fun HabitPager(
                 }
             }
         }
+    }
+
+    DisposableEffect(Unit) {
+        onDispose { habitsViewModel.clear() }
     }
 }

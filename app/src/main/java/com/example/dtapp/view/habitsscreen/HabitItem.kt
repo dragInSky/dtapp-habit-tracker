@@ -40,39 +40,45 @@ fun HabitItem(onClick: () -> Unit, habit: HabitInfo) {
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
+
+            if (habit.description.isNotEmpty()) {
+                Text(
+                    text = habit.description,
+                    fontSize = 12.sp,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    style = TextStyle(lineHeight = 12.sp)
+                )
+            }
+
             Text(
-                text = habit.description,
-                fontSize = 12.sp,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                style = TextStyle(lineHeight = 12.sp)
-            )
-            Text(
-                text = "${habit.type.text} — ${habit.priority.text}",
+                text = "priority: ${habit.priority.text}",
                 fontSize = 12.sp
             )
         }
 
         Column(modifier = Modifier.weight(0.2f)) {
-            Text(
-                text = habit.times,
-                fontWeight = FontWeight.Bold,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            Text(
-                text = getString(context, R.string.habit_times_period_con),
-                fontSize = 12.sp
-            )
-            Text(
-                text = habit.period,
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Bold,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
+            if (habit.times.isNotEmpty() && habit.period.isNotEmpty()) {
+                Text(
+                    text = habit.times,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    text = getString(context, R.string.habit_times_period_con),
+                    fontSize = 12.sp
+                )
+                Text(
+                    text = habit.period,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         }
     }
-    HorizontalDivider(thickness = 1.dp, color =  MaterialTheme.colorScheme.onSurface)
+    HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.onSurface)
     Spacer(modifier = Modifier.height(12.dp))
 }
