@@ -23,7 +23,7 @@ import androidx.core.content.ContextCompat
 import com.example.dtapp.R
 
 @Composable
-fun SaveButton(onButtonClicked: () -> Unit) {
+fun SaveButton(onCLick: () -> Unit) {
     val context = LocalContext.current
 
     var isNavigationPerformed by remember { mutableStateOf(false) }
@@ -35,7 +35,7 @@ fun SaveButton(onButtonClicked: () -> Unit) {
         contentAlignment = Alignment.BottomCenter,
     ) {
         Button(
-            onClick = { onButtonClicked() },
+            onClick = { onCLick() },
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
         ) {
             Text(

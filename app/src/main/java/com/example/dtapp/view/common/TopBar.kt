@@ -13,11 +13,11 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(title: String, buttonIcon: ImageVector, onButtonClicked: () -> Unit) {
+fun TopBar(title: String, buttonIcon: ImageVector, onClick: () -> Unit) {
     TopAppBar(
         title = { Text(text = title) },
         navigationIcon = {
-            IconButton(onClick = { onButtonClicked() }) {
+            IconButton(onClick = { onClick() }) {
                 Icon(
                     imageVector = buttonIcon,
                     contentDescription = ""

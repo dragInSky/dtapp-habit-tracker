@@ -23,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.getString
-import androidx.navigation.NavController
 import com.example.dtapp.R
 import com.example.dtapp.models.Priority
 import com.example.dtapp.models.Type
@@ -32,7 +31,7 @@ import com.example.dtapp.viewmodels.EditViewModel
 
 @Composable
 fun EditScreen(
-    navController: NavController,
+    onClick: () -> Unit,
     editViewModel: EditViewModel,
     id: Int = -1
 ) {
@@ -46,9 +45,9 @@ fun EditScreen(
         TopBar(
             title = getString(context, R.string.edit_screen_name),
             buttonIcon = Icons.AutoMirrored.Filled.ArrowBack,
-            onButtonClicked = {
+            onClick = {
                 if (!isNavigationPerformed) {
-                    navController.popBackStack()
+                    onClick()
                     isNavigationPerformed = true
                 }
             }
@@ -114,7 +113,7 @@ fun EditScreen(
         if (!isNavigationPerformed) {
             editViewModel.onSaveClicked(
                 context = context,
-                navController = navController,
+                onCLick = onClick,
                 id = id
             )
             isNavigationPerformed = true

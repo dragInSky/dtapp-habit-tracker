@@ -30,7 +30,7 @@ fun HabitsScreenContent(
             TopBar(
                 title = ContextCompat.getString(context, R.string.home_screen_name),
                 buttonIcon = Icons.Filled.Menu,
-                onButtonClicked = { openDrawer() }
+                onClick = { openDrawer() }
             )
 
             Tab(

@@ -26,7 +26,7 @@ import com.example.dtapp.R
 import com.example.dtapp.navigation.Screen
 
 @Composable
-fun NavigationDrawer(onDestinationClicked: (route: String) -> Unit) {
+fun NavigationDrawer(onClick: (route: String) -> Unit) {
     val context = LocalContext.current
 
     ModalDrawerSheet(
@@ -43,7 +43,7 @@ fun NavigationDrawer(onDestinationClicked: (route: String) -> Unit) {
 
         Column(modifier = Modifier
             .fillMaxWidth()
-            .clickable { onDestinationClicked(Screen.About.route) }
+            .clickable { onClick(Screen.About.route) }
             .padding(start = 24.dp)) {
             Spacer(Modifier.height(12.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -56,7 +56,7 @@ fun NavigationDrawer(onDestinationClicked: (route: String) -> Unit) {
 
         Column(modifier = Modifier
             .fillMaxWidth()
-            .clickable { onDestinationClicked(Screen.Home.route) }
+            .clickable { onClick(Screen.Home.route) }
             .padding(start = 24.dp)) {
             Spacer(Modifier.height(12.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {

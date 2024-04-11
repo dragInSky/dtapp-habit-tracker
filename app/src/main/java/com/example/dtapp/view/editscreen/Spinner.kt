@@ -26,7 +26,10 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun Spinner(
-    text: String, items: List<String>, selectedItem: String, onItemSelected: (String) -> Unit
+    text: String,
+    items: List<String>,
+    selectedItem: String,
+    onItemSelected: (String) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
 

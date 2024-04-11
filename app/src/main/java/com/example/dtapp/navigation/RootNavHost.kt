@@ -20,7 +20,7 @@ fun RootNavHost(navController: NavHostController, openDrawer: () -> Job) {
         startDestination = Screen.Home.route
     ) {
         composable(Screen.About.route) {
-            AboutScreen(navController = navController)
+            AboutScreen(onClick = { navController.popBackStack() })
         }
 
         composable(Screen.Home.route) {
@@ -40,7 +40,7 @@ fun RootNavHost(navController: NavHostController, openDrawer: () -> Job) {
             editViewModel.habitInit(id = id)
 
             EditScreen(
-                navController = navController,
+                onClick = { navController.popBackStack() },
                 editViewModel = editViewModel,
                 id = id
             )

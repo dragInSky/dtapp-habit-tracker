@@ -20,12 +20,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.getString
-import androidx.navigation.NavController
 import com.example.dtapp.R
 import com.example.dtapp.view.common.TopBar
 
 @Composable
-fun AboutScreen(navController: NavController) {
+fun AboutScreen(onClick: () -> Unit) {
     val context = LocalContext.current
 
     var isNavigationPerformed by remember { mutableStateOf(false) }
@@ -34,9 +33,9 @@ fun AboutScreen(navController: NavController) {
         TopBar(
             title = getString(context, R.string.about_screen_name),
             buttonIcon = Icons.AutoMirrored.Filled.ArrowBack,
-            onButtonClicked = {
+            onClick = {
                 if (!isNavigationPerformed) {
-                    navController.popBackStack()
+                    onClick()
                     isNavigationPerformed = true
                 }
             }

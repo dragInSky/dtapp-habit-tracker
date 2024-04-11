@@ -24,7 +24,7 @@ fun NavigationSetup() {
     ModalNavigationDrawer(drawerState = drawerState,
         gesturesEnabled = drawerState.isOpen,
         drawerContent = {
-            NavigationDrawer(onDestinationClicked = { route ->
+            NavigationDrawer(onClick = { route ->
                 scope.launch {
                     drawerState.close()
                 }

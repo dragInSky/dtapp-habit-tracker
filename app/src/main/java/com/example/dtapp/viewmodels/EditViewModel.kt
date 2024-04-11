@@ -3,7 +3,6 @@ package com.example.dtapp.viewmodels
 import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavController
 import com.example.dtapp.Model
 import com.example.dtapp.models.HabitInfo
 import com.example.dtapp.models.Priority
@@ -30,7 +29,7 @@ class EditViewModel : ViewModel() {
         }
     }
 
-    fun onSaveClicked(context: Context, navController: NavController, id: Int) {
+    fun onSaveClicked(context: Context, onCLick: () -> Unit, id: Int) {
         val habit = HabitInfo.habitInit(
             context = context,
             id = id,
@@ -44,7 +43,7 @@ class EditViewModel : ViewModel() {
 
         addOrUpdate(id, habit)
 
-        navController.popBackStack()
+        onCLick()
     }
 
     private fun getHabitById(id: Int): HabitInfo? {

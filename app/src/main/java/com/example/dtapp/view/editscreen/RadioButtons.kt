@@ -13,7 +13,9 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun RadioButtons(
-    items: List<String>, selectedItem: String, onItemSelected: (String) -> Unit
+    items: List<String>,
+    selectedItem: String,
+    onItemSelected: (String) -> Unit
 ) {
     Column(Modifier.selectableGroup()) {
         items.forEach { text ->

@@ -20,23 +20,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.getString
-import androidx.navigation.NavController
 import com.example.dtapp.models.HabitInfo
 import com.example.dtapp.R
-import com.example.dtapp.navigation.Screen
 
 @Composable
-fun HabitItem(navController: NavController, habit: HabitInfo) {
+fun HabitItem(onClick: () -> Unit, habit: HabitInfo) {
     val context = LocalContext.current
 
     Row(modifier = Modifier
         .fillMaxWidth()
         .background(MaterialTheme.colorScheme.surface)
-        .clickable { //вынести во ViewModel
-            navController.navigate(Screen.Edit.createRoute(habit.id)) {
-                launchSingleTop = true
-            }
-        }
+        .clickable { onClick() }
         .padding(12.dp)
     ) {
         Column(modifier = Modifier.weight(0.8f)) {

@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.dtapp.navigation.Screen
 import com.example.dtapp.viewmodels.HabitsViewModel
 
 @Composable
@@ -30,7 +31,11 @@ fun HabitPager(
             ) {
                 items(habitsViewModel.filteredHabits) { habitInfo ->
                     HabitItem(
-                        navController = navController,
+                        onClick = {
+                            navController.navigate(Screen.Edit.createRoute(habitInfo.id)) {
+                                launchSingleTop = true
+                            }
+                        },
                         habit = habitInfo
                     )
                 }
