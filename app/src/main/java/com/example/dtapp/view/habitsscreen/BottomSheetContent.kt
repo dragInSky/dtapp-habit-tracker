@@ -20,10 +20,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.dtapp.R
@@ -36,8 +34,6 @@ fun BottomSheetContent(
     navController: NavController,
     habitsViewModel: HabitsViewModel = viewModel()
 ): @Composable (ColumnScope.() -> Unit) {
-    val context = LocalContext.current
-
     return {
         Box(
             Modifier
@@ -79,7 +75,7 @@ fun BottomSheetContent(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     HidingTextField(
                         text = habitsViewModel.search.value,
-                        placeHolder = ContextCompat.getString(context, R.string.search),
+                        placeHolder = R.string.search.toString(),
                         modifier = Modifier.weight(1f),
                         onTextChanged = { habitsViewModel.changeSearchField(it) }
                     )
