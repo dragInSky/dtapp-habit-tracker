@@ -16,18 +16,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.getString
 import com.example.dtapp.R
 import com.example.dtapp.view.common.TopBar
 
 @Composable
 fun AboutScreen(onClick: () -> Unit) {
+    val context = LocalContext.current
+
     var isNavigationPerformed by remember { mutableStateOf(false) }
 
     Column {
         TopBar(
-            title = R.string.about_screen_name.toString(),
+            title = getString(context, R.string.about_screen_name),
             buttonIcon = Icons.AutoMirrored.Filled.ArrowBack,
             onClick = {
                 if (!isNavigationPerformed) {
@@ -45,7 +49,7 @@ fun AboutScreen(onClick: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = R.string.app_name.toString(),
+                text = getString(context, R.string.app_name),
                 style = MaterialTheme.typography.headlineSmall
             )
         }
@@ -56,19 +60,19 @@ fun AboutScreen(onClick: () -> Unit) {
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = R.string.about_author_name.toString(),
+                text = getString(context, R.string.about_author_name),
                 fontWeight = FontWeight.Light
             )
             Text(
-                text = R.string.about_author_mail.toString(),
+                text = getString(context, R.string.about_author_mail),
                 fontWeight = FontWeight.Light
             )
             Text(
-                text = R.string.about_author_github.toString(),
+                text = getString(context, R.string.about_author_github),
                 fontWeight = FontWeight.Light
             )
             Text(
-                text = R.string.about_version.toString(),
+                text = getString(context, R.string.about_version),
                 fontWeight = FontWeight.Thin
             )
         }
