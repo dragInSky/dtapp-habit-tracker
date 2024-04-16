@@ -50,13 +50,13 @@ fun BottomSheetContent(
                     .padding(start = 24.dp, end = 24.dp, bottom = 24.dp)
             ) {
                 Text(
-                    text = "filters and sorts",
+                    text = ContextCompat.getString(context, R.string.filtersAndSorts),
                     fontWeight = FontWeight.Light
                 )
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        text = "sort by priority"
+                        text = ContextCompat.getString(context, R.string.sortByPriority)
                     )
                     IconButton(
                         onClick = { habitsViewModel.sortDesc() }

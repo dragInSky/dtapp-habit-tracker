@@ -78,7 +78,7 @@ fun EditScreen(
                 modifier = Modifier.background(MaterialTheme.colorScheme.surface)
             ) {
                 Spinner(
-                    text = getString(context, R.string.habit_priority),
+                    text = getString(context, R.string.habit_priority) + " ",
                     items = Priority.values().map { it.getName() },
                     selectedItem = editViewModel.selectedPriority.value,
                     onItemSelected = { editViewModel.selectedPriority.value = it }
@@ -120,7 +120,7 @@ fun EditScreen(
     SaveButton {
         if (!isNavigationPerformed) {
             editViewModel.onSaveClicked(
-                onCLick = onClick,
+                onClick = onClick,
                 id = id
             )
             isNavigationPerformed = true

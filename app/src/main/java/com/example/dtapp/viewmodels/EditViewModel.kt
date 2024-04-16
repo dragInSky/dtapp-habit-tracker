@@ -30,9 +30,8 @@ class EditViewModel : ViewModel() {
         }
     }
 
-
     @RequiresApi(Build.VERSION_CODES.O)
-    fun onSaveClicked(onCLick: () -> Unit, id: Int) {
+    fun onSaveClicked(onClick: () -> Unit, id: Int) {
         val habit = HabitInfo.habitInit(
             id = id,
             selectedPriority = selectedPriority.value,
@@ -45,7 +44,7 @@ class EditViewModel : ViewModel() {
 
         addOrUpdate(id, habit)
 
-        onCLick()
+        onClick()
     }
 
     private fun getHabitById(id: Int): HabitInfo? {

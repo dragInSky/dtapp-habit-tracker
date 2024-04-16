@@ -20,4 +20,6 @@
     <string name="habit_save_button">save habit</string>
 
     <string name="search">search</string>
+    <string name="filtersAndSorts">filters and sorts</string>
+    <string name="sortByPriority">sort by priority</string>
 </resources>
