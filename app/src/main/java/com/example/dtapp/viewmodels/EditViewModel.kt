@@ -58,10 +58,12 @@ class EditViewModel : ViewModel() {
     }
 
     private fun addOrUpdate(id: Int, habit: HabitInfo) {
-        if (id == HabitInfo.DEFAULT_ID) {
-            Model.database.habitDao().insertAll(habit)
-        } else {
-            Model.database.habitDao().update(habit)
+        viewModelScope.launch {
+            if (id == HabitInfo.DEFAULT_ID) {
+                Model.database.habitDao().insertAll(habit)
+            } else {
+                Model.database.habitDao().update(habit)
+            }
         }
     }
 }

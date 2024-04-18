@@ -18,7 +18,7 @@ interface HabitDao {
     fun loadById(habitId: Int): LiveData<HabitInfo>
 
     @Query("SELECT * FROM habitInfo WHERE type = :habitType")
-    fun findByType(habitType: Type): LiveData<List<HabitInfo>>
+    fun loadByType(habitType: Type): LiveData<List<HabitInfo>>
 
     @Insert
     fun insertAll(vararg habits: HabitInfo)

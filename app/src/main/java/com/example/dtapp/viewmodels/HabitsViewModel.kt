@@ -73,7 +73,7 @@ class HabitsViewModel : ViewModel() {
 
     private fun observeGoodHabits() {
         viewModelScope.launch {
-            Model.database.habitDao().findByType(Type.GOOD)
+            Model.database.habitDao().loadByType(Type.GOOD)
                 .asFlow()
                 .collect { habits -> _goodHabits.value = habits }
         }
@@ -81,7 +81,7 @@ class HabitsViewModel : ViewModel() {
 
     private fun observeBadHabits() {
         viewModelScope.launch {
-            Model.database.habitDao().findByType(Type.BAD)
+            Model.database.habitDao().loadByType(Type.BAD)
                 .asFlow()
                 .collect { habits -> _badHabits.value = habits }
         }
