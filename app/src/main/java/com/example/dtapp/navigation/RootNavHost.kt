@@ -40,7 +40,8 @@ fun RootNavHost(navController: NavHostController, openDrawer: () -> Job) {
         ) { backStackEntry ->
             val id = backStackEntry.arguments?.getInt("habitId") ?: -1
             val editViewModel: EditViewModel = viewModel()
-            editViewModel.habitInit(id = id)
+            if (id != -1)
+                editViewModel.habitInit(id = id)
 
             EditScreen(
                 onClick = { navController.popBackStack() },

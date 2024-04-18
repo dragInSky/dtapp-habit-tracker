@@ -2,19 +2,27 @@ package com.example.dtapp.models
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.example.dtapp.database.MyTypeConverter
+import com.example.dtapp.database.PriorityConverter
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.UUID
 import kotlin.math.absoluteValue
 
+@Entity
+@TypeConverters(MyTypeConverter::class)
 data class HabitInfo(
-    val id: Int,
-    val priority: Priority,
-    val type: Type,
-    val name: String,
-    val description: String,
-    val times: String,
-    val period: String
+    @PrimaryKey val id: Int,
+    @ColumnInfo @TypeConverters(PriorityConverter::class) val priority: Priority,
+    @ColumnInfo @TypeConverters(MyTypeConverter::class) val type: Type,
+    @ColumnInfo val name: String,
+    @ColumnInfo val description: String,
+    @ColumnInfo val times: String,
+    @ColumnInfo val period: String
 ) {
     companion object {
         const val DEFAULT_ID = -1

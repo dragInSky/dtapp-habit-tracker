@@ -7,9 +7,9 @@ private object Route {
 }
 
 sealed class Screen(val route: String) {
-    object About : Screen(Route.ABOUT)
-    object Home : Screen(Route.HOME)
-    object Edit : Screen(Route.EDIT) {
+    data object About : Screen(Route.ABOUT)
+    data object Home : Screen(Route.HOME)
+    data object Edit : Screen(Route.EDIT) {
         fun createRoute(habitId: Int = -1) = Route.EDIT.replace("{habitId}", habitId.toString())
     }
 }

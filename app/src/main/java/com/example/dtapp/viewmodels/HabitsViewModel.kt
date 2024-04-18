@@ -1,53 +1,72 @@
 package com.example.dtapp.viewmodels
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.viewModelScope
 import com.example.dtapp.Model
 import com.example.dtapp.models.HabitInfo
 import com.example.dtapp.models.Type
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.launch
 
 class HabitsViewModel : ViewModel() {
-    private var filteredHabits: MutableList<HabitInfo> = mutableStateListOf()
+    private val _goodHabits = MutableStateFlow<List<HabitInfo>>(emptyList())
+    private val _badHabits = MutableStateFlow<List<HabitInfo>>(emptyList())
 
-    private var searchRule: MutableState<((HabitInfo) -> Boolean)?> = mutableStateOf(null)
-    private var sortRule: MutableState<Boolean?> = mutableStateOf(null)
+    private val _searchRule = MutableStateFlow<((HabitInfo) -> Boolean)?>(null)
+    private val _sortRule = MutableStateFlow<Boolean?>(null)
 
-    private var _search = mutableStateOf("")
+    private val _search = mutableStateOf("")
     val search: State<String> = _search
 
+    init {
+        observeGoodHabits()
+        observeBadHabits()
+    }
+
     fun clear() {
-        sortRule.value = null
+        _sortRule.value = null
         clearSearch()
     }
 
     fun clearSearch() {
-        searchRule.value = null
+        _searchRule.value = null
         _search.value = ""
     }
 
-    fun pagedHabits(page: Int): List<HabitInfo> {
-        if (page == 0) goodHabits()
-        else badHabits()
+    fun pagedHabits(page: Int): Flow<List<HabitInfo>> {
+        val habits = if (page == 0) _goodHabits else _badHabits
 
-        sortAndFilterHabits()
+        val sorted = sort(habits)
 
-        return filteredHabits
+        return filter(sorted)
     }
 
-    private fun sortAndFilterHabits() {
-        if (searchRule.value != null) {
-            filteredHabits = filteredHabits.filter(searchRule.value!!).toMutableList()
+    private fun sort(habits: Flow<List<HabitInfo>>): Flow<List<HabitInfo>> {
+        return combine(
+            habits,
+            _sortRule
+        ) { resHabits, sort ->
+            sort?.let { asc ->
+                if (asc) resHabits.sortedBy { it.priority }
+                else resHabits.sortedByDescending { it.priority }
+            } ?: resHabits
         }
+    }
 
-        if (sortRule.value == null) return
-
-        if (sortRule.value!!)
-            filteredHabits.sortBy { it.priority.ordinal }
-        else
-            filteredHabits.sortByDescending { it.priority.ordinal }
+    private fun filter(habits: Flow<List<HabitInfo>>): Flow<List<HabitInfo>> {
+        return combine(
+            habits,
+            _searchRule
+        ) { resHabits, search ->
+            search?.let { rule ->
+                resHabits.filter(rule)
+            } ?: resHabits
+        }
     }
 
     fun changeSearchField(name: String) {
@@ -56,22 +75,30 @@ class HabitsViewModel : ViewModel() {
     }
 
     private fun nameFilter(name: String) {
-        searchRule.value = { habit -> habit.name.contains(name) }
+        _searchRule.value = { habit -> habit.name.contains(name) }
     }
 
     fun sortAsc() {
-        sortRule.value = true
+        _sortRule.value = true
     }
 
     fun sortDesc() {
-        sortRule.value = false
+        _sortRule.value = false
     }
 
-    private fun goodHabits() {
-        filteredHabits = Model.habits.filter { e -> e.type == Type.GOOD }.toMutableList()
+    private fun observeGoodHabits() {
+        viewModelScope.launch {
+            Model.database.habitDao().findByType(Type.GOOD)
+                .asFlow()
+                .collect { habits -> _goodHabits.value = habits }
+        }
     }
 
-    private fun badHabits() {
-        filteredHabits = Model.habits.filter { e -> e.type == Type.BAD }.toMutableList()
+    private fun observeBadHabits() {
+        viewModelScope.launch {
+            Model.database.habitDao().findByType(Type.BAD)
+                .asFlow()
+                .collect { habits -> _badHabits.value = habits }
+        }
     }
 }

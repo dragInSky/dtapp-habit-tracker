@@ -3,30 +3,36 @@ package com.example.dtapp.viewmodels
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.viewModelScope
 import com.example.dtapp.Model
 import com.example.dtapp.models.HabitInfo
 import com.example.dtapp.models.Priority
 import com.example.dtapp.models.Type
+import kotlinx.coroutines.launch
 
 class EditViewModel : ViewModel() {
     var selectedPriority = mutableStateOf(Priority.MEDIUM.getName())
-    var selectedType = mutableStateOf(Type.GOOD.getName() )
+    var selectedType = mutableStateOf(Type.GOOD.getName())
     var name = mutableStateOf("")
     var description = mutableStateOf("")
     var times = mutableStateOf("")
     var period = mutableStateOf("")
 
     fun habitInit(id: Int) {
-        val habit = getHabitById(id)
-
-        if (habit != null) {
-            selectedPriority.value = habit.priority.getName()
-            selectedType.value = habit.type.getName()
-            name.value = habit.name
-            description.value = habit.description
-            times.value = habit.times
-            period.value = habit.period
+        viewModelScope.launch {
+            getHabitById(id)
+                .asFlow()
+                .collect {
+                    selectedPriority.value = it.priority.getName()
+                    selectedType.value = it.type.getName()
+                    name.value = it.name
+                    description.value = it.description
+                    times.value = it.times
+                    period.value = it.period
+                }
         }
     }
 
@@ -47,17 +53,15 @@ class EditViewModel : ViewModel() {
         onClick()
     }
 
-    private fun getHabitById(id: Int): HabitInfo? {
-        return Model.habits.find { it.id == id }
+    private fun getHabitById(id: Int): LiveData<HabitInfo> {
+        return Model.database.habitDao().loadById(id)
     }
 
     private fun addOrUpdate(id: Int, habit: HabitInfo) {
         if (id == HabitInfo.DEFAULT_ID) {
-            Model.habits.add(habit)
+            Model.database.habitDao().insertAll(habit)
         } else {
-            val habitToEdit = Model.habits.find { it.id == id }
-            val idxToEdit = Model.habits.indexOf(habitToEdit)
-            Model.habits[idxToEdit] = habit
+            Model.database.habitDao().update(habit)
         }
     }
 }
