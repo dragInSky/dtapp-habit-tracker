@@ -27,6 +27,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.dtapp.R
+import com.example.dtapp.models.SortOrder
 import com.example.dtapp.navigation.Screen
 import com.example.dtapp.view.editscreen.HidingTextField
 import com.example.dtapp.viewmodels.HabitsViewModel
@@ -59,7 +60,7 @@ fun BottomSheetContent(
                         text = ContextCompat.getString(context, R.string.sortByPriority)
                     )
                     IconButton(
-                        onClick = { habitsViewModel.sortDesc() }
+                        onClick = { habitsViewModel.sortOrder.value = SortOrder.Descending }
                     ) {
                         Icon(
                             imageVector = Icons.Filled.KeyboardArrowUp,
@@ -67,7 +68,7 @@ fun BottomSheetContent(
                         )
                     }
                     IconButton(
-                        onClick = { habitsViewModel.sortAsc() }
+                        onClick = { habitsViewModel.sortOrder.value = SortOrder.Ascending }
                     ) {
                         Icon(
                             imageVector = Icons.Filled.KeyboardArrowDown,

@@ -39,13 +39,13 @@ class EditViewModel : ViewModel() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun onSaveClicked(onClick: () -> Unit, id: Int) {
         val habit = HabitInfo.habitInit(
-            id = id,
             selectedPriority = selectedPriority.value,
             selectedType = selectedType.value,
             name = name.value,
             description = description.value,
             times = times.value,
-            period = period.value
+            period = period.value,
+            id = id
         )
 
         addOrUpdate(id, habit)
