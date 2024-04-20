@@ -30,8 +30,6 @@ fun HabitPager(
 
     Box(modifier = modifier) {
         HorizontalPager(state = pagerState) { page ->
-
-            habitsViewModel.applyConditions(page)
             val habits =
                 if (page == Type.GOOD.ordinal) goodHabits
                 else badHabits

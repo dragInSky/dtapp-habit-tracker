@@ -21,10 +21,10 @@ interface HabitDao {
     fun loadByType(habitType: Type): LiveData<List<HabitInfo>>
 
     @Insert
-    fun insertAll(vararg habits: HabitInfo)
+    suspend fun insertAll(vararg habits: HabitInfo)
 
     @Update
-    fun update(habit: HabitInfo)
+    suspend fun update(habit: HabitInfo)
 
     @Delete
     fun delete(habit: HabitInfo)

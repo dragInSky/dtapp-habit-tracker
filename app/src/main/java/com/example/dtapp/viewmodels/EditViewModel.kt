@@ -16,6 +16,7 @@ import com.example.dtapp.models.Type
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class EditViewModel : ViewModel() {
     var selectedPriority by mutableStateOf(Priority.MEDIUM.getName())
@@ -57,8 +58,9 @@ class EditViewModel : ViewModel() {
     }
 
     fun habitInit(id: Int) {
-        viewModelScope.launch {
-            val habit = getHabitById(id).asFlow().first()
+        lateinit var habit: HabitInfo
+        viewModelScope.launch(Dispatchers.IO) {
+            habit = getHabitById(id).asFlow().first()
 
             selectedPriority = habit.priority.getName()
             selectedType = habit.type.getName()
@@ -92,13 +94,18 @@ class EditViewModel : ViewModel() {
         return App.instance.database.habitDao().loadById(id)
     }
 
-    // withContext
     private fun addOrUpdate(id: Int, habit: HabitInfo) {
-        viewModelScope.launch(Dispatchers.IO) {
-            if (id == HabitInfo.DEFAULT_ID) {
-                App.instance.database.habitDao().insertAll(habit)
-            } else {
-                App.instance.database.habitDao().update(habit)
+        if (id == HabitInfo.DEFAULT_ID) {
+            viewModelScope.launch {
+                withContext(Dispatchers.IO) {
+                    App.instance.database.habitDao().insertAll(habit)
+                }
+            }
+        } else {
+            viewModelScope.launch {
+                withContext(Dispatchers.IO) {
+                    App.instance.database.habitDao().update(habit)
+                }
             }
         }
     }

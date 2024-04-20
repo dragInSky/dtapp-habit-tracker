@@ -12,7 +12,6 @@ class App : Application() {
         super.onCreate()
         instance = this
         database = databaseBuilder(this, AppDatabase::class.java, "HabitTracker")
-            .allowMainThreadQueries()
             .build()
     }
 

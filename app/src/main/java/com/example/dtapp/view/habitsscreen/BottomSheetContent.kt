@@ -82,7 +82,7 @@ fun BottomSheetContent(
                         onTextChanged = { habitsViewModel.changeSearchField(it) }
                     )
                     IconButton(
-                        onClick = { habitsViewModel.clearSearch() }
+                        onClick = { habitsViewModel.clear() }
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Clear,
