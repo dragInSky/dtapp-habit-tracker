@@ -20,10 +20,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.dtapp.R
@@ -37,8 +36,6 @@ fun BottomSheetContent(
     navController: NavController,
     habitsViewModel: HabitsViewModel = viewModel()
 ): @Composable (ColumnScope.() -> Unit) {
-    val context = LocalContext.current
-
     return {
         Box(
             Modifier
@@ -51,16 +48,16 @@ fun BottomSheetContent(
                     .padding(start = 24.dp, end = 24.dp, bottom = 24.dp)
             ) {
                 Text(
-                    text = ContextCompat.getString(context, R.string.filtersAndSorts),
+                    text = stringResource(R.string.filtersAndSorts),
                     fontWeight = FontWeight.Light
                 )
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        text = ContextCompat.getString(context, R.string.sortByPriority)
+                        text = stringResource(R.string.sortByPriority)
                     )
                     IconButton(
-                        onClick = { habitsViewModel.sortOrder.value = SortOrder.Descending }
+                        onClick = { habitsViewModel.setSortOrder(SortOrder.Descending) }
                     ) {
                         Icon(
                             imageVector = Icons.Filled.KeyboardArrowUp,
@@ -68,7 +65,7 @@ fun BottomSheetContent(
                         )
                     }
                     IconButton(
-                        onClick = { habitsViewModel.sortOrder.value = SortOrder.Ascending }
+                        onClick = { habitsViewModel.setSortOrder(SortOrder.Ascending) }
                     ) {
                         Icon(
                             imageVector = Icons.Filled.KeyboardArrowDown,
@@ -79,8 +76,8 @@ fun BottomSheetContent(
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     HidingTextField(
-                        text = habitsViewModel.search.value,
-                        placeHolder = ContextCompat.getString(context, R.string.search),
+                        text = habitsViewModel.search,
+                        placeHolder = stringResource(R.string.search),
                         modifier = Modifier.weight(1f),
                         onTextChanged = { habitsViewModel.changeSearchField(it) }
                     )

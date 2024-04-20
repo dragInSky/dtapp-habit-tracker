@@ -13,20 +13,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat.getString
 import com.example.dtapp.models.HabitInfo
 import com.example.dtapp.R
 
 @Composable
 fun HabitItem(onClick: () -> Unit, habit: HabitInfo) {
-    val context = LocalContext.current
-
     Row(modifier = Modifier
         .fillMaxWidth()
         .background(MaterialTheme.colorScheme.surface)
@@ -34,9 +31,18 @@ fun HabitItem(onClick: () -> Unit, habit: HabitInfo) {
         .padding(12.dp)
     ) {
         Column(modifier = Modifier.weight(0.8f)) {
+            if (habit.name.isNotEmpty()) {
+                Text(
+                    text = habit.name,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+
             Text(
-                text = habit.name,
-                fontWeight = FontWeight.Bold,
+                text = habit.date,
+                fontSize = 12.sp,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -52,7 +58,7 @@ fun HabitItem(onClick: () -> Unit, habit: HabitInfo) {
             }
 
             Text(
-                text = "${getString(context, R.string.habit_priority)} ${habit.priority.getName()}",
+                text = stringResource(R.string.habit_priority, habit.priority.getName()),
                 fontSize = 12.sp
             )
         }
@@ -66,7 +72,7 @@ fun HabitItem(onClick: () -> Unit, habit: HabitInfo) {
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = getString(context, R.string.habit_times_period_con),
+                    text = stringResource(R.string.habit_times_period_con),
                     fontSize = 12.sp
                 )
                 Text(

@@ -22,9 +22,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.getString
 import com.example.dtapp.R
 import com.example.dtapp.models.Priority
 import com.example.dtapp.models.Type
@@ -39,15 +38,13 @@ fun EditScreen(
     editViewModel: EditViewModel,
     id: Int = -1
 ) {
-    val context = LocalContext.current
-
     var isNavigationPerformed by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
         TopBar(
-            title = getString(context, R.string.edit_screen_name),
+            title = stringResource(R.string.edit_screen_name),
             buttonIcon = Icons.AutoMirrored.Filled.ArrowBack,
             onClick = {
                 if (!isNavigationPerformed) {
@@ -59,17 +56,17 @@ fun EditScreen(
 
         Column(modifier = Modifier.padding(8.dp)) {
             HidingTextField(
-                text = editViewModel.name.value,
-                placeHolder = getString(context, R.string.habit_name),
+                text = editViewModel.name,
+                placeHolder = stringResource(R.string.habit_name),
                 modifier = Modifier.fillMaxWidth(),
-                onTextChanged = { editViewModel.name.value = it }
+                onTextChanged = { editViewModel.changeName(it) }
             )
 
             HidingTextField(
-                text = editViewModel.description.value,
-                placeHolder = getString(context, R.string.habit_description),
+                text = editViewModel.description,
+                placeHolder = stringResource(R.string.habit_description),
                 modifier = Modifier.fillMaxWidth(),
-                onTextChanged = { editViewModel.description.value = it }
+                onTextChanged = { editViewModel.changeDescription(it) }
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -78,10 +75,10 @@ fun EditScreen(
                 modifier = Modifier.background(MaterialTheme.colorScheme.surface)
             ) {
                 Spinner(
-                    text = getString(context, R.string.habit_priority) + " ",
+                    text = stringResource(R.string.habit_priority, ""),
                     items = Priority.values().map { it.getName() },
-                    selectedItem = editViewModel.selectedPriority.value,
-                    onItemSelected = { editViewModel.selectedPriority.value = it }
+                    selectedItem = editViewModel.selectedPriority,
+                    onItemSelected = { editViewModel.changePriority(it) }
                 )
             }
             HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.onSurface)
@@ -92,8 +89,8 @@ fun EditScreen(
             ) {
                 RadioButtons(
                     items = Type.values().map { it.name.lowercase(Locale.ROOT) },
-                    selectedItem = editViewModel.selectedType.value,
-                    onItemSelected = { editViewModel.selectedType.value = it }
+                    selectedItem = editViewModel.selectedType,
+                    onItemSelected = { editViewModel.changeType(it) }
                 )
             }
             HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.onSurface)
@@ -101,17 +98,17 @@ fun EditScreen(
 
             Row {
                 HidingTextField(
-                    text = editViewModel.times.value,
-                    placeHolder = getString(context, R.string.habit_times),
+                    text = editViewModel.times,
+                    placeHolder = stringResource(R.string.habit_times),
                     modifier = Modifier.weight(1f),
-                    onTextChanged = { editViewModel.times.value = it }
+                    onTextChanged = { editViewModel.changeTimes(it) }
                 )
 
                 HidingTextField(
-                    text = editViewModel.period.value,
-                    placeHolder = getString(context, R.string.habit_period),
+                    text = editViewModel.period,
+                    placeHolder = stringResource(R.string.habit_period),
                     modifier = Modifier.weight(1f),
-                    onTextChanged = { editViewModel.period.value = it }
+                    onTextChanged = { editViewModel.changePeriod(it) }
                 )
             }
         }

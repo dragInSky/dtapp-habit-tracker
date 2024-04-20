@@ -3,6 +3,7 @@ package com.example.dtapp.navigation
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -40,8 +41,11 @@ fun RootNavHost(navController: NavHostController, openDrawer: () -> Job) {
         ) { backStackEntry ->
             val id = backStackEntry.arguments?.getInt("habitId") ?: -1
             val editViewModel: EditViewModel = viewModel()
-            if (id != -1)
-                editViewModel.habitInit(id = id)
+
+            LaunchedEffect(id) {
+                if (id != -1)
+                    editViewModel.habitInit(id = id)
+            }
 
             EditScreen(
                 onClick = { navController.popBackStack() },

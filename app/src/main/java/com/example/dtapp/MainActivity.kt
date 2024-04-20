@@ -23,9 +23,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background,
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    Model.init(this@MainActivity)
-
-//                    Model.database.clearAllTables()
+//                    App.instance.database.clearAllTables()
 
                     NavigationSetup()
                 }

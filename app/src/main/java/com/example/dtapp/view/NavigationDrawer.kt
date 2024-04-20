@@ -20,22 +20,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.getString
 import com.example.dtapp.R
 import com.example.dtapp.navigation.Screen
 
 @Composable
 fun NavigationDrawer(onClick: (route: String) -> Unit) {
-    val context = LocalContext.current
-
     ModalDrawerSheet(
         modifier = Modifier
             .fillMaxWidth(0.7f)
             .fillMaxHeight()
     ) {
         Text(
-            text = getString(context, R.string.app_name),
+            text = stringResource(R.string.app_name),
             style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier.padding(start = 24.dp, top = 48.dp)
         )

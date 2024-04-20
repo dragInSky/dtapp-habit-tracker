@@ -13,7 +13,7 @@
     <string name="habit_times_period_con">times a</string>
     <string name="habit_name">name of the habit</string>
     <string name="habit_description">description</string>
-    <string name="habit_priority">priority:</string>
+    <string name="habit_priority">priority: %1$s</string>
     <string name="habit_times">times</string>
     <string name="habit_period">period</string>
 

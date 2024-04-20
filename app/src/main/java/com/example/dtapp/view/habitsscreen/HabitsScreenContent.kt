@@ -8,8 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContextCompat
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.example.dtapp.R
 import com.example.dtapp.models.Type
@@ -21,14 +20,12 @@ fun HabitsScreenContent(
     navController: NavController,
     openDrawer: () -> Job
 ) {
-    val context = LocalContext.current
-
     val pagerState = rememberPagerState(pageCount = { Type.values().size })
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
             TopBar(
-                title = ContextCompat.getString(context, R.string.home_screen_name),
+                title = stringResource(R.string.home_screen_name),
                 buttonIcon = Icons.Filled.Menu,
                 onClick = { openDrawer() }
             )
