@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class HabitsViewModel : ViewModel() {
     private val sortOrder = MutableStateFlow(SortOrder.Default)
@@ -32,23 +31,21 @@ class HabitsViewModel : ViewModel() {
         private set
 
     init {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                goodHabitFlow =
-                    sort(
-                        filter(
-                            App.instance.database.habitDao().loadByType(Type.GOOD)
-                                .asFlow()
-                        )
+        viewModelScope.launch(Dispatchers.IO) {
+            goodHabitFlow =
+                sort(
+                    filter(
+                        App.instance.database.habitDao().loadByType(Type.GOOD)
+                            .asFlow()
                     )
-                badHabitFlow =
-                    sort(
-                        filter(
-                            App.instance.database.habitDao().loadByType(Type.BAD)
-                                .asFlow()
-                        )
+                )
+            badHabitFlow =
+                sort(
+                    filter(
+                        App.instance.database.habitDao().loadByType(Type.BAD)
+                            .asFlow()
                     )
-            }
+                )
         }
     }
 
