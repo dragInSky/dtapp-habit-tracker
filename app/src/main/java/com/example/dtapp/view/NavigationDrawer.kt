@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
@@ -19,7 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.dtapp.R
@@ -39,30 +40,38 @@ fun NavigationDrawer(onClick: (route: String) -> Unit) {
         )
         Spacer(Modifier.height(48.dp))
 
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick(Screen.About.route) }
-            .padding(start = 24.dp)) {
-            Spacer(Modifier.height(12.dp))
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(imageVector = Icons.Filled.Info, contentDescription = "")
-                Spacer(Modifier.width(8.dp))
-                Text(text = Screen.About.route)
-            }
-            Spacer(Modifier.height(12.dp))
-        }
+        DrawerElement(
+            routeName = Screen.Home.route,
+            icon = Icons.Filled.Home,
+            onClick = onClick
+        )
 
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick(Screen.Home.route) }
-            .padding(start = 24.dp)) {
-            Spacer(Modifier.height(12.dp))
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(imageVector = Icons.Filled.Home, contentDescription = "")
-                Spacer(Modifier.width(8.dp))
-                Text(text = Screen.Home.route)
-            }
-            Spacer(Modifier.height(12.dp))
+        DrawerElement(
+            routeName = Screen.Net.route,
+            icon = Icons.Filled.Refresh,
+            onClick = onClick
+        )
+
+        DrawerElement(
+            routeName = Screen.About.route,
+            icon = Icons.Filled.Info,
+            onClick = onClick
+        )
+    }
+}
+
+@Composable
+fun DrawerElement(routeName: String, icon: ImageVector, onClick: (route: String) -> Unit) {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .clickable { onClick(routeName) }
+        .padding(start = 24.dp)) {
+        Spacer(Modifier.height(12.dp))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(imageVector = icon, contentDescription = "")
+            Spacer(Modifier.width(8.dp))
+            Text(text = routeName)
         }
+        Spacer(Modifier.height(12.dp))
     }
 }

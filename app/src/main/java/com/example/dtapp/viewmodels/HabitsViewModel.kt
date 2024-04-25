@@ -35,14 +35,14 @@ class HabitsViewModel : ViewModel() {
             goodHabitFlow =
                 sort(
                     filter(
-                        App.instance.database.habitDao().loadByType(Type.GOOD)
+                        App.instance.database.habitDao().loadByType(Type.GOOD.ordinal)
                             .asFlow()
                     )
                 )
             badHabitFlow =
                 sort(
                     filter(
-                        App.instance.database.habitDao().loadByType(Type.BAD)
+                        App.instance.database.habitDao().loadByType(Type.BAD.ordinal)
                             .asFlow()
                     )
                 )

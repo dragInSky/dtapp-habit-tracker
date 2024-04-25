@@ -3,7 +3,6 @@ package com.example.dtapp.models
 import java.util.Locale
 
 enum class Priority {
-    HIGHEST,
     HIGH,
     MEDIUM,
     LOW;

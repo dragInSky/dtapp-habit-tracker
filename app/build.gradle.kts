@@ -2,7 +2,10 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.10"
 }
+
+val DTAPP_KEY: String by project
 
 android {
     namespace = "com.example.dtapp"
@@ -19,6 +22,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField("String", "DTAPP_KEY", "\"$DTAPP_KEY\"")
     }
 
     buildTypes {
@@ -39,26 +44,31 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.3"
     }
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/*"
         }
     }
 }
 
 dependencies {
-    val room_version = "2.6.1"
+    val roomVersion = "2.6.1"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
 
-    implementation("androidx.room:room-runtime:$room_version")
-    annotationProcessor("androidx.room:room-compiler:$room_version")
+    val ktorVersion = "2.3.10"
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-cio:$ktorVersion")
 
-    ksp("androidx.room:room-compiler:$room_version")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
 
-    implementation("androidx.room:room-ktx:2.6.1")
     implementation("androidx.compose.material3:material3:1.3.0-alpha05")
     implementation("androidx.core:core-ktx:1.13.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")

@@ -5,12 +5,12 @@ import com.example.dtapp.models.Type
 
 class MyTypeConverter {
     @TypeConverter
-    fun fromType(type: Type): String {
-        return type.name
+    fun fromType(type: Type): Int {
+        return type.ordinal
     }
 
     @TypeConverter
-    fun toType(data: String): Type {
-        return Type.valueOf(data)
+    fun toType(ordinal: Int): Type {
+        return Type.values()[ordinal]
     }
 }

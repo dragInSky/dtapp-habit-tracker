@@ -26,11 +26,11 @@ class EditViewModel : ViewModel() {
         private set
     var description by mutableStateOf("")
         private set
-    var times by mutableStateOf("")
+    var count by mutableStateOf("")
         private set
-    var period by mutableStateOf("")
+    var frequency by mutableStateOf("")
         private set
-    private var date: String = ""
+    private var uid: String = ""
 
     fun changePriority(priority: String) {
         selectedPriority = priority
@@ -48,12 +48,12 @@ class EditViewModel : ViewModel() {
         this.description = description
     }
 
-    fun changeTimes(times: String) {
-        this.times = times
+    fun changeCount(count: String) {
+        this.count = count
     }
 
-    fun changePeriod(period: String) {
-        this.period = period
+    fun changeFrequency(frequency: String) {
+        this.frequency = frequency
     }
 
     fun habitInit(id: Int) {
@@ -65,9 +65,9 @@ class EditViewModel : ViewModel() {
             selectedType = habit.type.getName()
             name = habit.name
             description = habit.description
-            times = habit.times
-            period = habit.period
-            date = habit.date
+            count = if (habit.count > 0) habit.count.toString() else ""
+            frequency = if (habit.frequency > 0) habit.frequency.toString() else ""
+            uid = habit.uid
         }
     }
 
@@ -78,9 +78,9 @@ class EditViewModel : ViewModel() {
             selectedType = selectedType,
             name = name,
             description = description,
-            times = times,
-            period = period,
-            date = date,
+            count = count,
+            frequency = frequency,
+            uid = uid,
             id = id
         )
 
@@ -94,12 +94,10 @@ class EditViewModel : ViewModel() {
     }
 
     private fun addOrUpdate(id: Int, habit: HabitInfo) {
-        if (id == HabitInfo.DEFAULT_ID) {
-            viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (id == HabitInfo.DEFAULT_ID) {
                 App.instance.database.habitDao().insertAll(habit)
-            }
-        } else {
-            viewModelScope.launch(Dispatchers.IO) {
+            } else {
                 App.instance.database.habitDao().update(habit)
             }
         }

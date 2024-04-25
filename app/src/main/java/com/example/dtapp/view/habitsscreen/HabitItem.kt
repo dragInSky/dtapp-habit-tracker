@@ -1,5 +1,7 @@
 package com.example.dtapp.view.habitsscreen
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -21,7 +23,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.dtapp.models.HabitInfo
 import com.example.dtapp.R
+import com.example.dtapp.models.DateProducer
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HabitItem(onClick: () -> Unit, habit: HabitInfo) {
     Row(modifier = Modifier
@@ -41,7 +45,7 @@ fun HabitItem(onClick: () -> Unit, habit: HabitInfo) {
             }
 
             Text(
-                text = habit.date,
+                text = DateProducer.dateFromInt(habit.date),
                 fontSize = 12.sp,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -64,24 +68,31 @@ fun HabitItem(onClick: () -> Unit, habit: HabitInfo) {
         }
 
         Column(modifier = Modifier.weight(0.2f)) {
-            if (habit.times.isNotEmpty() || habit.period.isNotEmpty()) {
-                Text(
-                    text = habit.times,
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Text(
-                    text = stringResource(R.string.habit_times_period_con),
-                    fontSize = 12.sp
-                )
-                Text(
-                    text = habit.period,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
+            if (habit.count > 0 || habit.frequency > 0) {
+                Row {
+                    Text(
+                        text = habit.count.toString(),
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Text(
+                        text = stringResource(R.string.habit_count_in),
+                        fontSize = 12.sp
+                    )
+                }
+                Row {
+                    Text(
+                        text = habit.frequency.toString(),
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Text(
+                        text = stringResource(R.string.habit_frequency_in),
+                        fontSize = 12.sp
+                    )
+                }
             }
         }
     }

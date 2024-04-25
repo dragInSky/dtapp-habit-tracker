@@ -5,12 +5,12 @@ import com.example.dtapp.models.Priority
 
 class PriorityConverter {
     @TypeConverter
-    fun fromPriority(type: Priority): String {
-        return type.name
+    fun fromPriority(priority: Priority): Int {
+        return priority.ordinal
     }
 
     @TypeConverter
-    fun toPriority(data: String): Priority {
-        return Priority.valueOf(data)
+    fun toPriority(ordinal: Int): Priority {
+        return Priority.values()[ordinal]
     }
 }

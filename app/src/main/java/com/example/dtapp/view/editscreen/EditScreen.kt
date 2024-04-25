@@ -98,17 +98,17 @@ fun EditScreen(
 
             Row {
                 HidingTextField(
-                    text = editViewModel.times,
-                    placeHolder = stringResource(R.string.habit_times),
+                    text = editViewModel.count,
+                    placeHolder = stringResource(R.string.habit_count),
                     modifier = Modifier.weight(1f),
-                    onTextChanged = { editViewModel.changeTimes(it) }
+                    onTextChanged = { editViewModel.changeCount(it) }
                 )
 
                 HidingTextField(
-                    text = editViewModel.period,
-                    placeHolder = stringResource(R.string.habit_period),
+                    text = editViewModel.frequency,
+                    placeHolder = stringResource(R.string.habit_frequency),
                     modifier = Modifier.weight(1f),
-                    onTextChanged = { editViewModel.changePeriod(it) }
+                    onTextChanged = { editViewModel.changeFrequency(it) }
                 )
             }
         }
