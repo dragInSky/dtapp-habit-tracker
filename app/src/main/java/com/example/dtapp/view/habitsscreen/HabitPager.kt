@@ -1,5 +1,7 @@
 package com.example.dtapp.view.habitsscreen
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,6 +20,7 @@ import com.example.dtapp.models.Type
 import com.example.dtapp.navigation.Screen
 import com.example.dtapp.viewmodels.HabitsViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HabitPager(
     navController: NavController,
