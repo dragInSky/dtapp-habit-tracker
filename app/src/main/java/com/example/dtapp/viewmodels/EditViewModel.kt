@@ -8,11 +8,14 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.dtapp.App
 import com.example.dtapp.models.HabitInfo
 import com.example.dtapp.models.Priority
 import com.example.dtapp.models.Type
+import com.example.dtapp.net.Client
+import com.example.dtapp.net.transport.HabitInfoConverter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -90,16 +93,22 @@ class EditViewModel : ViewModel() {
     }
 
     private fun getHabitById(id: Int): LiveData<HabitInfo> {
-        return App.instance.database.habitDao().loadById(id)
+        return App.instance.database.habitDao().loadById(id).asLiveData()
     }
 
     private fun addOrUpdate(id: Int, habit: HabitInfo) {
+        val converter = HabitInfoConverter()
+        val transportHabit = converter.toTransport(habit)
+        val client = Client()
+
         viewModelScope.launch(Dispatchers.IO) {
             if (id == HabitInfo.DEFAULT_ID) {
                 App.instance.database.habitDao().insertAll(habit)
             } else {
                 App.instance.database.habitDao().update(habit)
             }
+
+            client.addOrUpdateHabit(transportHabit)
         }
     }
 }

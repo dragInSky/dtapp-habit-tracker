@@ -1,30 +1,25 @@
 package com.example.dtapp.net
 
 import com.example.dtapp.net.transport.TransportHabitInfo
+import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 import io.ktor.util.InternalAPI
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.Serializable
 
 class ResponseHandler {
-    @OptIn(InternalAPI::class)
     suspend fun habitsFromResponse(response: HttpResponse): List<TransportHabitInfo> {
-        val jsonContent: String = response.content.readRemaining().readText()
-        val json = Json { ignoreUnknownKeys = true }
-        return json.decodeFromString(jsonContent)
+        return response.body()
     }
 
-    @OptIn(InternalAPI::class)
     suspend fun UIDFromResponse(response: HttpResponse): String {
-        val jsonContent: String = response.content.readRemaining().readText()
-        val json = Json { ignoreUnknownKeys = true }
-        val jsonObject = json.decodeFromString(JsonObject.serializer(), jsonContent)
-        return jsonObject["uid"]!!.jsonPrimitive.content
+        return response.body<UidResponse>().uid
     }
 
     @OptIn(InternalAPI::class)
     suspend fun responseContent(response: HttpResponse): String {
         return response.content.readRemaining().readText()
     }
+
+    @Serializable
+    data class UidResponse(val uid: String)
 }

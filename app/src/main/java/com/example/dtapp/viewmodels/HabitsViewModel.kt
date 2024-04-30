@@ -4,7 +4,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.example.dtapp.App
 import com.example.dtapp.models.HabitInfo
@@ -36,14 +35,12 @@ class HabitsViewModel : ViewModel() {
                 sort(
                     filter(
                         App.instance.database.habitDao().loadByType(Type.GOOD.ordinal)
-                            .asFlow()
                     )
                 )
             badHabitFlow =
                 sort(
                     filter(
                         App.instance.database.habitDao().loadByType(Type.BAD.ordinal)
-                            .asFlow()
                     )
                 )
         }

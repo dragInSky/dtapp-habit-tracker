@@ -13,7 +13,6 @@ import androidx.navigation.navArgument
 import com.example.dtapp.view.aboutscreen.AboutScreen
 import com.example.dtapp.view.editscreen.EditScreen
 import com.example.dtapp.view.habitsscreen.HabitsScreen
-import com.example.dtapp.view.netscreen.NetScreen
 import com.example.dtapp.viewmodels.EditViewModel
 import kotlinx.coroutines.Job
 
@@ -33,10 +32,6 @@ fun RootNavHost(navController: NavHostController, openDrawer: () -> Job) {
                 navController = navController,
                 openDrawer = openDrawer
             )
-        }
-
-        composable(Screen.Net.route) {
-            NetScreen(onClick = { navController.popBackStack() })
         }
 
         composable(

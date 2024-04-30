@@ -9,7 +9,6 @@ import io.ktor.util.InternalAPI
 import kotlinx.coroutines.runBlocking
 
 @RequiresApi(Build.VERSION_CODES.O)
-@OptIn(InternalAPI::class)
 fun main() {
     val habit = TransportHabitInfo(
         count = 1,
@@ -24,6 +23,27 @@ fun main() {
     val client = Client()
     val responseHandler = ResponseHandler()
 
+    removeAll(client, responseHandler)
+
+//    testAllMethods(habit, client, responseHandler)
+}
+
+fun removeAll(client: Client, responseHandler: ResponseHandler) {
+    runBlocking {
+        val data = client.getHabits()
+        if (data.status == HttpStatusCode.OK) {
+            val habits = responseHandler.habitsFromResponse(data)
+
+            for (habit in habits) {
+                client.deleteHabit(habit.uid)
+            }
+        }
+    }
+}
+
+@OptIn(InternalAPI::class)
+@RequiresApi(Build.VERSION_CODES.O)
+fun testAllMethods(habit: TransportHabitInfo, client: Client, responseHandler: ResponseHandler) {
     runBlocking {
         val putResponse = client.addOrUpdateHabit(habit)
         if (putResponse.status == HttpStatusCode.OK) {

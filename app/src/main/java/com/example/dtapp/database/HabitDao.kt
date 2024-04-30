@@ -1,23 +1,23 @@
 package com.example.dtapp.database
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.example.dtapp.models.HabitInfo
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface HabitDao {
     @Query("SELECT * FROM habitInfo")
-    fun getAll(): List<HabitInfo>
+    suspend fun getAll(): List<HabitInfo>
 
     @Query("SELECT * FROM habitInfo WHERE id = :habitId")
-    fun loadById(habitId: Int): LiveData<HabitInfo>
+    fun loadById(habitId: Int): Flow<HabitInfo>
 
     @Query("SELECT * FROM habitInfo WHERE type = :habitType")
-    fun loadByType(habitType: Int): LiveData<List<HabitInfo>>
+    fun loadByType(habitType: Int): Flow<List<HabitInfo>>
 
     @Insert
     suspend fun insertAll(vararg habits: HabitInfo)
@@ -26,5 +26,5 @@ interface HabitDao {
     suspend fun update(habit: HabitInfo)
 
     @Delete
-    fun delete(habit: HabitInfo)
+    suspend fun delete(habit: HabitInfo)
 }

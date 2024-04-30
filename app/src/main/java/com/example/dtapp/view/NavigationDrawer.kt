@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
@@ -43,12 +42,6 @@ fun NavigationDrawer(onClick: (route: String) -> Unit) {
         DrawerElement(
             routeName = Screen.Home.route,
             icon = Icons.Filled.Home,
-            onClick = onClick
-        )
-
-        DrawerElement(
-            routeName = Screen.Net.route,
-            icon = Icons.Filled.Refresh,
             onClick = onClick
         )
 
