@@ -1,7 +1,7 @@
 package com.example.dtapp.database
 
 import androidx.room.TypeConverter
-import com.example.dtapp.models.Type
+import com.example.dtapp.entities.Type
 
 class MyTypeConverter {
     @TypeConverter

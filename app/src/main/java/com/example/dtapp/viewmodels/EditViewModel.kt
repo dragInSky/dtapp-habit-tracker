@@ -10,17 +10,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.dtapp.App
-import com.example.dtapp.models.HabitInfo
-import com.example.dtapp.models.Priority
-import com.example.dtapp.models.Type
-import com.example.dtapp.net.Client
-import com.example.dtapp.net.transport.HabitInfoConverter
+import com.example.dtapp.entities.HabitInfo
+import com.example.dtapp.entities.Priority
+import com.example.dtapp.entities.Type
+import com.example.dtapp.repositories.HabitsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-class EditViewModel : ViewModel() {
+class EditViewModel(private val habitsRepository: HabitsRepository = HabitsRepository()) : ViewModel() {
     var selectedPriority by mutableStateOf(Priority.MEDIUM.getName())
         private set
     var selectedType by mutableStateOf(Type.GOOD.getName())
@@ -93,22 +91,18 @@ class EditViewModel : ViewModel() {
     }
 
     private fun getHabitById(id: Int): LiveData<HabitInfo> {
-        return App.instance.database.habitDao().loadById(id).asLiveData()
+        return habitsRepository.loadById(id).asLiveData()
     }
 
     private fun addOrUpdate(id: Int, habit: HabitInfo) {
-        val converter = HabitInfoConverter()
-        val transportHabit = converter.toTransport(habit)
-        val client = Client()
-
         viewModelScope.launch(Dispatchers.IO) {
             if (id == HabitInfo.DEFAULT_ID) {
-                App.instance.database.habitDao().insertAll(habit)
+                habitsRepository.insert(habit)
             } else {
-                App.instance.database.habitDao().update(habit)
+                habitsRepository.update(habit)
             }
 
-            client.addOrUpdateHabit(transportHabit)
+            habitsRepository.addOrUpdateHabit(habit)
         }
     }
 }

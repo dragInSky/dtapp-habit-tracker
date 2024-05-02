@@ -1,7 +1,7 @@
 package com.example.dtapp.database
 
 import androidx.room.TypeConverter
-import com.example.dtapp.models.Priority
+import com.example.dtapp.entities.Priority
 
 class PriorityConverter {
     @TypeConverter

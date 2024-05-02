@@ -2,7 +2,7 @@ package com.example.dtapp.net
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.example.dtapp.models.DateProducer
+import com.example.dtapp.entities.DateProducer
 import com.example.dtapp.net.transport.TransportHabitInfo
 import io.ktor.http.HttpStatusCode
 import io.ktor.util.InternalAPI

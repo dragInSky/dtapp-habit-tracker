@@ -1,4 +1,4 @@
-package com.example.dtapp.models
+package com.example.dtapp.entities
 
 enum class SortOrder {
     Default,

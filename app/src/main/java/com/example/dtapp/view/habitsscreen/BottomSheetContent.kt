@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.dtapp.R
-import com.example.dtapp.models.SortOrder
+import com.example.dtapp.entities.SortOrder
 import com.example.dtapp.navigation.Screen
 import com.example.dtapp.view.editscreen.HidingTextField
 import com.example.dtapp.viewmodels.HabitsViewModel

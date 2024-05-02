@@ -5,17 +5,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.dtapp.App
-import com.example.dtapp.models.HabitInfo
-import com.example.dtapp.models.SortOrder
-import com.example.dtapp.models.Type
+import com.example.dtapp.entities.HabitInfo
+import com.example.dtapp.entities.SortOrder
+import com.example.dtapp.entities.Type
+import com.example.dtapp.repositories.HabitsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
-class HabitsViewModel : ViewModel() {
+class HabitsViewModel(private val habitsRepository: HabitsRepository = HabitsRepository()) : ViewModel() {
     private val sortOrder = MutableStateFlow(SortOrder.Default)
 
     var search by mutableStateOf("")
@@ -34,13 +34,13 @@ class HabitsViewModel : ViewModel() {
             goodHabitFlow =
                 sort(
                     filter(
-                        App.instance.database.habitDao().loadByType(Type.GOOD.ordinal)
+                        habitsRepository.loadByType(Type.GOOD.ordinal)
                     )
                 )
             badHabitFlow =
                 sort(
                     filter(
-                        App.instance.database.habitDao().loadByType(Type.BAD.ordinal)
+                        habitsRepository.loadByType(Type.BAD.ordinal)
                     )
                 )
         }

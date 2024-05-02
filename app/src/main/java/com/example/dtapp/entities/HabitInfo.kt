@@ -1,4 +1,4 @@
-package com.example.dtapp.models
+package com.example.dtapp.entities
 
 import android.os.Build
 import androidx.annotation.RequiresApi

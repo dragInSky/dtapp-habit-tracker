@@ -1,8 +1,8 @@
 package com.example.dtapp.net.transport
 
-import com.example.dtapp.models.HabitInfo
-import com.example.dtapp.models.Priority
-import com.example.dtapp.models.Type
+import com.example.dtapp.entities.HabitInfo
+import com.example.dtapp.entities.Priority
+import com.example.dtapp.entities.Type
 
 class HabitInfoConverter {
     fun fromTransport(transportHabitInfo: TransportHabitInfo): HabitInfo {

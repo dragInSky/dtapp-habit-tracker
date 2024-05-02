@@ -25,8 +25,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.dtapp.R
-import com.example.dtapp.models.Priority
-import com.example.dtapp.models.Type
+import com.example.dtapp.entities.Priority
+import com.example.dtapp.entities.Type
 import com.example.dtapp.view.common.TopBar
 import com.example.dtapp.viewmodels.EditViewModel
 import java.util.Locale

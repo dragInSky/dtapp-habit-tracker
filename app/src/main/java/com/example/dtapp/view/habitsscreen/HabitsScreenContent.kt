@@ -1,5 +1,7 @@
 package com.example.dtapp.view.habitsscreen
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,10 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.example.dtapp.R
-import com.example.dtapp.models.Type
+import com.example.dtapp.entities.Type
 import com.example.dtapp.view.common.TopBar
 import kotlinx.coroutines.Job
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HabitsScreenContent(
     navController: NavController,

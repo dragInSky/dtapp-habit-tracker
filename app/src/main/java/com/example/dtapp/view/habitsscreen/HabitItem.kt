@@ -21,9 +21,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.dtapp.models.HabitInfo
+import com.example.dtapp.entities.HabitInfo
 import com.example.dtapp.R
-import com.example.dtapp.models.DateProducer
+import com.example.dtapp.entities.DateProducer
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable

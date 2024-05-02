@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.dtapp.models.Type
+import com.example.dtapp.entities.Type
 import com.example.dtapp.navigation.Screen
 import com.example.dtapp.viewmodels.HabitsViewModel
 
