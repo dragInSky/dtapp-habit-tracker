@@ -20,22 +20,22 @@ fun main() {
         type = 1
     )
 
-    val client = Client()
+    val httpClient = HttpClient()
     val responseHandler = ResponseHandler()
 
-    removeAll(client, responseHandler)
+    removeAll(httpClient, responseHandler)
 
 //    testAllMethods(habit, client, responseHandler)
 }
 
-fun removeAll(client: Client, responseHandler: ResponseHandler) {
+fun removeAll(httpClient: HttpClient, responseHandler: ResponseHandler) {
     runBlocking {
-        val data = client.getHabits()
+        val data = httpClient.getHabits()
         if (data.status == HttpStatusCode.OK) {
             val habits = responseHandler.habitsFromResponse(data)
 
             for (habit in habits) {
-                client.deleteHabit(habit.uid)
+                httpClient.deleteHabit(habit.uid)
             }
         }
     }
@@ -43,9 +43,9 @@ fun removeAll(client: Client, responseHandler: ResponseHandler) {
 
 @OptIn(InternalAPI::class)
 @RequiresApi(Build.VERSION_CODES.O)
-fun testAllMethods(habit: TransportHabitInfo, client: Client, responseHandler: ResponseHandler) {
+fun testAllMethods(habit: TransportHabitInfo, httpClient: HttpClient, responseHandler: ResponseHandler) {
     runBlocking {
-        val putResponse = client.addOrUpdateHabit(habit)
+        val putResponse = httpClient.addOrUpdateHabit(habit)
         if (putResponse.status == HttpStatusCode.OK) {
             println("Habit add successful")
         } else {
@@ -57,9 +57,9 @@ fun testAllMethods(habit: TransportHabitInfo, client: Client, responseHandler: R
             println("uid is: $uid")
 
             val date = DateProducer.getIntDate()
-            client.habitDone(date, uid)
+            httpClient.habitDone(date, uid)
 
-            val data1 = client.getHabits()
+            val data1 = httpClient.getHabits()
             if (data1.status == HttpStatusCode.OK) {
                 val habits = responseHandler.habitsFromResponse(data1)
                 println("First get response: $habits")
@@ -67,7 +67,7 @@ fun testAllMethods(habit: TransportHabitInfo, client: Client, responseHandler: R
                 println(responseHandler.responseContent(data1))
             }
 
-            val deleted = client.deleteHabit(uid)
+            val deleted = httpClient.deleteHabit(uid)
             if (deleted.status != HttpStatusCode.OK) {
                 println(deleted.content.readRemaining().readText())
             }
@@ -75,7 +75,7 @@ fun testAllMethods(habit: TransportHabitInfo, client: Client, responseHandler: R
             println(responseHandler.responseContent(putResponse))
         }
 
-        val data2 = client.getHabits()
+        val data2 = httpClient.getHabits()
         if (data2.status == HttpStatusCode.OK) {
             val habits = responseHandler.habitsFromResponse(data2)
             println("Second get response: $habits")

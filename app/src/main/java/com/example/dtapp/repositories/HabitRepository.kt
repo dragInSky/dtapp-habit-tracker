@@ -2,7 +2,7 @@ package com.example.dtapp.repositories
 
 import com.example.dtapp.App
 import com.example.dtapp.entities.HabitInfo
-import com.example.dtapp.net.Client
+import com.example.dtapp.net.HttpClient
 import com.example.dtapp.net.ResponseHandler
 import com.example.dtapp.net.transport.HabitInfoConverter
 import io.ktor.client.statement.HttpResponse
@@ -12,8 +12,8 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
-class HabitsRepository {
-    private val client = Client()
+class HabitRepository {
+    private val httpClient = HttpClient()
     private val dao = App.instance.database.habitDao()
 
     private val repositoryScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
@@ -23,7 +23,7 @@ class HabitsRepository {
         val converter = HabitInfoConverter()
 
         repositoryScope.launch(Dispatchers.IO) {
-            val response = client.getHabits()
+            val response = httpClient.getHabits()
             val transportHabits = handler.habitsFromResponse(response)
 
             val oldHabits = dao.getAll()
@@ -49,18 +49,26 @@ class HabitsRepository {
         return dao.loadByType(habitType)
     }
 
-    suspend fun insert(habit: HabitInfo) {
+    fun addOrUpdateHabit(id: Int, habit: HabitInfo) {
+        repositoryScope.launch(Dispatchers.IO) {
+            if (id == HabitInfo.DEFAULT_ID) {
+                insert(habit)
+            } else {
+                update(habit)
+            }
+
+            val converter = HabitInfoConverter()
+            val transportHabit = converter.toTransport(habit)
+
+            httpClient.addOrUpdateHabit(transportHabit)
+        }
+    }
+
+    private suspend fun insert(habit: HabitInfo) {
         dao.insertAll(habit)
     }
 
-    suspend fun update(habit: HabitInfo) {
+    private suspend fun update(habit: HabitInfo) {
         dao.insertAll(habit)
-    }
-
-    suspend fun addOrUpdateHabit(habit: HabitInfo): HttpResponse {
-        val converter = HabitInfoConverter()
-        val transportHabit = converter.toTransport(habit)
-
-        return client.addOrUpdateHabit(transportHabit)
     }
 }

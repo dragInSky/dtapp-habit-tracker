@@ -20,7 +20,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
-class Client : AutoCloseable {
+class HttpClient : AutoCloseable {
     private val client = HttpClient(CIO) {
         install(ContentNegotiation) {
             json(Json {

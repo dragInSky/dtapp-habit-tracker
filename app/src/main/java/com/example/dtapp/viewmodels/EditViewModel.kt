@@ -13,12 +13,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.dtapp.entities.HabitInfo
 import com.example.dtapp.entities.Priority
 import com.example.dtapp.entities.Type
-import com.example.dtapp.repositories.HabitsRepository
+import com.example.dtapp.repositories.HabitRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-class EditViewModel(private val habitsRepository: HabitsRepository = HabitsRepository()) : ViewModel() {
+class EditViewModel(private val habitRepository: HabitRepository = HabitRepository()) : ViewModel() {
     var selectedPriority by mutableStateOf(Priority.MEDIUM.getName())
         private set
     var selectedType by mutableStateOf(Type.GOOD.getName())
@@ -91,18 +91,10 @@ class EditViewModel(private val habitsRepository: HabitsRepository = HabitsRepos
     }
 
     private fun getHabitById(id: Int): LiveData<HabitInfo> {
-        return habitsRepository.loadById(id).asLiveData()
+        return habitRepository.loadById(id).asLiveData()
     }
 
     private fun addOrUpdate(id: Int, habit: HabitInfo) {
-        viewModelScope.launch(Dispatchers.IO) {
-            if (id == HabitInfo.DEFAULT_ID) {
-                habitsRepository.insert(habit)
-            } else {
-                habitsRepository.update(habit)
-            }
-
-            habitsRepository.addOrUpdateHabit(habit)
-        }
+        habitRepository.addOrUpdateHabit(id, habit)
     }
 }

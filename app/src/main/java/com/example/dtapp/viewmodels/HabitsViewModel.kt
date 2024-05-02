@@ -8,14 +8,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.dtapp.entities.HabitInfo
 import com.example.dtapp.entities.SortOrder
 import com.example.dtapp.entities.Type
-import com.example.dtapp.repositories.HabitsRepository
+import com.example.dtapp.repositories.HabitRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
-class HabitsViewModel(private val habitsRepository: HabitsRepository = HabitsRepository()) : ViewModel() {
+class HabitsViewModel(private val habitRepository: HabitRepository = HabitRepository()) : ViewModel() {
     private val sortOrder = MutableStateFlow(SortOrder.Default)
 
     var search by mutableStateOf("")
@@ -34,13 +34,13 @@ class HabitsViewModel(private val habitsRepository: HabitsRepository = HabitsRep
             goodHabitFlow =
                 sort(
                     filter(
-                        habitsRepository.loadByType(Type.GOOD.ordinal)
+                        habitRepository.loadByType(Type.GOOD.ordinal)
                     )
                 )
             badHabitFlow =
                 sort(
                     filter(
-                        habitsRepository.loadByType(Type.BAD.ordinal)
+                        habitRepository.loadByType(Type.BAD.ordinal)
                     )
                 )
         }
