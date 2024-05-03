@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.dtapp.App
 import com.example.dtapp.entities.HabitInfo
 import com.example.dtapp.entities.SortOrder
 import com.example.dtapp.entities.Type
@@ -15,7 +16,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
-class HabitsViewModel(private val habitRepository: HabitRepository = HabitRepository()) : ViewModel() {
+class HabitsViewModel : ViewModel() {
+    private val habitRepository: HabitRepository =
+        App.instance.applicationComponent.getHabitRepository()
+
     private val sortOrder = MutableStateFlow(SortOrder.Default)
 
     var search by mutableStateOf("")

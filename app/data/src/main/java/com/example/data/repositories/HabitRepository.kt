@@ -1,18 +1,20 @@
-package com.example.dtapp.repositories
+package com.example.data.repositories
 
-import com.example.dtapp.database.AppDatabase
+import com.example.dtapp.App
 import com.example.dtapp.entities.HabitInfo
-import com.example.dtapp.net.HttpClient
-import com.example.dtapp.net.ResponseHandler
-import com.example.dtapp.net.transport.HabitInfoConverter
+import com.example.data.net.HttpClient
+import com.example.data.net.ResponseHandler
+import com.example.data.net.transport.HabitInfoConverter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class HabitRepository @Inject constructor(private val httpClient: HttpClient, private val database: AppDatabase) {
+class HabitRepository {
+    private val httpClient = HttpClient()
+    private val dao = App.instance.database.habitDao()
+
     private val repositoryScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     init {
@@ -23,33 +25,32 @@ class HabitRepository @Inject constructor(private val httpClient: HttpClient, pr
             val response = httpClient.getHabits()
             val transportHabits = handler.habitsFromResponse(response)
 
-            val oldHabits = database.habitDao().getAll()
+            val oldHabits = dao.getAll()
 
             val habits: MutableList<HabitInfo> = mutableListOf()
             for (transportHabit in transportHabits) {
                 val habit = converter.fromTransport(transportHabit)
 
                 if (!oldHabits.contains(habit)) {
-
                     habits.add(habit)
                 }
             }
 
-            database.habitDao().insertAll(*habits.toTypedArray())
+            dao.insertAll(*habits.toTypedArray())
         }
     }
 
     fun loadById(habitId: Int): Flow<HabitInfo> {
-        return database.habitDao().loadById(habitId)
+        return dao.loadById(habitId)
     }
 
     fun loadByType(habitType: Int): Flow<List<HabitInfo>> {
-        return database.habitDao().loadByType(habitType)
+        return dao.loadByType(habitType)
     }
 
-    fun addOrUpdateHabit(habit: HabitInfo) {
+    fun addOrUpdateHabit(id: Int, habit: HabitInfo) {
         repositoryScope.launch(Dispatchers.IO) {
-            if (habit.id == HabitInfo.DEFAULT_ID) {
+            if (id == HabitInfo.DEFAULT_ID) {
                 insert(habit)
             } else {
                 update(habit)
@@ -63,10 +64,10 @@ class HabitRepository @Inject constructor(private val httpClient: HttpClient, pr
     }
 
     private suspend fun insert(habit: HabitInfo) {
-        database.habitDao().insertAll(habit)
+        dao.insertAll(habit)
     }
 
     private suspend fun update(habit: HabitInfo) {
-        database.habitDao().update(habit)
+        dao.insertAll(habit)
     }
 }

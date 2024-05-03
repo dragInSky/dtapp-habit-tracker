@@ -1,21 +1,31 @@
-package com.example.dtapp.net
+package com.example.data.net
 
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.dtapp.entities.DateProducer
-import com.example.dtapp.net.transport.TransportHabitInfo
+import com.example.data.net.transport.TransportHabitInfo
 import io.ktor.http.HttpStatusCode
 import io.ktor.util.InternalAPI
 import kotlinx.coroutines.runBlocking
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun main() {
+    val habit = TransportHabitInfo(
+        count = 1,
+        date = 1,
+        description = "description",
+        frequency = 1,
+        priority = 1,
+        title = "title",
+        type = 1
+    )
+
     val httpClient = HttpClient()
     val responseHandler = ResponseHandler()
 
     removeAll(httpClient, responseHandler)
 
-//    testAllMethods(httpClient, responseHandler)
+//    testAllMethods(habit, client, responseHandler)
 }
 
 fun removeAll(httpClient: HttpClient, responseHandler: ResponseHandler) {
@@ -33,17 +43,7 @@ fun removeAll(httpClient: HttpClient, responseHandler: ResponseHandler) {
 
 @OptIn(InternalAPI::class)
 @RequiresApi(Build.VERSION_CODES.O)
-fun testAllMethods(httpClient: HttpClient, responseHandler: ResponseHandler) {
-    val habit = TransportHabitInfo(
-        count = 1,
-        date = 1,
-        description = "description",
-        frequency = 1,
-        priority = 1,
-        title = "title",
-        type = 1
-    )
-
+fun testAllMethods(habit: TransportHabitInfo, httpClient: HttpClient, responseHandler: ResponseHandler) {
     runBlocking {
         val putResponse = httpClient.addOrUpdateHabit(habit)
         if (putResponse.status == HttpStatusCode.OK) {

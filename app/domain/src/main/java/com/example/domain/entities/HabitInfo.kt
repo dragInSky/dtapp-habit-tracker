@@ -1,4 +1,4 @@
-package com.example.dtapp.entities
+package com.example.domain.entities
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -19,7 +19,7 @@ data class HabitInfo(
     val count: Int,
     val frequency: Int,
     val date: Int,
-    @PrimaryKey(autoGenerate = true) val id: Int = DEFAULT_ID,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val uid: String = "",
     @TypeConverters(ListConverter::class) val doneDates: List<Int> = emptyList()
 ) {
@@ -45,7 +45,7 @@ data class HabitInfo(
                 count.toIntOrNull() ?: 0,
                 frequency.toIntOrNull() ?: 0,
                 DateProducer.getIntDate(),
-                id,
+                if (id == DEFAULT_ID) 0 else id,
                 uid
             )
         }

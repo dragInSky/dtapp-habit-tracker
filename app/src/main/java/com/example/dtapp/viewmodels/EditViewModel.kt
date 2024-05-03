@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.dtapp.App
 import com.example.dtapp.entities.HabitInfo
 import com.example.dtapp.entities.Priority
 import com.example.dtapp.entities.Type
@@ -18,7 +19,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-class EditViewModel(private val habitRepository: HabitRepository = HabitRepository()) : ViewModel() {
+class EditViewModel : ViewModel() {
+    private val habitRepository: HabitRepository =
+        App.instance.applicationComponent.getHabitRepository()
+
     var selectedPriority by mutableStateOf(Priority.MEDIUM.getName())
         private set
     var selectedType by mutableStateOf(Type.GOOD.getName())
@@ -85,7 +89,7 @@ class EditViewModel(private val habitRepository: HabitRepository = HabitReposito
             id = id
         )
 
-        addOrUpdate(id, habit)
+        addOrUpdate(habit)
 
         onClick()
     }
@@ -94,7 +98,7 @@ class EditViewModel(private val habitRepository: HabitRepository = HabitReposito
         return habitRepository.loadById(id).asLiveData()
     }
 
-    private fun addOrUpdate(id: Int, habit: HabitInfo) {
-        habitRepository.addOrUpdateHabit(id, habit)
+    private fun addOrUpdate(habit: HabitInfo) {
+        habitRepository.addOrUpdateHabit(habit)
     }
 }
