@@ -30,7 +30,6 @@ class HabitRepository @Inject constructor(private val httpClient: HttpClient, pr
                 val habit = converter.fromTransport(transportHabit)
 
                 if (!oldHabits.contains(habit)) {
-
                     habits.add(habit)
                 }
             }

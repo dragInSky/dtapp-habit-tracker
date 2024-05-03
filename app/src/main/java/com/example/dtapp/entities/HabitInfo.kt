@@ -24,7 +24,7 @@ data class HabitInfo(
     @TypeConverters(ListConverter::class) val doneDates: List<Int> = emptyList()
 ) {
     companion object {
-        const val DEFAULT_ID = -1
+        const val DEFAULT_ID = 0
 
         @RequiresApi(Build.VERSION_CODES.O)
         fun habitInit(
@@ -59,8 +59,6 @@ data class HabitInfo(
 
         if (priority != other.priority) return false
         if (type != other.type) return false
-        if (name != other.name) return false
-        if (description != other.description) return false
         if (count != other.count) return false
         if (frequency != other.frequency) return false
         if (date != other.date) return false
@@ -72,8 +70,6 @@ data class HabitInfo(
     override fun hashCode(): Int {
         var result = priority.hashCode()
         result = 31 * result + type.hashCode()
-        result = 31 * result + name.hashCode()
-        result = 31 * result + description.hashCode()
         result = 31 * result + count
         result = 31 * result + frequency
         result = 31 * result + date
