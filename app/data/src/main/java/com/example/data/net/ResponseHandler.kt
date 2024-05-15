@@ -4,6 +4,7 @@ import com.example.data.net.transport.TransportHabitInfo
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 import io.ktor.util.InternalAPI
+import kotlinx.serialization.Serializable
 
 class ResponseHandler {
     suspend fun habitsFromResponse(response: HttpResponse): List<TransportHabitInfo> {

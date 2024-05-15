@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">habit-tracker</string>
+
+    <string name="edit_screen_name">Edit</string>
+    <string name="home_screen_name">Home</string>
+
+    <string name="about_screen_name">About</string>
+    <string name="about_author_name">Maxim Dryagin</string>
+    <string name="about_author_github">github: @dragInSky</string>
+    <string name="about_author_mail">cronosDverus@gmail.com</string>
+    <string name="about_version">0.2.0</string>
+
+    <string name="habit_count_in">/week</string>
+    <string name="habit_frequency_in">/day</string>
+    <string name="habit_name">name of the habit</string>
+    <string name="habit_description">description</string>
+    <string name="habit_priority">priority: %1$s</string>
+    <string name="habit_count">count</string>
+    <string name="habit_frequency">frequency</string>
+
+    <string name="habit_save_button">save habit</string>
+
+    <string name="search">search</string>
+    <string name="filtersAndSorts">filters and sorts</string>
+    <string name="sortByPriority">sort by priority</string>
+
+    <string name="netUpload">upload</string>
+    <string name="netLoad">load</string>
+</resources>

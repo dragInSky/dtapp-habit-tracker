@@ -1,7 +1,8 @@
 package com.example.data.net
 
-import com.example.dtapp.BuildConfig
+import com.example.data.BuildConfig
 import com.example.data.net.transport.TransportHabitInfo
+import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest

@@ -1,8 +1,8 @@
 package com.example.data.net.transport
 
-import com.example.dtapp.entities.HabitInfo
-import com.example.dtapp.entities.Priority
-import com.example.dtapp.entities.Type
+import com.example.domain.entities.HabitInfo
+import com.example.domain.entities.Priority
+import com.example.domain.entities.Type
 
 class HabitInfoConverter {
     fun fromTransport(transportHabitInfo: TransportHabitInfo): HabitInfo {
@@ -15,7 +15,8 @@ class HabitInfoConverter {
             frequency = transportHabitInfo.frequency,
             date = transportHabitInfo.date,
             doneDates = transportHabitInfo.done_dates,
-            uid = transportHabitInfo.uid
+            uid = transportHabitInfo.uid,
+            id = transportHabitInfo.id
         )
     }
 
@@ -29,7 +30,8 @@ class HabitInfoConverter {
             title = habitInfo.name.ifEmpty { "no title" },
             type = habitInfo.type.ordinal,
             done_dates = habitInfo.doneDates,
-            uid = habitInfo.uid
+            uid = habitInfo.uid,
+            id = habitInfo.id,
         )
     }
 }
