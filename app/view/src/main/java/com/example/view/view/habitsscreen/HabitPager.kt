@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.domain.entities.Type
 import com.example.view.navigation.Screen
 import com.example.view.viewmodels.HabitsViewModel
 
@@ -33,7 +34,7 @@ fun HabitPager(
     Box(modifier = modifier) {
         HorizontalPager(state = pagerState) { page ->
             val habits =
-                if (page == com.example.domain.entities.Type.GOOD.ordinal) goodHabits
+                if (page == Type.GOOD.ordinal) goodHabits
                 else badHabits
 
             LazyColumn(

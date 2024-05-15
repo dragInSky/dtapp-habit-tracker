@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.domain.entities.SortOrder
 import com.example.view.R
 import com.example.view.navigation.Screen
 import com.example.view.view.editscreen.HidingTextField
@@ -56,7 +57,7 @@ fun BottomSheetContent(
                         text = stringResource(R.string.sortByPriority)
                     )
                     IconButton(
-                        onClick = { habitsViewModel.setSortOrder(com.example.domain.entities.SortOrder.Descending) }
+                        onClick = { habitsViewModel.setSortOrder(SortOrder.Descending) }
                     ) {
                         Icon(
                             imageVector = Icons.Filled.KeyboardArrowUp,
@@ -64,7 +65,7 @@ fun BottomSheetContent(
                         )
                     }
                     IconButton(
-                        onClick = { habitsViewModel.setSortOrder(com.example.domain.entities.SortOrder.Ascending) }
+                        onClick = { habitsViewModel.setSortOrder(SortOrder.Ascending) }
                     ) {
                         Icon(
                             imageVector = Icons.Filled.KeyboardArrowDown,

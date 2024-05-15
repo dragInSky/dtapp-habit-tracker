@@ -29,14 +29,13 @@ class HabitRepository @Inject constructor(
 
             val oldHabits = database.habitDao().getAll()
 
-            for (oldHabit in oldHabits) {
-                Log.e("dtapp:log", oldHabit.toString())
+            for (habit in oldHabits) {
+                Log.e("dtapp:log", habit.toString())
             }
 
             val habits: MutableList<HabitInfo> = mutableListOf()
             for (transportHabit in transportHabits) {
                 val habit = converter.fromTransport(transportHabit)
-                Log.e("dtapp:log", habit.toString())
 
                 if (!oldHabits.contains(habit)) {
                     habits.add(habit)
@@ -55,6 +54,18 @@ class HabitRepository @Inject constructor(
         return database.habitDao().loadByType(habitType)
     }
 
+    fun habitDone(habit: HabitInfo, curDate: Int) {
+        repositoryScope.launch(Dispatchers.IO) {
+            httpClient.habitDone(curDate, habit.uid)
+
+            if (habit.id == HabitInfo.DEFAULT_ID) {
+                insert(habit)
+            } else {
+                update(habit)
+            }
+        }
+    }
+
     fun addOrUpdateHabit(habit: HabitInfo) {
         repositoryScope.launch(Dispatchers.IO) {
             val uid = serverLoad(habit)
@@ -63,7 +74,6 @@ class HabitRepository @Inject constructor(
             if (habit.id == HabitInfo.DEFAULT_ID) {
                 insert(newHabit)
             } else {
-                Log.e("dtapp:log", newHabit.toString())
                 update(newHabit)
             }
         }

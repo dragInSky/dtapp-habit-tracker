@@ -21,7 +21,7 @@ data class HabitInfo(
     val date: Int,
     @PrimaryKey(autoGenerate = true) val id: Int = DEFAULT_ID,
     val uid: String = "",
-    @TypeConverters(ListConverter::class) val doneDates: List<Int> = emptyList()
+    @TypeConverters(ListConverter::class) val doneDates: MutableList<Int> = mutableListOf()
 ) {
     companion object {
         const val DEFAULT_ID = 0

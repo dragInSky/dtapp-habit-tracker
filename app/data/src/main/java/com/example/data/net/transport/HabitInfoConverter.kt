@@ -15,8 +15,7 @@ class HabitInfoConverter {
             frequency = transportHabitInfo.frequency,
             date = transportHabitInfo.date,
             doneDates = transportHabitInfo.done_dates,
-            uid = transportHabitInfo.uid,
-            id = transportHabitInfo.id
+            uid = transportHabitInfo.uid
         )
     }
 
@@ -30,8 +29,7 @@ class HabitInfoConverter {
             title = habitInfo.name.ifEmpty { "no title" },
             type = habitInfo.type.ordinal,
             done_dates = habitInfo.doneDates,
-            uid = habitInfo.uid,
-            id = habitInfo.id,
+            uid = habitInfo.uid
         )
     }
 }

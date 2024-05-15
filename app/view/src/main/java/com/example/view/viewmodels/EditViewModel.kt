@@ -11,6 +11,7 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.data.repositories.HabitRepository
+import com.example.domain.entities.HabitInfo
 import com.example.view.App
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -58,7 +59,7 @@ class EditViewModel : ViewModel() {
     }
 
     fun habitInit(id: Int) {
-        lateinit var habit: com.example.domain.entities.HabitInfo
+        lateinit var habit: HabitInfo
         viewModelScope.launch(Dispatchers.IO) {
             habit = getHabitById(id).asFlow().first()
 
@@ -74,7 +75,7 @@ class EditViewModel : ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun onSaveClicked(onClick: () -> Unit, id: Int) {
-        val habit = com.example.domain.entities.HabitInfo.habitInit(
+        val habit = HabitInfo.habitInit(
             selectedPriority = selectedPriority,
             selectedType = selectedType,
             name = name,
@@ -90,11 +91,11 @@ class EditViewModel : ViewModel() {
         onClick()
     }
 
-    private fun getHabitById(id: Int): LiveData<com.example.domain.entities.HabitInfo> {
+    private fun getHabitById(id: Int): LiveData<HabitInfo> {
         return habitRepository.loadById(id).asLiveData()
     }
 
-    private fun addOrUpdate(habit: com.example.domain.entities.HabitInfo) {
+    private fun addOrUpdate(habit: HabitInfo) {
         habitRepository.addOrUpdateHabit(habit)
     }
 }
