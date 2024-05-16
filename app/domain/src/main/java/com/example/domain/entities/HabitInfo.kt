@@ -21,7 +21,7 @@ data class HabitInfo(
     val date: Int,
     @PrimaryKey(autoGenerate = true) val id: Int = DEFAULT_ID,
     val uid: String = "",
-    @TypeConverters(ListConverter::class) val doneDates: MutableList<Int> = mutableListOf()
+    @TypeConverters(ListConverter::class) var doneDates: List<Int> = listOf()
 ) {
     companion object {
         const val DEFAULT_ID = 0
@@ -35,18 +35,20 @@ data class HabitInfo(
             count: String,
             frequency: String,
             uid: String,
-            id: Int
+            id: Int,
+            doneDates: List<Int>
         ): HabitInfo {
             return HabitInfo(
-                Priority.values().find { it.getName() == selectedPriority }!!,
-                Type.values().find { it.getName() == selectedType }!!,
-                name,
-                description,
-                count.toIntOrNull() ?: 0,
-                frequency.toIntOrNull() ?: 0,
-                DateProducer.getIntDate(),
-                id,
-                uid
+                priority = Priority.values().find { it.getName() == selectedPriority }!!,
+                type = Type.values().find { it.getName() == selectedType }!!,
+                name = name,
+                description = description,
+                count = count.toIntOrNull() ?: 0,
+                frequency = frequency.toIntOrNull() ?: 0,
+                date = DateProducer.getIntDate(),
+                id = id,
+                uid = uid,
+                doneDates = doneDates
             )
         }
     }

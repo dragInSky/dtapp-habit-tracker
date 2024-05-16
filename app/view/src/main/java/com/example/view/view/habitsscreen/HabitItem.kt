@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.HorizontalDivider
@@ -18,7 +19,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -38,7 +41,9 @@ fun HabitItem(
     habit: HabitInfo,
     habitsViewModel: HabitsViewModel = viewModel()
 ) {
-    val leftToDo by remember { mutableStateOf(habit.doneDates) }
+    val context = LocalContext.current
+
+    var leftToDo by remember { mutableStateOf(habit.doneDates.size) }
 
     Row(modifier = Modifier
         .fillMaxWidth()
@@ -46,7 +51,7 @@ fun HabitItem(
         .clickable { onClick() }
         .padding(12.dp)
     ) {
-        Column(modifier = Modifier.weight(0.6f)) {
+        Column(modifier = Modifier.weight(0.55f)) {
             if (habit.name.isNotEmpty()) {
                 Text(
                     text = habit.name,
@@ -79,7 +84,7 @@ fun HabitItem(
             )
         }
 
-        Column(modifier = Modifier.weight(0.2f)) {
+        Column(modifier = Modifier.weight(0.25f)) {
             if (habit.frequency > 0) {
                 Row {
                     Text(
@@ -97,7 +102,7 @@ fun HabitItem(
             if (habit.count > 0) {
                 Row {
                     Text(
-                        text = "${leftToDo.size}/${habit.count}",
+                        text = "$leftToDo/${habit.count}",
                         fontWeight = FontWeight.Bold,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
@@ -111,12 +116,15 @@ fun HabitItem(
         }
 
         IconButton(
-            modifier = Modifier.weight(0.2f),
-            onClick = { habitsViewModel.onDoneClick(habit) }
+            modifier = Modifier
+                .weight(0.2f)
+                .align(Alignment.CenterVertically),
+            onClick = { leftToDo = habitsViewModel.onDoneClick(context, habit) }
         ) {
             Icon(
                 imageVector = Icons.Filled.Done,
-                contentDescription = ""
+                contentDescription = "",
+                Modifier.size(48.dp)
             )
         }
     }

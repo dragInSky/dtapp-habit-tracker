@@ -12,5 +12,5 @@ data class TransportHabitInfo(
     val title: String,
     val type: Int,
     val uid: String = "",
-    val done_dates: MutableList<Int> = mutableListOf()
+    val done_dates: List<Int> = listOf()
 )

@@ -1,6 +1,8 @@
 package com.example.view.viewmodels
 
+import android.content.Context
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -90,9 +92,47 @@ class HabitsViewModel : ViewModel() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun onDoneClick(habit: HabitInfo) {
+    fun onDoneClick(context: Context, habit: HabitInfo): Int {
         val curDate = DateProducer.getIntDate()
-        habit.doneDates.add(curDate)
+        val newDoneDates: MutableList<Int> = habit.doneDates.toMutableList()
+        newDoneDates.add(curDate)
+        habit.doneDates = newDoneDates
         habitRepository.habitDone(habit, curDate)
+
+        leftToDoToast(context, habit)
+
+        return habit.doneDates.size
+    }
+
+    private fun leftToDoToast(context: Context, habit: HabitInfo) {
+        if (habit.type == Type.GOOD) {
+            if (habit.doneDates.size < habit.count) {
+                Toast.makeText(
+                    context,
+                    "Стоит выполнить ещё ${habit.count - habit.doneDates.size} раз",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                Toast.makeText(
+                    context,
+                    "You are breathtaking!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        } else {
+            if (habit.doneDates.size < habit.count) {
+                Toast.makeText(
+                    context,
+                    "Можете выполнить\nещё ${habit.count - habit.doneDates.size} раз",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                Toast.makeText(
+                    context,
+                    "Хватит это делать",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 }

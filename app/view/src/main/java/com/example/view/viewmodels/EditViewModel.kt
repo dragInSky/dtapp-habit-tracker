@@ -12,6 +12,8 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.data.repositories.HabitRepository
 import com.example.domain.entities.HabitInfo
+import com.example.domain.entities.Priority
+import com.example.domain.entities.Type
 import com.example.view.App
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -20,9 +22,9 @@ import kotlinx.coroutines.launch
 class EditViewModel : ViewModel() {
     private val habitRepository: HabitRepository = App.instance.appComponent.getHabitRepository()
 
-    var selectedPriority by mutableStateOf(com.example.domain.entities.Priority.MEDIUM.getName())
+    var selectedPriority by mutableStateOf(Priority.MEDIUM.getName())
         private set
-    var selectedType by mutableStateOf(com.example.domain.entities.Type.GOOD.getName())
+    var selectedType by mutableStateOf(Type.GOOD.getName())
         private set
     var name by mutableStateOf("")
         private set
@@ -31,6 +33,8 @@ class EditViewModel : ViewModel() {
     var count by mutableStateOf("")
         private set
     var frequency by mutableStateOf("")
+        private set
+    var doneDates by mutableStateOf(listOf<Int>())
         private set
     private var uid: String = ""
 
@@ -70,6 +74,7 @@ class EditViewModel : ViewModel() {
             count = if (habit.count > 0) habit.count.toString() else ""
             frequency = if (habit.frequency > 0) habit.frequency.toString() else ""
             uid = habit.uid
+            doneDates = habit.doneDates
         }
     }
 
@@ -83,7 +88,8 @@ class EditViewModel : ViewModel() {
             count = count,
             frequency = frequency,
             uid = uid,
-            id = id
+            id = id,
+            doneDates = doneDates
         )
 
         addOrUpdate(habit)

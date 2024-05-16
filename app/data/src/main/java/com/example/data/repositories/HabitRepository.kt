@@ -1,6 +1,5 @@
 package com.example.data.repositories
 
-import android.util.Log
 import com.example.data.database.AppDatabase
 import com.example.data.net.HttpClient
 import com.example.data.net.ResponseHandler
@@ -29,10 +28,6 @@ class HabitRepository @Inject constructor(
 
             val oldHabits = database.habitDao().getAll()
 
-            for (habit in oldHabits) {
-                Log.e("dtapp:log", habit.toString())
-            }
-
             val habits: MutableList<HabitInfo> = mutableListOf()
             for (transportHabit in transportHabits) {
                 val habit = converter.fromTransport(transportHabit)
@@ -58,11 +53,7 @@ class HabitRepository @Inject constructor(
         repositoryScope.launch(Dispatchers.IO) {
             httpClient.habitDone(curDate, habit.uid)
 
-            if (habit.id == HabitInfo.DEFAULT_ID) {
-                insert(habit)
-            } else {
-                update(habit)
-            }
+            update(habit)
         }
     }
 
