@@ -16,7 +16,7 @@ import com.example.view.view.theme.DtappTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        // TODO модуль app -> view
         setContent {
             DtappTheme {
                 Surface(

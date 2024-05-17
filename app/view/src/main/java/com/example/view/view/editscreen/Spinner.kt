@@ -22,6 +22,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -33,7 +34,11 @@ fun Spinner(
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    Column(modifier = Modifier.clickable { expanded = true }) {
+    Column(
+        modifier = Modifier
+            .clickable { expanded = true }
+            .testTag("spinner")
+    ) {
         Spacer(modifier = Modifier.height(12.dp))
 
         Row(
@@ -52,6 +57,7 @@ fun Spinner(
                 ) {
                     items.forEach {
                         DropdownMenuItem(
+                            modifier = Modifier.testTag("spinnerElement"),
                             text = { Text(text = it) },
                             onClick = {
                                 onItemSelected(it)

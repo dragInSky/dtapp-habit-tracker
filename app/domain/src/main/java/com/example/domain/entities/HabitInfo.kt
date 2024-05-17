@@ -9,6 +9,10 @@ import com.example.domain.converters.ListConverter
 import com.example.domain.converters.MyTypeConverter
 import com.example.domain.converters.PriorityConverter
 
+// TODO для data свои сущности, убрать из gradle android зависимости
+// тут без @Entity
+// в data.database @Entity HabitInfo
+// TypeConverters в data.database
 @Entity
 @TypeConverters(ListConverter::class, PriorityConverter::class, MyTypeConverter::class)
 data class HabitInfo(

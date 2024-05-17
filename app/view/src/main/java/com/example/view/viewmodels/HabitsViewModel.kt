@@ -104,6 +104,8 @@ class HabitsViewModel : ViewModel() {
         return habit.doneDates.size
     }
 
+    // TODO usecase - это бизнеслогика
+    // TODO repository - передаёт данные другим
     private fun leftToDoToast(context: Context, habit: HabitInfo) {
         if (habit.type == Type.GOOD) {
             if (habit.doneDates.size < habit.count) {

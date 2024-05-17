@@ -22,8 +22,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.domain.entities.HabitInfo
 import com.example.view.R
 import com.example.view.view.common.TopBar
@@ -34,7 +36,7 @@ import java.util.Locale
 @Composable
 fun EditScreen(
     onClick: () -> Unit,
-    editViewModel: EditViewModel,
+    editViewModel: EditViewModel = viewModel(),
     id: Int = HabitInfo.DEFAULT_ID
 ) {
     var isNavigationPerformed by remember { mutableStateOf(false) }
@@ -57,14 +59,18 @@ fun EditScreen(
             HidingTextField(
                 text = editViewModel.name,
                 placeHolder = stringResource(R.string.habit_name),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("nameField"),
                 onTextChanged = { editViewModel.changeName(it) }
             )
 
             HidingTextField(
                 text = editViewModel.description,
                 placeHolder = stringResource(R.string.habit_description),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("descriptionField"),
                 onTextChanged = { editViewModel.changeDescription(it) }
             )
 
@@ -99,14 +105,18 @@ fun EditScreen(
                 HidingTextField(
                     text = editViewModel.count,
                     placeHolder = stringResource(R.string.habit_count),
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier
+                        .weight(1f)
+                        .testTag("countField"),
                     onTextChanged = { editViewModel.changeCount(it) }
                 )
 
                 HidingTextField(
                     text = editViewModel.frequency,
                     placeHolder = stringResource(R.string.habit_frequency),
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier
+                        .weight(1f)
+                        .testTag("countField"),
                     onTextChanged = { editViewModel.changeFrequency(it) }
                 )
             }

@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import com.example.domain.entities.Type
 import com.example.view.R
 import com.example.view.view.common.TopBar
 import kotlinx.coroutines.Job
@@ -22,7 +23,7 @@ fun HabitsScreenContent(
     navController: NavController,
     openDrawer: () -> Job
 ) {
-    val pagerState = rememberPagerState(pageCount = { com.example.domain.entities.Type.values().size })
+    val pagerState = rememberPagerState(pageCount = { Type.values().size })
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
@@ -34,7 +35,7 @@ fun HabitsScreenContent(
 
             Tab(
                 pagerState = pagerState,
-                pages = com.example.domain.entities.Type.values().map { it.getName() }
+                pages = Type.values().map { it.getName() }
             )
 
             HabitPager(
